@@ -163,7 +163,7 @@ const DocumentNavigation: React.FC = () => {
       description: 'Interactive form builder for creating comprehensive independent contractor agreements. Includes all necessary legal terms, payment structures, and service definitions.',
       icon: FileSignature,
       href: '/contract',
-      createHref: '/dashboard?type=contract',
+      // createHref: '/dashboard?type=contract',
       color: '#06b6d4',
       gradient: 'from-cyan-500 to-blue-500',
       image: 'https://i.imgur.com/9t0n02U.png',
@@ -213,7 +213,7 @@ const DocumentNavigation: React.FC = () => {
       keywords: ['Blockchain', 'Creative Commons', 'Attribution', 'Verification', 'Revenue Sharing', 'Trust']
     },
     {
-      title: '10 Understandings & 10 Problems',
+      title: 'Collective Consciousness: 10 Understandings & 10 Problems',
       description: 'The core philosophical content exploring consciousness, complexity, and the universe from a computational perspective. Contains the 10 fundamental understandings and 10 critical problems facing conscious life.',
       icon: BookOpen,
       href: '/understandings-problems',
