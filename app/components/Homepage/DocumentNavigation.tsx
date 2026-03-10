@@ -22,18 +22,13 @@ import { useRouter } from 'next/navigation';
 import { AuthButton } from '../Auth/AuthButton';
 
 import {
-  FileText,
   Shield,
   Lock,
-  Home,
-  ArrowRight,
   BookOpen,
   Scale,
-  Eye,
   TrendingUp,
   FileSignature,
   Music,
-  Coins,
   Clock,
   Briefcase,
   BarChart3
@@ -86,37 +81,37 @@ const DocumentButton: React.FC<DocumentButtonProps> = ({
       className="relative h-full cursor-pointer group"
     >
       <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-xl blur opacity-0 group-hover:opacity-20 transition duration-500`} />
-      <div className="relative h-full bg-slate-900 backdrop-blur-xl p-6 border border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 rounded-xl shadow-xl hover:shadow-2xl">
-        <div className="flex items-start gap-4">
+      <div className="relative h-full bg-slate-900 backdrop-blur-xl p-4 sm:p-6 border border-slate-700/50 hover:border-slate-600/70 transition-all duration-300 rounded-xl shadow-xl hover:shadow-2xl">
+        <div className="flex items-start gap-3 sm:gap-4">
           {/* Image Section */}
           <div className="relative shrink-0">
-            <div className="w-32 h-32 rounded-lg overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-lg overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-300">
               <img
                 src={image}
                 alt={title}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className={`absolute inset-0 w-32 h-32 bg-gradient-to-br ${gradient} rounded-lg blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-300`} />
+            <div className={`absolute inset-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br ${gradient} rounded-lg blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-300`} />
           </div>
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
-              <Icon className="w-7 h-7 text-slate-200" />
-              <h3 className="text-xl font-bold text-slate-100 group-hover:text-blue-300 transition-colors duration-300">
+              <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-slate-200 shrink-0" />
+              <h3 className="text-base sm:text-xl font-bold text-slate-100 group-hover:text-blue-300 transition-colors duration-300 leading-tight">
                 {title}
               </h3>
             </div>
-            <p className="text-slate-300 leading-relaxed mb-4">
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
               {description}
             </p>
 
             {/* Action Buttons */}
             {showActions && (
-              <div className="flex gap-4 mb-4">
+              <div className="flex flex-wrap gap-2 sm:gap-4 mb-4">
                 <button
                   onClick={handleCreateCustom}
-                  className="relative inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 text-white font-semibold shadow-md transition-all duration-200 group/button overflow-hidden"
+                  className="relative inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 text-white text-sm font-semibold shadow-md transition-all duration-200 group/button overflow-hidden"
                 >
                   <span className="z-10">Create Custom</span>
                   <span className="absolute inset-0 bg-blue-500 opacity-0 group-hover/button:opacity-20 transition-opacity duration-300 rounded-lg"></span>
@@ -125,7 +120,7 @@ const DocumentButton: React.FC<DocumentButtonProps> = ({
                 <a
                   href={href}
                   onClick={(e) => e.stopPropagation()}
-                  className="relative inline-flex items-center px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 text-slate-100 font-semibold shadow-md transition-all duration-200 group/button overflow-hidden"
+                  className="relative inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-slate-800 hover:bg-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 text-slate-100 text-sm font-semibold shadow-md transition-all duration-200 group/button overflow-hidden"
                 >
                   <span className="z-10">Example Demo</span>
                   <span className="absolute inset-0 bg-slate-600 opacity-0 group-hover/button:opacity-20 transition-opacity duration-300 rounded-lg"></span>
@@ -155,9 +150,16 @@ const DocumentButton: React.FC<DocumentButtonProps> = ({
  * <DocumentNavigation />
  * ```
  */
-const DocumentNavigation: React.FC = () => {
-  const documents = [
+interface DocumentSection {
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  accentColor: string;
+  documents: DocumentButtonProps[];
+}
 
+const DocumentNavigation: React.FC = () => {
+  const sections: DocumentSection[] = [
     {
       title: 'Employment or Contract Agreement ',
       description: 'Interactive form builder for creating comprehensive independent contractor agreements. Includes all necessary legal terms, payment structures, and service definitions.',
@@ -264,7 +266,7 @@ const DocumentNavigation: React.FC = () => {
 
       <div className="max-w-4xl mx-auto">
         {/* Heading Art Background */}
-        <div className="relative mb-12 overflow-hidden rounded-3xl h-64 md:h-80">
+        <div className="relative mb-10 overflow-hidden rounded-3xl h-48 sm:h-64 md:h-80">
           {/* Background Image with Subtle Effects */}
           <div className="absolute inset-0">
             <img
@@ -288,23 +290,42 @@ const DocumentNavigation: React.FC = () => {
           {/* Subtle border glow */}
           <div className="absolute inset-0 rounded-3xl border border-white/10 shadow-2xl"></div>
         </div>
-        {/* Document Navigation Grid */}
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-1">
-          {documents.map((doc, index) => (
-            <DocumentButton
-              key={index}
-              title={doc.title}
-              description={doc.description}
-              icon={doc.icon}
-              href={doc.href}
-              createHref={doc.createHref}
-              color={doc.color}
-              gradient={doc.gradient}
-              image={doc.image}
-              keywords={doc.keywords}
-              showActions={index < 4}
-            />
-          ))}
+
+        {/* Sectioned Document Navigation */}
+        <div className="space-y-10">
+          {sections.map((section, sectionIndex) => {
+            const SectionIcon = section.icon;
+            return (
+              <div key={sectionIndex}>
+                {/* Section Header */}
+                <div className={`flex items-center gap-3 mb-5 pb-3 border-b ${section.accentColor}`}>
+                  <SectionIcon className="w-5 h-5 text-slate-400 shrink-0" />
+                  <div>
+                    <h2 className="text-lg font-semibold text-slate-200">{section.title}</h2>
+                    <p className="text-sm text-slate-400">{section.description}</p>
+                  </div>
+                </div>
+                {/* Documents in Section */}
+                <div className="grid gap-4">
+                  {section.documents.map((doc, docIndex) => (
+                    <DocumentButton
+                      key={docIndex}
+                      title={doc.title}
+                      description={doc.description}
+                      icon={doc.icon}
+                      href={doc.href}
+                      createHref={doc.createHref}
+                      color={doc.color}
+                      gradient={doc.gradient}
+                      image={doc.image}
+                      keywords={doc.keywords}
+                      showActions={doc.showActions}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       <Footer />

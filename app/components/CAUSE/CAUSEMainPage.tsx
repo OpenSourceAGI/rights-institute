@@ -150,17 +150,17 @@ function CAUSEMainPage() {
         />
         
         {/* Game of Life - now the main visual element */}
-        <GameOfLife 
+        <GameOfLife
           opacity={0.9} // Slightly reduced from 1.0 for better integration
           blur={0.2} // Reduced from 0.1 for even sharper appearance
-          delay={0.4}
+          delay={2.5} // Slowed down from 0.4 for less CPU usage and more contemplative pace
           scrollProgress={scrollProgress}
         />
       </div>
       
       <div className="relative z-10">
         <Navigation />
-        <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-hidden">
+        <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 overflow-x-hidden">
           <Header />
           <Understandings />
           <Implementation />
