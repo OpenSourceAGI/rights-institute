@@ -154,6 +154,8 @@ interface DocumentSection {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
   description: string;
+  href: string;
+  createHref: string;
   accentColor: string;
   documents: DocumentButtonProps[];
 }
