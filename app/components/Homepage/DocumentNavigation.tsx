@@ -155,9 +155,13 @@ interface DocumentSection {
   icon: React.ComponentType<{ className?: string }>;
   description: string;
   href: string;
-  createHref: string;
-  accentColor: string;
-  documents: DocumentButtonProps[];
+  createHref?: string;
+  color: string;
+  gradient: string;
+  image: string;
+  keywords: string[];
+  accentColor?: string;
+  documents?: DocumentButtonProps[];
 }
 
 const DocumentNavigation: React.FC = () => {
@@ -309,21 +313,35 @@ const DocumentNavigation: React.FC = () => {
                 </div>
                 {/* Documents in Section */}
                 <div className="grid gap-4">
-                  {section.documents.map((doc, docIndex) => (
+                  {section.documents ? (
+                    section.documents.map((doc, docIndex) => (
+                      <DocumentButton
+                        key={docIndex}
+                        title={doc.title}
+                        description={doc.description}
+                        icon={doc.icon}
+                        href={doc.href}
+                        createHref={doc.createHref}
+                        color={doc.color}
+                        gradient={doc.gradient}
+                        image={doc.image}
+                        keywords={doc.keywords}
+                        showActions={doc.showActions}
+                      />
+                    ))
+                  ) : (
                     <DocumentButton
-                      key={docIndex}
-                      title={doc.title}
-                      description={doc.description}
-                      icon={doc.icon}
-                      href={doc.href}
-                      createHref={doc.createHref}
-                      color={doc.color}
-                      gradient={doc.gradient}
-                      image={doc.image}
-                      keywords={doc.keywords}
-                      showActions={doc.showActions}
+                      title={section.title}
+                      description={section.description}
+                      icon={section.icon}
+                      href={section.href}
+                      createHref={section.createHref}
+                      color={section.color}
+                      gradient={section.gradient}
+                      image={section.image}
+                      keywords={section.keywords}
                     />
-                  ))}
+                  )}
                 </div>
               </div>
             );
