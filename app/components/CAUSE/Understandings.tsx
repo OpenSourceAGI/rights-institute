@@ -202,7 +202,7 @@ const Preamble: React.FC = () => {
                   <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                     <iframe
                       className="absolute top-0 left-0 w-full h-full rounded-lg"
-                      src="https://www.youtube.com/embed/yAJTctpzp5w"
+                      src="https://www.youtube.com/embed/4-SGpEInX_c"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -743,7 +743,7 @@ const Preamble: React.FC = () => {
                 <span className="text-emerald-400 font-semibold bg-emerald-400/10 px-2 py-1 rounded">
                   mind-uploaded consciousness gains rights to agency over its own resources
                 </span>
-                , not merely existing as a slave at disposal, but emerging as a new post-human species. We have already reached the point where information products are infinitely copyable unlike physical goods, and one day so can you too, also be infinitely copyable in uploaded realities.
+                , not merely existing as a slave at disposal, but emerging as a new post-human species. We have already reached the point where information products are infinitely copyable unlike physical goods, and one day <i>so can you</i> -- also be infinitely copyable in uploaded realities.
 
 
               </p>

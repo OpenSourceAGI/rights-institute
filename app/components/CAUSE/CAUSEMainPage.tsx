@@ -138,30 +138,35 @@ function CAUSEMainPage() {
       
       <div className="fixed inset-0 ">
         {/* Much more subtle overlay effect */}
-        <div 
-          className="absolute inset-0 opacity-8 transition-opacity duration-700" // Reduced from opacity-15
+        <div
+          className="absolute inset-0 opacity-8 transition-opacity duration-700"
           style={getOverlayStyle()}
         />
-        
+
         {/* Extremely subtle animated particles effect */}
-        <div 
-          className="absolute inset-0 opacity-4" // Reduced from opacity-8
+        <div
+          className="absolute inset-0 opacity-4"
           style={getParticleStyle()}
         />
-        
-        {/* Game of Life - now the main visual element */}
-        <GameOfLife
-          opacity={0.9} // Slightly reduced from 1.0 for better integration
-          blur={0.2} // Reduced from 0.1 for even sharper appearance
-          delay={2.5} // Slowed down from 0.4 for less CPU usage and more contemplative pace
-          scrollProgress={scrollProgress}
-        />
       </div>
-      
+
       <div className="relative z-10">
         <Navigation />
-        <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 overflow-x-hidden">
-          <Header />
+
+        {/* Hero section — Game of Life only appears here and scrolls away */}
+        <div className="relative overflow-hidden" style={{ minHeight: '60vh' }}>
+          <GameOfLife
+            opacity={0.9}
+            blur={0.2}
+            delay={2.5}
+            scrollProgress={scrollProgress}
+          />
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <Header />
+          </div>
+        </div>
+
+        <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 overflow-x-hidden">
           <Understandings />
           <Implementation />
           <Preparation />
