@@ -44,7 +44,8 @@
  */
 
 import React from 'react';
-import { 
+import { SiGithub } from 'react-icons/si';
+import {
   FileText, 
   Coins, 
   Users, 
@@ -63,7 +64,6 @@ import {
   Award,
   Briefcase,
   UserCheck,
-  Code2 as Github,
   ExternalLink,
   Link as LinkIcon,
   Scale,
@@ -524,7 +524,7 @@ function App() {
               {/* GitHub Integration */}
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8">
                 <div className="bg-gradient-to-r from-gray-800 to-gray-900 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                  <Github className="w-8 h-8 text-white" />
+                  <SiGithub className="w-8 h-8 text-white" />
                 </div>
                 <h5 className="text-xl font-bold text-white mb-4">GitHub & Developer Credentials</h5>
                 <p className="text-gray-300 mb-4">

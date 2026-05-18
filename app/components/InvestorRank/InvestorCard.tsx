@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { MapPin, Calendar, Users, ExternalLink, Mail, Link2 as Linkedin, Share2 as Facebook, Building2, TrendingUp, Star } from 'lucide-react';
+import { MapPin, Calendar, Users, ExternalLink, Mail, Building2, TrendingUp, Star } from 'lucide-react';
+import { SiLinkedin, SiFacebook } from 'react-icons/si';
 import { Investor } from './types';
 
 interface InvestorCardProps {
@@ -218,7 +219,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
                   title="LinkedIn"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Linkedin className="w-4 h-4" />
+                  <SiLinkedin className="w-4 h-4" />
                 </a>
               )}
               {facebook && facebook !== '#' && facebook !== 'Not Available' && facebook !== 'N/A' && facebook.trim() !== '' && (
@@ -230,7 +231,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
                   title="Facebook"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Facebook className="w-4 h-4" />
+                  <SiFacebook className="w-4 h-4" />
                 </a>
               )}
             </div>

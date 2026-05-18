@@ -1,5 +1,7 @@
 "use client"
 import type React from "react"
+import { SiTwitter } from 'react-icons/si';
+import { TbTrain } from 'react-icons/tb';
 import { Timeline, type TimelineItem } from "./timeline"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -86,7 +88,6 @@ import {
   RotateCcw,
   Scissors,
   Train,
-  TrainFront as Railway,
   Bike,
   FuelIcon,
   Disc,
@@ -97,7 +98,6 @@ import {
   Navigation,
   CarTaxiFrontIcon as Taxi,
   Globe2,
-  Share2 as Twitter,
   Phone,
   Link2,
   Sun,
@@ -227,7 +227,7 @@ const getITIcon = (innovation: string): React.ReactNode => {
     "Boston Dynamics BigDog": { icon: <ImageIcon className="w-4 h-4" />, color: "text-amber-700" },
     YouTube: { icon: <Tv className="w-4 h-4" />, color: "text-red-600" },
     Android: { icon: <Smartphone className="w-4 h-4" />, color: "text-green-500" },
-    Twitter: { icon: <Twitter className="w-4 h-4" />, color: "text-sky-500" },
+    Twitter: { icon: <SiTwitter className="w-4 h-4" />, color: "text-sky-500" },
     iPhone: { icon: <Phone className="w-4 h-4" />, color: "text-gray-800" },
     "Android Beta": { icon: <ImageIcon className="w-4 h-4" />, color: "text-green-400" },
     "Bitcoin & Blockchain": { icon: <Coins className="w-4 h-4" />, color: "text-yellow-500" },
@@ -464,7 +464,7 @@ const getTransportationIcon = (innovation: string): React.ReactNode => {
     Wheel: { icon: <Circle className="w-4 h-4" />, color: "text-brown-600" },
     "Steam-Powered Vehicle": { icon: <Gauge className="w-4 h-4" />, color: "text-gray-600" },
     "Steam Locomotive": { icon: <Train className="w-4 h-4" />, color: "text-black" },
-    Railway: { icon: <Railway className="w-4 h-4" />, color: "text-gray-700" },
+    Railway: { icon: <TbTrain className="w-4 h-4" />, color: "text-gray-700" },
     "Petroleum Reitwagen (Motorcycle)": { icon: <Bike className="w-4 h-4" />, color: "text-orange-600" },
     "Benz Patent-Motorwagen": { icon: <Car className="w-4 h-4" />, color: "text-black" },
     "Flocken Elektrowagen": { icon: <Zap className="w-4 h-4" />, color: "text-blue-500" },
