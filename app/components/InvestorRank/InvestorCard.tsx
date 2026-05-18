@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MapPin, Calendar, Users, ExternalLink, Mail, Building2, TrendingUp, Star } from 'lucide-react';
-import { SiLinkedin, SiFacebook } from 'react-icons/si';
+import { FaLinkedin, FaFacebook } from 'react-icons/fa';
 import { Investor } from './types';
 
 interface InvestorCardProps {
@@ -219,7 +219,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
                   title="LinkedIn"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <SiLinkedin className="w-4 h-4" />
+                  <FaLinkedin className="w-4 h-4" />
                 </a>
               )}
               {facebook && facebook !== '#' && facebook !== 'Not Available' && facebook !== 'N/A' && facebook.trim() !== '' && (
@@ -231,7 +231,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
                   title="Facebook"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <SiFacebook className="w-4 h-4" />
+                  <FaFacebook className="w-4 h-4" />
                 </a>
               )}
             </div>

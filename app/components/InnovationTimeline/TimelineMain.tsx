@@ -1,6 +1,5 @@
 "use client"
 import type React from "react"
-import { SiTwitter } from 'react-icons/si';
 import { TbTrain } from 'react-icons/tb';
 import { Timeline, type TimelineItem } from "./timeline"
 import { Separator } from "@/components/ui/separator"
@@ -227,7 +226,7 @@ const getITIcon = (innovation: string): React.ReactNode => {
     "Boston Dynamics BigDog": { icon: <ImageIcon className="w-4 h-4" />, color: "text-amber-700" },
     YouTube: { icon: <Tv className="w-4 h-4" />, color: "text-red-600" },
     Android: { icon: <Smartphone className="w-4 h-4" />, color: "text-green-500" },
-    Twitter: { icon: <SiTwitter className="w-4 h-4" />, color: "text-sky-500" },
+    Twitter: { icon: <MessageSquare className="w-4 h-4" />, color: "text-sky-500" },
     iPhone: { icon: <Phone className="w-4 h-4" />, color: "text-gray-800" },
     "Android Beta": { icon: <ImageIcon className="w-4 h-4" />, color: "text-green-400" },
     "Bitcoin & Blockchain": { icon: <Coins className="w-4 h-4" />, color: "text-yellow-500" },
