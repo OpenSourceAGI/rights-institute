@@ -16,4 +16,11 @@ const nextConfig = {
   reactStrictMode: false,
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig
+
+// OpenNext bindings during `next dev` so getCloudflareContext()/env work locally.
+if (process.env.NODE_ENV !== 'production') {
+  import('@opennextjs/cloudflare').then(({ initOpenNextCloudflareForDev }) => {
+    initOpenNextCloudflareForDev()
+  }).catch(() => {})
+}

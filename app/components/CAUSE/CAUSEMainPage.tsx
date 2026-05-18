@@ -19,6 +19,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from './Header';  
 import Navigation from './Navigation';
+import Abstract from './Abstract';
 import Understandings from './Understandings';
 import RightsSection from './Rights';
 import Implementation from './Problems';
