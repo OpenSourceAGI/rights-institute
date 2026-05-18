@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, Calendar, Users, ExternalLink, Mail, Linkedin, Facebook, Building2, TrendingUp, Star } from 'lucide-react';
+import { MapPin, Calendar, Users, ExternalLink, Mail, Link2 as Linkedin, Share2 as Facebook, Building2, TrendingUp, Star } from 'lucide-react';
 import { Investor } from './types';
 
 interface InvestorCardProps {

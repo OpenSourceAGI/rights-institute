@@ -63,7 +63,7 @@ import {
   Award,
   Briefcase,
   UserCheck,
-  Github,
+  Code2 as Github,
   ExternalLink,
   Link as LinkIcon,
   Scale,
