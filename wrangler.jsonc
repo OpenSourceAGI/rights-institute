@@ -6,15 +6,11 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
-  "routes": [
-    { "pattern": "rights.institute", "custom_domain": true },
-    { "pattern": "www.rights.institute", "custom_domain": true }
-  ]
   // To enable incremental cache, add a KV namespace and uncomment:
   // "kv_namespaces": [
   //   { "binding": "NEXT_INC_CACHE_KV", "id": "<your-kv-id>" }
