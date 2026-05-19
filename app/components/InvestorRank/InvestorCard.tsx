@@ -101,20 +101,20 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
     >
       {/* Rank number in corner */}
       <div className="absolute -top-2 -right-2 z-10">
-        <div className={`bg-gradient-to-br ${getRankBadgeColor(rank)} rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm shadow-lg transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 border-2 border-white`}>
+        <div className={`bg-gradient-to-br ${getRankBadgeColor(rank)} rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm shadow-lg border-2 border-white`}>
           #{rank}
         </div>
       </div>
       
       {/* Main card */}
-      <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-3 hover:scale-[1.02] p-6 border border-white/50 overflow-hidden group-hover:border-blue-200/50 bg-gradient-to-br from-blue-50 via-white to-teal-50 group-hover:from-blue-100 group-hover:via-white group-hover:to-teal-100">
+      <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-200 p-6 border border-white/80 overflow-hidden bg-gradient-to-br from-blue-50/60 via-white to-teal-50/60">
         
-        {/* Animated corner accent - moved to background */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 via-purple-400/10 to-pink-400/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-1000 pointer-events-none"></div>
+        {/* Corner accent */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 via-purple-400/10 to-pink-400/10 rounded-full -translate-y-16 translate-x-16 pointer-events-none"></div>
         
         {/* Click indicator - moved to non-blocking position */}
         {homepage && homepage !== '#' && homepage !== 'Not Available' && homepage !== 'N/A' && homepage.trim() !== '' && (
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
             <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium">
               Click to visit
             </div>
@@ -126,12 +126,12 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3">
               <div className="flex-1">
-                <h2 className="text-xl font-bold text-gray-900 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:via-purple-600 group-hover:to-teal-600 group-hover:bg-clip-text transition-all duration-500 leading-tight">
+                <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
                   {name}
                 </h2>
                 {rank <= 10 && (
                   <div className="flex items-center gap-1 mt-1">
-                    <Star className="w-4 h-4 text-yellow-500 fill-current animate-pulse" />
+                    <Star className="w-4 h-4 text-yellow-500 fill-current" />
                     <span className="text-xs font-semibold text-yellow-600">Top 10</span>
                   </div>
                 )}
@@ -153,7 +153,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
           </div>
           
           {/* Percentage badge */}
-          <div className="bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 text-white px-3 py-2 rounded-2xl text-sm font-bold shadow-lg transform group-hover:rotate-3 group-hover:scale-110 transition-all duration-500">
+          <div className="bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 text-white px-3 py-2 rounded-2xl text-sm font-bold shadow-lg">
             <TrendingUp className="w-4 h-4 inline mr-1" />
             {percentage}%
           </div>
@@ -168,7 +168,7 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
         </div>
 
         {/* Contact section with glassmorphism */}
-        <div className="bg-gradient-to-r from-white/60 via-blue-50/60 to-indigo-50/60 backdrop-blur-sm rounded-2xl p-4 mb-5 border border-white/30 group-hover:border-blue-200/50 transition-all duration-500">
+        <div className="bg-gradient-to-r from-white/80 via-blue-50/40 to-indigo-50/40 rounded-2xl p-4 mb-5 border border-white/50 group-hover:border-blue-200/50 transition-colors duration-200">
           <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2 text-sm">
             <Users className="w-4 h-4 text-blue-600" />
             Contact
@@ -248,14 +248,13 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
             {(focuses || []).slice(0, 4).map((focus, index) => (
               <span
                 key={index}
-                className="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-blue-800 px-2.5 py-1.5 rounded-xl text-xs font-medium border border-blue-200/50 hover:from-blue-200 hover:via-indigo-200 hover:to-purple-200 hover:shadow-md hover:scale-105 transition-all duration-300 cursor-default"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-blue-800 px-2.5 py-1.5 rounded-xl text-xs font-medium border border-blue-200/50 cursor-default"
               >
                 {focus}
               </span>
             ))}
             {(focuses || []).length > 4 && (
-              <span className="bg-gradient-to-r from-gray-100 to-gray-50 text-gray-600 px-2.5 py-1.5 rounded-xl text-xs font-medium border border-gray-200 hover:scale-105 transition-transform duration-300">
+              <span className="bg-gradient-to-r from-gray-100 to-gray-50 text-gray-600 px-2.5 py-1.5 rounded-xl text-xs font-medium border border-gray-200">
                 +{(focuses || []).length - 4}
               </span>
             )}
@@ -272,17 +271,13 @@ export const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
             {displayedPortfolioCompanies.map((company, index) => (
               <span
                 key={index}
-                className="bg-gradient-to-r from-teal-50 via-emerald-50 to-green-50 text-teal-700 px-2.5 py-1 rounded-lg text-xs border border-teal-200/50 hover:from-teal-100 hover:via-emerald-100 hover:to-green-100 hover:shadow-md hover:scale-105 transition-all duration-300 cursor-default font-medium group-hover:animate-pulse"
-                style={{ 
-                  animationDelay: `${index * 50}ms`,
-                  animationDuration: '2s'
-                }}
+                className="bg-gradient-to-r from-teal-50 via-emerald-50 to-green-50 text-teal-700 px-2.5 py-1 rounded-lg text-xs border border-teal-200/50 cursor-default font-medium"
               >
                 {company}
               </span>
             ))}
             {remainingCount > 0 && (
-              <span className="bg-gradient-to-r from-gray-100 to-gray-50 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-semibold border border-gray-200 hover:scale-105 transition-transform duration-300">
+              <span className="bg-gradient-to-r from-gray-100 to-gray-50 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-semibold border border-gray-200">
                 +{remainingCount}
               </span>
             )}

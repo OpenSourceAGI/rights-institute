@@ -201,13 +201,7 @@ export const InvestorList: React.FC = () => {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                   {displayedInvestors.map((investor) => (
-                    <div
-                      key={investor.id}
-                      className="animate-fade-in-up"
-                      style={{ animationDelay: `${(parseInt(investor.id) % 24) * 50}ms` }}
-                    >
-                      <InvestorCard investor={investor} />
-                    </div>
+                    <InvestorCard key={investor.id} investor={investor} />
                   ))}
                 </div>
 
