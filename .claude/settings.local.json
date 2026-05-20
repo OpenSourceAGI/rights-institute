@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(json.dumps\\({k: v for k, v in p.items\\(\\) if k in ['version', 'exports', 'types', 'typings', 'main']}, indent=2\\)\\)\")"
     ]
   }
 }

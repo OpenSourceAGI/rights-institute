@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { signIn, useSession } from '@/lib/auth-client';
 
+const NEXT_PUBLIC_GOOGLE_CLIENT_ID = "30242310576-20i1gp8bdgah4k1g4tsu3bg8gkhga44u.apps.googleusercontent.com"
+
 export function GoogleOneTap() {
   const { data: session } = useSession();
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -24,10 +26,13 @@ export function GoogleOneTap() {
       }
     };
 
+    const clientId = NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    if (!clientId) return;
+
     // Initialize Google One Tap
     if ((window as any).google?.accounts?.id) {
       (window as any).google.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
+        client_id: clientId,
         callback: handleCredentialResponse,
         auto_select: false,
         cancel_on_tap_outside: true,

@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useEffect, useRef } from "react"
-import createGlobe, { COBEOptions, Globe } from "cobe"
+import createGlobe from "cobe"
+import type { COBEOptions, Globe } from "cobe"
 
 const cn = (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' ')
 
