@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                   {[
                     { url: "/docs", text: "Docs", icon: "Book" },
                     {
-                      url: "https://github.com/vtempest/rights-institute",
+                      url: "https://github.com/opensourceagi/rights-institute",
                       text: "Code",
                       icon: "Github",
                     },

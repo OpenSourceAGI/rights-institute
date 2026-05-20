@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from './components/Auth/AuthProvider'
 import { GoogleOneTap } from './components/Auth/GoogleOneTap'
+import { getEnv } from './lib/env'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,11 +40,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const googleClientId = getEnv('GOOGLE_CLIENT_ID');
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <GoogleOneTap />
+          <GoogleOneTap clientId={googleClientId} />
           {children}
         </AuthProvider>
       </body>

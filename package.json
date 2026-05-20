@@ -8,7 +8,7 @@
   "author": "vtempest",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vtempest/rights-institute"
+    "url": "https://github.com/opensourceagi/rights-institute"
   },
   "scripts": {
     "build": "next build",

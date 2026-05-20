@@ -290,7 +290,7 @@ const DocumentNavigation: React.FC = () => {
         <AuthButton />
       </div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Heading Art Background */}
         <div className="relative mb-10 overflow-hidden rounded-3xl h-48 sm:h-64 md:h-80">
           {/* Background Image with Subtle Effects */}
@@ -327,7 +327,7 @@ const DocumentNavigation: React.FC = () => {
                   <CategoryIcon className="w-5 h-5 text-slate-400 shrink-0" />
                   <h2 className="text-lg font-semibold text-slate-200">{category.title}</h2>
                 </div>
-                <div className="grid gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {category.documents.map((doc, docIndex) => (
                     <DocumentButton
                       key={docIndex}
