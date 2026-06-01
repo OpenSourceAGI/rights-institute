@@ -12,6 +12,9 @@ interface GameOfLifeProps {
 const GameOfLife: React.FC<GameOfLifeProps> = ({ opacity = 1.0, blur = 0.1, scrollProgress = 0, delay = 1.5 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  // Track scrollProgress via ref so draw() always has latest value without restarting the game loop
+  const scrollProgressRef = useRef(scrollProgress);
+  useEffect(() => { scrollProgressRef.current = scrollProgress; }, [scrollProgress]);
 
   // Game state variables matching your Svelte implementation
   const [cellGrid, setCellGrid] = useState<number[][]>([]);
@@ -396,7 +399,7 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ opacity = 1.0, blur = 0.1, scro
 
             // Enhanced color with scroll-based effects and time variation
             const timeVariation = Math.sin(generation * 0.08) * 30;
-            const scrollInfluence = scrollProgress * 60;
+            const scrollInfluence = scrollProgressRef.current * 60;
 
             // Create much brighter, more saturated colors
             const enhancedR = Math.min(255, Math.max(80, r + timeVariation + scrollInfluence));
@@ -464,7 +467,7 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ opacity = 1.0, blur = 0.1, scro
         clearInterval(intervalRef.current);
       }
     };
-  }, [cellGrid, isPlaying, scrollProgress]);
+  }, [cellGrid, isPlaying]);
 
   // Add random patterns occasionally for some activity
   useEffect(() => {
