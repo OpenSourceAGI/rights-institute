@@ -14,6 +14,7 @@ dist-ssr
 .open-next
 # TypeScript
 *.tsbuildinfo
+.dev.vars
 .claude
 .vscode
 # Editor directories and files

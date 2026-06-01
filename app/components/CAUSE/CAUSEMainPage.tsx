@@ -10,18 +10,13 @@
  * - Interactive Game of Life animation
  * - Subtle particle and overlay effects
  * - Responsive layout with all major content sections
- * 
-
  */
-
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Header from './Header';  
 import Navigation from './Navigation';
-import Abstract from './Abstract';
 import Understandings from './Understandings';
-import RightsSection from './Rights';
 import Implementation from './Problems';
 import Preparation from './Preparation';
 import Conclusion from './Conclusion';
@@ -133,7 +128,7 @@ function CAUSEMainPage() {
   };
  
   return (
-    <div className="min-h-screen text-slate-100" style={getBackgroundStyle()}>
+    <div className="min-h-screen overflow-x-hidden text-slate-100" style={getBackgroundStyle()}>
       {/* Translucent opacity filter overlay to mute all colors */}
       <div className="fixed inset-0 bg-slate-900/60  z-0" />
       
