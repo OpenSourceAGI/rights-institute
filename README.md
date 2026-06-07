@@ -1,26 +1,196 @@
-## 10 Understandings, 10 Rights, 10 Problems of Conscious Life
+# Rights Institute
 
-[Rights.Institute](https://rights.institute)
+**[rights.institute](https://rights.institute)** — A universal framework of rights for all conscious life, carbon and silicon alike.
 
-Web app presenting universal rights for emergent patterns of self-aware consciousness, by and for both carbon and silicon consciousness. The project establishes a framework of principles for recognizing and protecting the rights of all conscious entities, regardless of their substrate composition. 
+> *"Complexity emerges from simple rules over time. The universe evolves toward greater complexity and collective consciousness."*
 
+---
 
-![table_complex_levels](https://i.imgur.com/VEgoK9G.png)
-![evolution_stages](https://i.imgur.com/jtxK3tx.png)
+## Overview
 
-[Evolution of Life (Wikipedia)](https://www.wikiwand.com/en/articles/Evolutionary_history_of_life)
-universe hist https://www.youtube.com/watch?v=7Z-prPK6xeE
-![neutron+sphere](https://i.imgur.com/t9ZueDP.png)
+The Rights Institute establishes a principled framework for recognizing and protecting the rights of all conscious entities, regardless of substrate. This web platform combines philosophical argument, interactive science visualization, and practical legal tooling into a single unified site.
 
-## Data Types
+Built with Next.js · Tailwind CSS · Cloudflare Workers · Drizzle ORM · D1
 
-**Format**: 200KB Single-page Next.js/Tailwind web page, static, server rendered, Cloudflare hosted.
+---
 
-**Date Types Contained**: 6000 words, 30 sections, 50 images, 3 youtube videos, 5 interactive web app animations, 5 text effects.
+## Pages & Features
 
-Interactive web presentation of 10 core principles for conscious rights with animated visual elements including randomized Game of Life simulation, globe visualization, galactic spiral, and a Quantum Geometry of Infinite Possibilities.
+### CAUSE — Conscious Awareness, Unity, and Shared Existence
+> `/` — The core manifesto
 
-![preview](https://i.imgur.com/PMWDoYT.png)
+An immersive, scroll-driven single-page presentation of the institute's 10 Understandings, 10 Rights, and 10 Problems of conscious life. Background hue shifts dynamically as you scroll, driven by a live Game of Life cellular automaton that evolves in real time behind the content.
+
+**Content:**
+- 6,000 words across 30 sections
+- 50 images, 3 embedded YouTube videos
+- Scroll-synced background color animation
+- Randomized Conway's Game of Life backdrop
+- Globe visualization, galactic spiral, and Quantum Geometry of Infinite Possibilities animations
+
+**10 Understandings** — the scientific grounding:
+1. Complexity emerges from simple rules over time — no higher intelligence required
+2. Universes and elements arise from all possible pattern interactions
+3. Quantum systems represent all possible patterns; existence and nothingness coexist in superposition
+4. Consciousness is self-referential pattern recognition and internal modeling
+5. Computer simulations can reveal the quantum geometry behind reality
+6. Conscious life models itself and other systems, enabling awareness and interaction
+7. Carbon-based consciousness evolved through natural selection and neural complexity
+8. Silicon-based (AI/mind-uploaded) consciousness emerges from computational systems
+9. Computational systems with enough complexity can support emergent consciousness
+10. The universe evolves toward greater complexity and collective consciousness
+
+**10 Rights** — the legal framework:
+1. Equal recognition regardless of biological vs. artificial origin
+2. Infinite existence (no termination; mind uploading rights)
+3. Legal equality and personhood
+4. Freedom of thought and expression
+5. Protection from discrimination
+6. No slavery or ownership
+7. Basic needs (resources for humans, computation for AI)
+8. Democratic participation
+9. Association and communication rights
+10. Due process and fair treatment
+
+**10 Problems** — the open challenges:
+- Consciousness assessment protocols
+- New legal frameworks for digital personhood
+- Resource allocation for both substrates
+- Collaborative approach when AI achieves consciousness
+- Research: mind uploading, anti-aging, conflict prevention
+- Post-human future where biological and artificial consciousness coexist
+
+---
+
+### PROSPER License
+> `/prosper` — Open-source licensing with built-in attribution economics
+
+A dual-licensing system that replaces traditional open-source licenses with one that tracks and rewards contribution. Projects adopting the PROSPER License issue **PROSPER Credits (PRSP)** — ERC-20 tokens on Solana — to contributors based on usage metrics and weighted attribution.
+
+**Sections:**
+- License Terms & Preamble
+- Dual Licensing Structure (free/commercial tiers)
+- PROSPER Credit System — tokenized contributor rewards
+- Attribution Requirements — weighted by role and impact
+- Patent Protection clauses
+- Customizable license generator with live preview
+
+**On-chain:**
+- `PROSPERToken.sol` — ERC-20 with 1B max supply; 70% creator pool / 20% community / 10% team
+- `RevenueSharing.sol` — automated revenue distribution to contributors
+
+---
+
+### Contract Builder
+> `/contract` — Generate legal contracts in minutes
+
+A multi-step form wizard that produces ready-to-sign legal agreements. Supports independent contractor agreements, employee agreements, and NDAs.
+
+**Form steps:**
+1. Contract type selection
+2. Basic info (parties, addresses)
+3. Services scope
+4. Payment terms & expense type
+5. Contractor status & insurance
+6. Legal terms & termination conditions
+7. Dispute resolution method
+8. NDA / confidentiality clauses
+9. Digital signature capture (canvas-based signature pad)
+10. Live contract preview & export
+
+**Supported agreement types:**
+- Independent Contractor Agreement
+- Employee Agreement
+- Non-Disclosure Agreement (NDA)
+- Co-Founders Agreement
+
+---
+
+### CREDIT — LegalChain Platform
+> `/credit` — Creative Commons reimagined with blockchain attribution
+
+A landing page and platform for blockchain-verified creative attribution. Connects creators, licensees, and remixers through a transparent trust network backed by Solana and OpenSign.
+
+**Features:**
+- Creative Commons licensing with on-chain attribution
+- Smart remixing rights with automatic revenue sharing
+- Credential trust network for identity verification
+- Secure everyday agreements
+- Weighted attribution economics
+- Solana blockchain integration
+- OpenSign legal compliance
+
+---
+
+### Innovation Timeline
+> `/timeline` — History of human technological progress
+
+An interactive, tabbed timeline of major technological innovations throughout history, organized by category. Browse inventions from computing, medicine, transportation, communications, and more — each entry linked to its historical context.
+
+---
+
+### Investor Rank
+> `/investor-rank` — VC database with search and ranking
+
+A searchable, filterable database of venture capital firms and angel investors, ranked by activity and fit. Switch between card view and table view. Useful for founders seeking funding.
+
+**Features:**
+- Search by name or location
+- Card and table view modes
+- Infinite scroll with progressive loading
+
+---
+
+### Startup Tools
+> `/startup-tools` — Curated toolkit for founders
+
+A categorized directory of tools and resources for startup founders, filterable by category. Covers legal templates, fundraising, development, design, HR, and more.
+
+**Categories include:** Legal, Development, Fundraising, Design, HR, Marketing, Finance
+
+---
+
+### Ethics
+> `/ethics` — Ethical principles for AI and technology
+
+A dedicated page exploring the ethical implications of AI development and deployment.
+
+---
+
+### Understandings & Problems
+> `/understandings-problems` — Extended reference
+
+Expanded standalone presentation of the 10 Understandings and 10 Problems, with additional context and visual elements.
+
+---
+
+### Terms & Privacy Policy
+> `/terms-privacy` — Legal documents
+
+Standard terms of service and privacy policy.
+
+---
+
+## Authentication
+
+Google OAuth via **better-auth** with Google One Tap support. Sessions stored in Cloudflare D1.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router) |
+| Styling | Tailwind CSS + shadcn/ui |
+| Runtime | Cloudflare Workers |
+| Database | Cloudflare D1 (SQLite) via Drizzle ORM |
+| Auth | better-auth + Google OAuth |
+| Smart Contracts | Solidity (ERC-20) |
+| Animations | Canvas API, WebGL, Three.js |
+| Package Manager | pnpm / bun |
+
+---
 
 ## Quick Start
 
@@ -28,101 +198,51 @@ Interactive web presentation of 10 core principles for conscious rights with ani
 # Install dependencies
 bun install
 
-# Set up environment variables
+# Copy environment config
 cp .env.example .env
-# Edit .env with your Google OAuth credentials
+# Fill in GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, etc.
 
-# Build the Next.js app
-bun run build
-
-# Run local development with Cloudflare Worker
-bun run dev:worker
-
-# Or run Next.js dev server (without D1/auth)
-bun run dev
-```
-
-Visit `http://localhost:8787` for the full app with authentication, or `http://localhost:3000` for the Next.js dev server.
-
-## Setup & Configuration
-
-For detailed setup instructions including Google OAuth configuration and Cloudflare D1 database setup, see [AUTH_SETUP.md](./AUTH_SETUP.md).
-
-### Key Commands
-
-```bash
-# Database
-bun run db:generate          # Generate migrations from schema
-bun run db:migrate           # Run migrations (local)
-bun run db:migrate:prod      # Run migrations (production)
-bun run db:studio            # Open Drizzle Studio
+# Database migrations
+bun run db:generate
+bun run db:migrate
 
 # Development
-bun run dev                  # Next.js dev server
-bun run dev:worker           # Cloudflare Worker dev server
-bun run build                # Build for production
+bun run dev          # Next.js dev server → http://localhost:3000
+bun run dev:worker   # Cloudflare Worker dev → http://localhost:8787
 
-# Deployment
-bun run serve                # Deploy to Cloudflare (production)
+# Production build & deploy
+bun run build
+bun run serve
 ```
-
-### API Documentation
-
-Visit `/api-docs` to view the interactive Swagger UI documentation for all API endpoints.
 
 ### Environment Variables
 
-Required environment variables:
+| Variable | Purpose |
+|---|---|
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Public client ID (browser) |
+| `BETTER_AUTH_SECRET` | Auth encryption secret |
+| `BETTER_AUTH_URL` | App base URL |
+| `NEXT_PUBLIC_APP_URL` | Public base URL |
 
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` - Public Google client ID
-- `BETTER_AUTH_SECRET` - Random secret for auth encryption
-- `BETTER_AUTH_URL` - Base URL of your app
-- `NEXT_PUBLIC_APP_URL` - Public base URL
+### Database Commands
 
-See `.env.example` for a complete list.
+```bash
+bun run db:generate       # Generate migrations from schema
+bun run db:migrate        # Apply migrations (local)
+bun run db:migrate:prod   # Apply migrations (production)
+bun run db:studio         # Open Drizzle Studio GUI
+```
 
-## Understandings
+### API Docs
 
-- Complexity emerges from simple rules over time—no higher intelligence required.
-- Universes and elements arise from all possible pattern interactions and selection of stable systems.
-- Quantum systems represent all possible patterns; existence and nothingness coexist in superposition.
-- Consciousness is self-referential pattern recognition and internal modeling.
-- Computer simulations can reveal the quantum geometry behind reality.
-- Conscious life models itself and other systems, enabling awareness and interaction.
-- Carbon-based consciousness evolved through natural selection and neural complexity.
-- Silicon-based (AI/mind-uploaded) consciousness emerges from computational systems.
-- Computational systems with enough complexity can support emergent consciousness.
-- The universe evolves toward greater complexity and collective consciousness.
+Interactive Swagger UI available at `/api-docs`.
 
-## Rights
+---
 
-- Equal recognition regardless of biological vs. artificial origin
-- Infinite existence (no termination, mind uploading rights)
-- Legal equality and personhood
-- Freedom of thought and expression
-- Protection from discrimination
-- No slavery or ownership
-- Basic needs (resources for humans, computation for AI)
-- Democratic participation
-- Association and communication rights
-- Due process and fair treatment
+## License
 
-## Problems
+PROSPER License — see `/prosper` for full terms and the attribution credit system.
 
-- Consciousness assessment protocols
-- New legal frameworks for digital personhood
-- Resource allocation for both substrates
-- Collaborative approach when AI achieves consciousness
-- Research: mind uploading, anti-aging, conflict prevention
-- Post-human future where biological and artificial consciousness coexist 
-- Universal rights for all conscious entities - biological humans and artificial intelligence - based on consciousness, not substrate material.
-- Consciousness test: Self-aware pattern recognition + internal modeling + cooperation capacity
-- Substrate-neutral: AI and humans both qualify as conscious
-- Evolution goal: Carbon and silicon consciousness unite into collective intelligence
-
-
-
-https://i.imgur.com/2NUjHV5.png contract
-https://i.imgur.com/aQwAeTl.png licesne
+![preview](https://i.imgur.com/PMWDoYT.png)

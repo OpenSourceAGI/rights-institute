@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from "@tailwindcss/vite";
+import vinext from 'vinext';
+import { cloudflare } from '@cloudflare/vite-plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    tailwindcss(),
-    react()
+    vinext(),
+    cloudflare({
+      viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
+    }),
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],
@@ -21,22 +23,9 @@ export default defineConfig({
   define: {
     global: 'globalThis',
   },
-  build: {
-    target: 'esnext',
-    outDir: 'out',
-    assetsDir: 'assets',
-    rollupOptions: {
-      input: {
-        main: 'index.html'
-      },
-      output: {
-        entryFileNames: '[name]-[hash].js',
-        chunkFileNames: '[name]-[hash].js',
-        assetFileNames: '[name]-[hash].[ext]'
-      }
-    }
+  ssr: {
+    external: ['@libsql/client'],
   },
-  publicDir: 'static',
   server: {
     port: 9000,
     host: true,

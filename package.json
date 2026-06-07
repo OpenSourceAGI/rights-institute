@@ -12,6 +12,7 @@
   },
   "scripts": {
     "build": "vinext build",
+    "build:cf": "vinext build",
     "dev": "open-ready vinext dev",
     "preview": "vinext build && vinext start",
     "deploy": "npx vinext deploy",
@@ -100,7 +101,7 @@
     "typescript": "^6.0.3",
     "vinext": "latest",
     "vite": "^8.0.13",
-    "wrangler": "^4.92.0"
+    "wrangler": "^4.98.0"
   },
   "type": "module"
 }
