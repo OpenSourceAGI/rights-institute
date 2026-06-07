@@ -24,10 +24,10 @@
         "./app/*"
       ],
       "@/components/*": [
-        "./app/components/*"
+        "components/*"
       ],
       "@/ui/*": [
-        "./app/components/ui/*"
+        "components/ui/*"
       ],
       "@/types/*": [
         "./app/types/*"

@@ -1,13 +1,9 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rights-institute",
-  "main": "worker/index.ts",
+  "no_bundle": true,
   "compatibility_date": "2026-01-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": {
-    "directory": "dist/client",
-    "binding": "ASSETS"
-  },
   "observability": {
     "enabled": true
   }

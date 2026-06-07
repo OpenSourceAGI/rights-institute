@@ -19,9 +19,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import ContractBuilder from '../components/ContractorForm/ContractBuilder';
-import EmploymentAgreementEditor from '../components/ContractorForm/EmployeeAgreement';
-import CoFoundersForm from '../components/ContractorForm/CoFoundersForm';
+import ContractBuilder from '../../components/ContractorForm/ContractBuilder';
+import EmploymentAgreementEditor from '../../components/ContractorForm/EmployeeAgreement';
+import CoFoundersForm from '../../components/ContractorForm/CoFoundersForm';
 
 /**
  * Contractor Form Page Component

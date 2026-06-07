@@ -17,10 +17,10 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import RightsSection from '../components/CAUSE/Rights';
-import Footer from '../components/Homepage/Footer';
-import GameOfLife from '../components/Animations/GameOfLife';
-import Navigation from '../components/CAUSE/Navigation';
+import RightsSection from '../../components/CAUSE/Rights';
+import Footer from '../../components/Homepage/Footer';
+import GameOfLife from '../../components/Animations/GameOfLife';
+import Navigation from '../../components/CAUSE/Navigation';
 
 /**
  * CAUSEMainPage - The main page component for the Rights Institute

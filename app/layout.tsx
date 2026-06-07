@@ -2,8 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { AuthProvider } from './components/Auth/AuthProvider'
-import { GoogleOneTap } from './components/Auth/GoogleOneTap'
+import { AuthProvider } from '../components/Auth/AuthProvider'
+import { GoogleOneTap } from '../components/Auth/GoogleOneTap'
 import { getEnv } from './lib/env'
 
 const inter = Inter({ subsets: ['latin'] })

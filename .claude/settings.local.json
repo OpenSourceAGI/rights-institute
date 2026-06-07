@@ -1,9 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm install:*)",
-      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(json.dumps\\({k: v for k, v in p.items\\(\\) if k in ['version', 'exports', 'types', 'typings', 'main']}, indent=2\\)\\)\")",
-      "Bash(pnpm add *)"
+      "Bash(npm install *)",
+      "Bash(ls /home/admin/.bun/install/global/node_modules/vinext/ 2>/dev/null | head -20)",
+      "Read(//home/admin/.bun/install/global/node_modules/vinext/**)"
     ]
   }
 }
