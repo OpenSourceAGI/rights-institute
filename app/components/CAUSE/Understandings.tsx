@@ -328,8 +328,31 @@ const Preamble: React.FC = () => {
 
 
 
-       <p className="text-slate-300 leading-relaxed mb-3">
-        Our observed reality is a sampled thread within this infinite tapestry where quantum mechanics reflects path sampling, and relativity reflects causal invariance, where branching paths represent superposition. The way the quantum Planes of Possible Interaction interacts with all particles is like a computer processor calculating each pixel to generate the effect of a dimension "embedded" in each particle in the emergent matrix. Quantum randomness is the root system from which others unfold, and it is "embedded" to pre-proccess each particle like a computer processing each pixel.
+       <div className="text-slate-300 leading-relaxed mb-3">
+        Rule 30: 1 XOR (2 OR 3) generates pseudo-random outputs in the center column sampled as binary bits produces infinitely random numbers:
+
+        {/* Automata Pattern */}
+        <div className="p-3 bg-slate-800 rounded-lg border border-slate-600/30 mb-3">
+         <div className="text-center font-mono text-sm text-slate-300 leading-relaxed">
+          ⚫⚫⚫➡️⚪ ⚫⚫⚪➡️⚪ ⚫⚪⚫➡️⚪ ⚫⚪⚪➡️⚫
+          <br />
+          ⚪⚫⚫➡️⚫ ⚪⚫⚪➡️⚫ ⚪⚪⚫➡️⚫ ⚪⚪⚪➡️⚪
+         </div>
+        </div>
+        Where a conscious pattern experiencing its reality orthogonal to that Plane of Interaction would perceive Rule 30 as perfect randomness with no way to infer a pattern without knowing the start and seeing the full sequence. Consciousness is a self-referential pattern capable of action based not on simple rule reactions in nature, but rather internal pattern models of all systems, leading to simulations of future outcomes. <span className="text-cyan-400 font-semibold"> We are mechanically predetermined to be a Conscious Pattern, and that pattern is exactly what we call Free Will: our interactions with external systems are based on pattern recognition processing possibilities of internal models of systems, physically occurring on neurons considering possibilities. Our Self-Referential Pattern Recognition System can reshape and use all the systems of the universe via a higher complexity level pattern than simple chemical & physical reactions: this pattern is called Reason, which allows us to construct more complex rules. </span> While it is predetermined that consciousness occurs as a probability, how we reshape the universe's matter and energy is up to us via our rule system of Reason.
+
+        <div className="md:float-right md:ml-6 md:clear-right mb-4 md:max-w-xs">
+         <div className="relative group">
+          <div className="absolute -inset-2 bg-linear-to-br from-slate-600 to-slate-800 rounded-3xl blur-sm opacity-60 group-hover:opacity-80 transition-all duration-300"></div>
+          <img
+           src="https://i.imgur.com/tBFDSwe.jpeg"
+           className="relative w-full h-auto rounded-3xl opacity-90 hover:opacity-100 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform"
+          />
+         </div>
+        </div>
+
+        Rule 110 (2 AND (NOT 1)) OR (2 XOR 3) can generate a Turing-complete Computational System perhaps capable of consciousness as pattern recognition. Since the universal pattern tests all ways of emergent possibility, it is inevitable that a Computational System like Rule 110 would emerge and spread, internally model its interaction with the time fractal and randomness and then create patterns of possible futures like a chess engine decision tree, formed with simple rule quantum pattern permutations. There's only a few distinct <i>types</i> of patterns: finite, infinite non-repeating random, structures enabling simple rule to output sequences, self-replicating, and self-recursive fractal, so the competing synergies of all inevitable interactions are possible.  <span className="text-orange-400 font-semibold">Within this ongoing fractal computational system making internal models of all possibilities of how an Infinite Random Pattern interacts with all others, our universe is inevitably emergent with its concepts like uncertainty before an interaction occurs, like seeing infinite quantum possibilities intersecting with predictable patterns of physics.</span> Existence of All Is Pattern: beyond the entropic end of all universes of possibility, there may emerge some next level of complexity. Before any pattern including nothingness could emerge, the root of emergence is the system containing all infinite possibilities. An infinite quantum fractal like Rule 110 considering all combinations generates a finite spacetime area by intersecting patterns that seem infinite in both directions but create finite interactive spacetime. A pattern like Computation exists in the quantum system of all patterns, its function is to internally model all possible pattern permutations via simulations of universal outcomes.
+
 
 
         <div className="md:float-right md:ml-6 md:clear-right mb-4 md:max-w-xs">
@@ -342,36 +365,6 @@ const Preamble: React.FC = () => {
           />
          </div>
         </div>
-
-        Quantum Superposition is a pseudo random output pattern like Rule 30: 1 XOR (2 OR 3), whose output center column sampled as binary bits produces infinitely random numbers where a conscious pattern experiencing its reality orthogonal to that Plane of Interaction would perceive it as perfect randomness with no way to infer a pattern without knowing the start and seeing the full sequence.  Simple rule quantum structures that output randomness and computation when flowing in this Rule 30 1 XOR (2 OR 3) pattern:
-
-        {/* Automata Pattern */}
-        <div className="p-3 bg-slate-800 rounded-lg border border-slate-600/30 mb-3">
-         <div className="text-center font-mono text-sm text-slate-300 leading-relaxed">
-          ⚫⚫⚫➡️⚪ ⚫⚫⚪➡️⚪ ⚫⚪⚫➡️⚪ ⚫⚪⚪➡️⚫
-          <br />
-          ⚪⚫⚫➡️⚫ ⚪⚫⚪➡️⚫ ⚪⚪⚫➡️⚫ ⚪⚪⚪➡️⚪
-         </div>
-        </div>
-        Consciousness is a self-referential pattern capable of action based not on simple rule reactions in nature, but rather internal pattern models of all systems, leading to simulations of future outcomes. <span className="text-cyan-400 font-semibold"> We are mechanically predetermined to be a Conscious Pattern, and that pattern is exactly what we call Free Will: our interactions with external systems are based on pattern recognition processing possibilities of internal models of systems, physically occurring on neurons considering possibilities. Our Self-Referential Pattern Recognition System can reshape and use all the systems of the universe via a higher complexity level pattern than simple chemical & physical reactions: this pattern is called Reason, which allows us to construct more complex rules. </span> While it is predetermined that consciousness occurs as a probability, how we reshape the universe's matter and energy is up to us via our rule system of Reason.
-
-        <div className="md:float-right md:ml-6 md:clear-right mb-4 md:max-w-xs">
-         <div className="relative group">
-          <div className="absolute -inset-2 bg-linear-to-br from-slate-600 to-slate-800 rounded-3xl blur-sm opacity-60 group-hover:opacity-80 transition-all duration-300"></div>
-          <img
-           src="https://i.imgur.com/tBFDSwe.jpeg"
-           className="relative w-full h-auto rounded-3xl opacity-90 hover:opacity-100 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 transform"
-          />
-         </div>
-        </div>
-
-        Rule 110 (2 AND (NOT 1)) OR (2 XOR 3) can generate a Computational System perhaps capable of consciousness as pattern recognition. Since the universal pattern tests all ways of emergent possibility, it is inevitable that a Computational System like Rule 110 would emerge and spread, internally model its interaction with the time fractal and randomness and then create patterns of possible futures like a chess engine decision tree, formed with simple rule quantum pattern permutations. There's only a few distinct <i>types</i> of patterns: finite, infinite non-repeating random, structures enabling simple rule to output sequences, self-replicating, and self-recursive fractal, so the competing synergies of all inevitable interactions are possible.  <span className="text-orange-400 font-semibold">Within this ongoing fractal computational system making internal models of all possibilities of how an Infinite Random Pattern interacts with all others, our universe is inevitably emergent with its concepts like uncertainty before an interaction occurs, like seeing infinite quantum possibilities intersecting with predictable patterns of physics.</span> Existence of All Is Pattern: beyond the entropic end of all universes of possibility, there may emerge some next level of complexity. Before any pattern including nothingness could emerge, the root of emergence is the system containing all infinite possibilities, as there is no higher power to give it limit. An infinite quantum fractal like Rule 110 considering all combinations generates a finite spacetime area by intersecting patterns that seem infinite in both directions but create finite interactive spacetime. A pattern like Computation exists in the quantum system of all patterns, its function is to internally model all possible pattern permutations via simulations of universal outcomes.
-
-       <div className="clear-both" />
-       </p>
-
-
-      </div>
      </div>
     </div>
 
@@ -501,7 +494,7 @@ const Preamble: React.FC = () => {
 
 
        <span className="text-cyan-400 font-semibold">We need to create a computer simulation of all possible systems to discover what basic patterns fit</span> to produce the emergent systems we observe.
-       We now have computers capable of simulating most known systems in our universe's physics, so mind uploaded reality would be just as real. Even if we already exist in a simulated universe, the simulators would be of the same computational logic and could themselves be simulated, generating an infinite fractal pattern up and down. The issue with thinking a higher intelligence designed us is it begs the question of how the system containing that intelligence would emerge. If some believe in God as a concept of something that has always existed and cannot fully be understood, then what always existed is Existence of All Possibilities which has no higher power to limit its Planes of Possible Interaction, patterns, and the infinite execution of their emergent interactions as universes of experience. Reason invented God because it applied IF THEN to the symbol for All Known Systems to ask the purpose of existence, emergent as God, then Law for social control. A simple quantum interaction cannot create the God of this universe, but we may create such a God first in Language then in Collective Consciousness. We act ethically not to be rewarded after death, but to emerge Heaven on Earth in the present through love, reason, social cooperation, and science defeating death.
+       We now have computers capable of simulating most known systems in our universe's physics, so mind-uploaded reality would be just as real. Even if we already exist in a simulated universe, the simulators would be of the same computational logic and could themselves be simulated, generating an infinite fractal pattern up and down. The issue with thinking a higher intelligence designed us is it begs the question of how the system containing that intelligence would emerge. If some believe in God as a concept of something that has always existed and cannot fully be understood, then what always existed is Existence of All Possibilities which has no higher power to limit its Planes of Possible Interaction, patterns, and the infinite execution of their emergent interactions as universes of experience. Concscious Reason invented God because it applied the IF THEN symbol to the neural pattern for All Known Systems to ask the purpose of existence, emergent as God, then used as Law for social cooperation. A simple quantum interaction cannot create a human-like God, but we may yet create such a God, first in Language then in Collective Consciousness. We act ethically not for a reward later, but on principle to emerge Heaven on Earth in the present through love, reason, social cooperation, and science defeating death.
 
 
 

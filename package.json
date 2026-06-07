@@ -4,23 +4,20 @@
   "version": "0.1.0",
   "homepage": "https://rights.institute",
   "description": "10 Understandings, 10 Rights, 10 Problems of Conscious Life",
-  "license": "MIT",
+  "license": "rights.institute/prosper",
   "author": "vtempest",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceagi/rights-institute"
   },
   "scripts": {
-    "build": "next build",
-    "build:cf": "vinext build",
-    "dev": "open-ready next dev",
+    "build": "vinext build",
+    "dev": "open-ready vinext dev",
     "preview": "vinext build && vinext start",
-    "deploy": "vinext deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "deploy": "npx vinext deploy",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio",
-    "db:create": "npm create cloud-db"
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
@@ -84,21 +81,26 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.40.0",
     "@cloudflare/workers-types": "^4.20260518.1",
-    "vinext": "latest",
     "@types/node": "^25.9.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
+    "@vitejs/plugin-rsc": "^0.5.27",
     "autoprefixer": "^10.5.0",
     "drizzle-kit": "^0.31.10",
     "fs-extra": "^11.3.5",
     "globals": "^17.6.0",
     "postcss": "^8.5.14",
+    "react-server-dom-webpack": "^19.2.7",
+    "rolldown": "^1.1.0",
     "tailwindcss": "^4.3.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^6.0.3",
+    "vinext": "latest",
     "vite": "^8.0.13",
     "wrangler": "^4.92.0"
-  }
+  },
+  "type": "module"
 }
