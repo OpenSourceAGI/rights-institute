@@ -5,7 +5,8 @@
       "Bash(ls /home/admin/.bun/install/global/node_modules/vinext/ 2>/dev/null | head -20)",
       "Read(//home/admin/.bun/install/global/node_modules/vinext/**)",
       "Bash(npx skills *)",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(pnpm install *)"
     ]
   }
 }
