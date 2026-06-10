@@ -12,7 +12,8 @@
   },
   "scripts": {
     "build": "vinext build",
-    "dev": "open-ready vinext dev",
+    "build:cf": "mkdir -p .open-next && echo 'export default { fetch: () => new Response(\"ok\") };' > .open-next/worker.js && vinext build",
+    "dev": "npx open-ready vinext dev",
     "preview": "vinext build && vinext start",
     "deploy": "npx vinext deploy",
     "db:generate": "drizzle-kit generate",
@@ -81,6 +82,7 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.40.0",
     "@cloudflare/workers-types": "^4.20260518.1",
+    "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^25.9.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

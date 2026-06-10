@@ -21,6 +21,7 @@ dist-ssr
 .vscode/*
 .out/*
 .next/*
+.vinext/*
 .wrangler/*
 !.vscode/extensions.json
 .idea

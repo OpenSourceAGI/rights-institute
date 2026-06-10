@@ -33,7 +33,7 @@
         "./app/types/*"
       ],
       "@/lib/*": [
-        "./app/lib/*"
+        "./lib/*"
       ],
       "@/sample-data/*": [
         "./app/sample-data/*"

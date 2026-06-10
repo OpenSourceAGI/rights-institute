@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '../components/Auth/AuthProvider'
 import { GoogleOneTap } from '../components/Auth/GoogleOneTap'
-import { getEnv } from './lib/env'
+import { getEnv } from '../lib/env'
 
 const inter = Inter({ subsets: ['latin'] })
 
