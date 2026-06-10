@@ -35,7 +35,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': resolve(__dirname, './app'),
+      '@/components': resolve(__dirname, './components'),
+      '@/ui': resolve(__dirname, './components/ui'),
       '@/lib': resolve(__dirname, './lib'),
+      '@/types': resolve(__dirname, './app/types'),
+      '@/sample-data': resolve(__dirname, './app/sample-data'),
       'three/webgpu': 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js',
       'three/tsl': 'three/examples/jsm/nodes/Nodes.js'
     }
