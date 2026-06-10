@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vinext from 'vinext';
 import { cloudflare } from '@cloudflare/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,6 +19,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@/lib': resolve(__dirname, './lib'),
       'three/webgpu': 'three/examples/jsm/renderers/webgpu/WebGPURenderer.js',
       'three/tsl': 'three/examples/jsm/nodes/Nodes.js'
     }

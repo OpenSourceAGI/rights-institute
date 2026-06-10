@@ -1,12 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '../components/Auth/AuthProvider'
 import { GoogleOneTap } from '../components/Auth/GoogleOneTap'
 import { getEnv } from '../lib/env'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Rights for Carbon and Silicon Consciousness - Rights.Institute',
@@ -44,7 +41,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <AuthProvider>
           <GoogleOneTap clientId={googleClientId} />
           {children}
