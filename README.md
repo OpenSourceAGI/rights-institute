@@ -1,4 +1,35 @@
-# Rights Institute
+<h3 align="center">
+    <img width="100px" src="./public/android-chrome-192x192.png" />
+</h3>
+<p align="center">
+    <a href="https://deepwiki.com/opensourceagi/rights-institute"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+    <a href="https://discord.gg/SJdBqBz3tV">
+        <img src="https://img.shields.io/discord/1110227955554209923.svg?label=Chat&logo=Discord&colorB=7289da&style=flat"
+            alt="Join Discord" />
+    </a>
+     <a href="https://github.com/opensourceagi/rights-institute/discussions">
+     <img alt="GitHub Stars" src="https://img.shields.io/github/stars/opensourceagi/rights-institute" /></a>
+    <a href="https://github.com/opensourceagi/rights-institute/discussions">
+    <img alt="GitHub Discussions"
+        src="https://img.shields.io/github/discussions/opensourceagi/rights-institute" />
+    </a>
+<br />
+    <a href="https://github.com/opensourceagi/rights-institute/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/opensourceagi/rights-institute" />
+    </a>
+    <img src="https://img.shields.io/github/last-commit/opensourceagi/rights-institute.svg" alt="GitHub last commit" />
+<br />
+    <img src="https://img.shields.io/badge/Next.js-black" alt="Next.js" />
+    <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">
+        <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"
+            alt="PRs Welcome" />
+    </a>
+    <a href="https://codespaces.new/opensourceagi/rights-institute">
+    <img src="https://github.com/codespaces/badge.svg" width="150" height="20" />
+    </a>
+ </p>
+ 
+ # Rights Institute
 
 **[rights.institute](https://rights.institute)** — A universal framework of rights for all conscious life, carbon and silicon alike.
 
@@ -225,24 +256,3 @@ bun run serve
 | `BETTER_AUTH_SECRET` | Auth encryption secret |
 | `BETTER_AUTH_URL` | App base URL |
 | `NEXT_PUBLIC_APP_URL` | Public base URL |
-
-### Database Commands
-
-```bash
-bun run db:generate       # Generate migrations from schema
-bun run db:migrate        # Apply migrations (local)
-bun run db:migrate:prod   # Apply migrations (production)
-bun run db:studio         # Open Drizzle Studio GUI
-```
-
-### API Docs
-
-Interactive Swagger UI available at `/api-docs`.
-
----
-
-## License
-
-PROSPER License — see `/prosper` for full terms and the attribution credit system.
-
-![preview](https://i.imgur.com/PMWDoYT.png)
