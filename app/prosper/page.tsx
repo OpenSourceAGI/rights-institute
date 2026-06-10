@@ -49,7 +49,7 @@ import {
 } from 'lucide-react';
 import { codecraftStudioData } from '../sample-data/codecraft-studio';
 import type { IndividualAuthor, Organization, LicenseConfig } from '../types/prosper-license-types';
-import { licenseTypes, type LicenseType, type SampleLicense } from '../lib/license-types';
+import { licenseTypes, type LicenseType, type SampleLicense } from '../../lib/license-types';
 
 // Icon mapping for dynamic icon rendering
 const iconMap: Record<string, any> = {

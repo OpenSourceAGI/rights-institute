@@ -1,9 +1,8 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { env as cfEnv } from "cloudflare:workers";
 
 export function getEnv(key: string): string | undefined {
   try {
-    const { env } = getCloudflareContext();
-    return (env as Record<string, string | undefined>)[key];
+    return (cfEnv as Record<string, string | undefined>)[key] ?? process.env[key];
   } catch {
     return process.env[key];
   }

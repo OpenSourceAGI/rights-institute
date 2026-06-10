@@ -7,7 +7,7 @@ import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { grab } from 'grab-api.js';
-import codecraftStudioData, { sampleLicenseDataByToken } from '../../sample-data/codecraft-studio';
+import codecraftStudioData, { sampleLicenseDataByToken } from '../../app/sample-data/codecraft-studio';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import {

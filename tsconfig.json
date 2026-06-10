@@ -39,6 +39,7 @@
         "./app/sample-data/*"
       ]
     },
+    "types": ["@cloudflare/workers-types"],
     "plugins": [
       {
         "name": "next"
@@ -48,6 +49,9 @@
   "include": [
     "app/**/*.ts",
     "app/**/*.tsx",
+    "lib/**/*.ts",
+    "components/**/*.ts",
+    "components/**/*.tsx",
     "next-env.d.ts",
     "out/types/**/*.ts",
     ".next/types/**/*.ts",
