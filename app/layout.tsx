@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from '../components/Auth/AuthProvider'
 import { GoogleOneTap } from '../components/Auth/GoogleOneTap'
-import { getEnv } from '../lib/env'
 
 export const metadata: Metadata = {
   title: 'Rights for Carbon and Silicon Consciousness - Rights.Institute',
@@ -37,13 +36,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const googleClientId = getEnv('GOOGLE_CLIENT_ID');
-
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <GoogleOneTap clientId={googleClientId} />
+          <GoogleOneTap />
           {children}
         </AuthProvider>
       </body>

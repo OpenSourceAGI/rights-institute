@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vinext from 'vinext';
 import { cloudflare } from '@cloudflare/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
+import { fumadocsMdx } from 'fumadocs-mdx/vite';
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -23,6 +24,7 @@ export default defineConfig({
         if (id === '\0virtual:vinext-font-placeholder') return 'export default ""';
       },
     },
+    fumadocsMdx(),
     tailwindcss(),
     vinext(),
     cloudflare({

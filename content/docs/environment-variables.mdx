@@ -1,0 +1,33 @@
+---
+title: Environment Variables
+description: Every variable the app reads, and where to get it.
+---
+
+Copy `.env.example` to `.env` and fill these in.
+
+| Variable | Purpose |
+|---|---|
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID (server-side; also read by the Google One Tap prompt via the root layout) |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Same client ID, inlined into the client bundle for the better-auth One Tap client plugin |
+| `BETTER_AUTH_SECRET` | Auth encryption secret — generate with `openssl rand -base64 32` |
+| `BETTER_AUTH_URL` | App base URL used by better-auth (e.g. `http://localhost:3000`) |
+| `NEXT_PUBLIC_APP_URL` | Public base URL, used as a fallback for `BETTER_AUTH_URL` |
+| `TURSO_DATABASE_URL` | Turso (libSQL) database URL for local/dev database access |
+| `TURSO_AUTH_TOKEN` | Turso auth token |
+| `AUTH_RESEND_KEY` | [Resend](https://resend.com/api-keys) API key used to send magic-link sign-in emails |
+
+## Google OAuth credentials
+
+Get `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` from the
+[Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+
+Add these as authorized redirect URIs on the OAuth client:
+
+- Local: `http://localhost:3000/api/auth/callback/google`
+- Production: `https://rights.institute/api/auth/callback/google`
+
+For Google One Tap, also add your local and production origins (e.g.
+`http://localhost:3000`, `https://rights.institute`) as **Authorized
+JavaScript origins** — One Tap validates the origin the prompt is served
+from, separately from the OAuth redirect URIs.
