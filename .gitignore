@@ -24,6 +24,8 @@ dist-ssr
 .vinext/*
 .wrangler/*
 !.vscode/extensions.json
+# Fumadocs generated content cache
+.source
 .idea
 .DS_Store
 *.suo

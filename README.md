@@ -44,168 +44,32 @@ The Rights Institute establishes a principled framework for recognizing and prot
 
 Built with Next.js · Tailwind CSS · Cloudflare Workers · Drizzle ORM · D1
 
+📖 **Full documentation: [rights.institute/docs](https://rights.institute/docs)** (built with [Fumadocs](https://fumadocs.dev), source in [`content/docs/`](./content/docs))
+
 ---
 
 ## Pages & Features
 
-### CAUSE — Conscious Awareness, Unity, and Shared Existence
-> `/` — The core manifesto
+| Page | Route | What it is |
+|---|---|---|
+| [CAUSE](./content/docs/pages/cause.mdx) | `/` | The core manifesto — 10 Understandings, 10 Rights, 10 Problems, scroll-driven with a live Game of Life backdrop |
+| [PROSPER License](./content/docs/pages/prosper-license.mdx) | `/prosper` | Open-source licensing with on-chain attribution & contributor rewards |
+| [Contract Builder](./content/docs/pages/contract-builder.mdx) | `/contract` | Multi-step wizard for contractor/employee agreements & NDAs |
+| [CREDIT](./content/docs/pages/credit.mdx) | `/credit` | Blockchain-verified creative attribution platform |
+| [Innovation Timeline](./content/docs/pages/timeline.mdx) | `/timeline` | Interactive history of technological progress |
+| [Investor Rank](./content/docs/pages/investor-rank.mdx) | `/investor-rank` | Searchable, ranked VC & angel investor database |
+| [Startup Tools](./content/docs/pages/startup-tools.mdx) | `/startup-tools` | Curated toolkit directory for founders |
+| [Ethics](./content/docs/pages/ethics.mdx) | `/ethics` | Ethical principles for AI and technology |
+| [Understandings & Problems](./content/docs/pages/understandings-problems.mdx) | `/understandings-problems` | Extended reference version of CAUSE |
+| [Terms & Privacy](./content/docs/pages/terms-privacy.mdx) | `/terms-privacy` | Legal documents |
 
-An immersive, scroll-driven single-page presentation of the institute's 10 Understandings, 10 Rights, and 10 Problems of conscious life. Background hue shifts dynamically as you scroll, driven by a live Game of Life cellular automaton that evolves in real time behind the content.
-
-**Content:**
-- 6,000 words across 30 sections
-- 50 images, 3 embedded YouTube videos
-- Scroll-synced background color animation
-- Randomized Conway's Game of Life backdrop
-- Globe visualization, galactic spiral, and Quantum Geometry of Infinite Possibilities animations
-
-**10 Understandings** — the scientific grounding:
-1. Complexity emerges from simple rules over time — no higher intelligence required
-2. Universes and elements arise from all possible pattern interactions
-3. Quantum systems represent all possible patterns; existence and nothingness coexist in superposition
-4. Consciousness is self-referential pattern recognition and internal modeling
-5. Computer simulations can reveal the quantum geometry behind reality
-6. Conscious life models itself and other systems, enabling awareness and interaction
-7. Carbon-based consciousness evolved through natural selection and neural complexity
-8. Silicon-based (AI/mind-uploaded) consciousness emerges from computational systems
-9. Computational systems with enough complexity can support emergent consciousness
-10. The universe evolves toward greater complexity and collective consciousness
-
-**10 Rights** — the legal framework:
-1. Equal recognition regardless of biological vs. artificial origin
-2. Infinite existence (no termination; mind uploading rights)
-3. Legal equality and personhood
-4. Freedom of thought and expression
-5. Protection from discrimination
-6. No slavery or ownership
-7. Basic needs (resources for humans, computation for AI)
-8. Democratic participation
-9. Association and communication rights
-10. Due process and fair treatment
-
-**10 Problems** — the open challenges:
-- Consciousness assessment protocols
-- New legal frameworks for digital personhood
-- Resource allocation for both substrates
-- Collaborative approach when AI achieves consciousness
-- Research: mind uploading, anti-aging, conflict prevention
-- Post-human future where biological and artificial consciousness coexist
-
----
-
-### PROSPER License
-> `/prosper` — Open-source licensing with built-in attribution economics
-
-A dual-licensing system that replaces traditional open-source licenses with one that tracks and rewards contribution. Projects adopting the PROSPER License issue **PROSPER Credits (PRSP)** — ERC-20 tokens on Solana — to contributors based on usage metrics and weighted attribution.
-
-**Sections:**
-- License Terms & Preamble
-- Dual Licensing Structure (free/commercial tiers)
-- PROSPER Credit System — tokenized contributor rewards
-- Attribution Requirements — weighted by role and impact
-- Patent Protection clauses
-- Customizable license generator with live preview
-
-**On-chain:**
-- `PROSPERToken.sol` — ERC-20 with 1B max supply; 70% creator pool / 20% community / 10% team
-- `RevenueSharing.sol` — automated revenue distribution to contributors
-
----
-
-### Contract Builder
-> `/contract` — Generate legal contracts in minutes
-
-A multi-step form wizard that produces ready-to-sign legal agreements. Supports independent contractor agreements, employee agreements, and NDAs.
-
-**Form steps:**
-1. Contract type selection
-2. Basic info (parties, addresses)
-3. Services scope
-4. Payment terms & expense type
-5. Contractor status & insurance
-6. Legal terms & termination conditions
-7. Dispute resolution method
-8. NDA / confidentiality clauses
-9. Digital signature capture (canvas-based signature pad)
-10. Live contract preview & export
-
-**Supported agreement types:**
-- Independent Contractor Agreement
-- Employee Agreement
-- Non-Disclosure Agreement (NDA)
-- Co-Founders Agreement
-
----
-
-### CREDIT — LegalChain Platform
-> `/credit` — Creative Commons reimagined with blockchain attribution
-
-A landing page and platform for blockchain-verified creative attribution. Connects creators, licensees, and remixers through a transparent trust network backed by Solana and OpenSign.
-
-**Features:**
-- Creative Commons licensing with on-chain attribution
-- Smart remixing rights with automatic revenue sharing
-- Credential trust network for identity verification
-- Secure everyday agreements
-- Weighted attribution economics
-- Solana blockchain integration
-- OpenSign legal compliance
-
----
-
-### Innovation Timeline
-> `/timeline` — History of human technological progress
-
-An interactive, tabbed timeline of major technological innovations throughout history, organized by category. Browse inventions from computing, medicine, transportation, communications, and more — each entry linked to its historical context.
-
----
-
-### Investor Rank
-> `/investor-rank` — VC database with search and ranking
-
-A searchable, filterable database of venture capital firms and angel investors, ranked by activity and fit. Switch between card view and table view. Useful for founders seeking funding.
-
-**Features:**
-- Search by name or location
-- Card and table view modes
-- Infinite scroll with progressive loading
-
----
-
-### Startup Tools
-> `/startup-tools` — Curated toolkit for founders
-
-A categorized directory of tools and resources for startup founders, filterable by category. Covers legal templates, fundraising, development, design, HR, and more.
-
-**Categories include:** Legal, Development, Fundraising, Design, HR, Marketing, Finance
-
----
-
-### Ethics
-> `/ethics` — Ethical principles for AI and technology
-
-A dedicated page exploring the ethical implications of AI development and deployment.
-
----
-
-### Understandings & Problems
-> `/understandings-problems` — Extended reference
-
-Expanded standalone presentation of the 10 Understandings and 10 Problems, with additional context and visual elements.
-
----
-
-### Terms & Privacy Policy
-> `/terms-privacy` — Legal documents
-
-Standard terms of service and privacy policy.
+See the [docs site](https://rights.institute/docs/pages) for the full write-up of every page.
 
 ---
 
 ## Authentication
 
-Google OAuth via **better-auth** with Google One Tap support. Sessions stored in Cloudflare D1.
+Sign-in via [better-auth](https://www.better-auth.com): magic-link email, Google OAuth, and Google One Tap. Sessions are stored in Cloudflare D1. See [`docs/authentication`](./content/docs/authentication.mdx) for how it's wired up.
 
 ---
 
@@ -217,10 +81,13 @@ Google OAuth via **better-auth** with Google One Tap support. Sessions stored in
 | Styling | Tailwind CSS + shadcn/ui |
 | Runtime | Cloudflare Workers |
 | Database | Cloudflare D1 (SQLite) via Drizzle ORM |
-| Auth | better-auth + Google OAuth |
+| Auth | better-auth + Google OAuth + Google One Tap |
+| Docs | Fumadocs |
 | Smart Contracts | Solidity (ERC-20) |
 | Animations | Canvas API, WebGL, Three.js |
 | Package Manager | pnpm / bun |
+
+More detail: [`docs/tech-stack`](./content/docs/tech-stack.mdx)
 
 ---
 
@@ -233,27 +100,24 @@ bun install
 # Copy environment config
 cp .env.example .env
 # Fill in GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, etc.
+# Full variable reference: content/docs/environment-variables.mdx
 
 # Database migrations
 bun run db:generate
-bun run db:migrate
+bun run db:push
 
 # Development
-bun run dev          # Next.js dev server → http://localhost:3000
-bun run dev:worker   # Cloudflare Worker dev → http://localhost:8787
+bun run dev
 
 # Production build & deploy
 bun run build
-bun run serve
+bun run deploy
 ```
 
-### Environment Variables
+See [`docs/development`](./content/docs/development.mdx) for the full guide, including how the docs site itself is built and how to add pages to it.
 
-| Variable | Purpose |
-|---|---|
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Public client ID (browser) |
-| `BETTER_AUTH_SECRET` | Auth encryption secret |
-| `BETTER_AUTH_URL` | App base URL |
-| `NEXT_PUBLIC_APP_URL` | Public base URL |
+---
+
+## Contributing
+
+PRs welcome — see the [Discussions](https://github.com/opensourceagi/rights-institute/discussions) board. Licensed under the [PROSPER License](https://rights.institute/prosper).

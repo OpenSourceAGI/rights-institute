@@ -1,0 +1,87 @@
+---
+title: Authentication
+description: How sign-in, Google OAuth, and Google One Tap are wired up with better-auth.
+---
+
+Authentication is handled by [better-auth](https://www.better-auth.com),
+backed by Drizzle ORM against Cloudflare D1 / Turso. There are three ways to
+sign in:
+
+1. **Magic link** — a one-time sign-in link emailed via [Resend](https://resend.com).
+2. **Google OAuth** — the standard "Sign in with Google" redirect flow.
+3. **Google One Tap** — the Google-branded prompt that appears automatically
+   for signed-out visitors, without a click.
+
+## Server setup
+
+`lib/auth.ts` configures `betterAuth()` with the Drizzle adapter, the Google
+social provider, and three plugins:
+
+```ts
+plugins: [
+  oneTap(),       // exposes POST /api/auth/one-tap/callback
+  openAPI(),
+  magicLink({ /* ... */ }),
+]
+```
+
+The `oneTap()` plugin adds a dedicated endpoint that verifies the Google ID
+token server-side (via Google's JWKS) and creates a session — it is separate
+from, and not interchangeable with, the regular `signIn.social` OAuth
+endpoint.
+
+## Client setup
+
+`lib/auth-client.ts` registers the matching `oneTapClient` plugin, which
+knows how to talk to that endpoint:
+
+```ts
+export const authClient = createAuthClient({
+  plugins: [
+    magicLinkClient(),
+    oneTapClient({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      autoSelect: false,
+      cancelOnTapOutside: true,
+      context: 'signin',
+    }),
+  ],
+});
+```
+
+`oneTapClient` handles loading the Google Identity Services script, calling
+`google.accounts.id.initialize`/`prompt`, exponential-backoff retries, and
+POSTing the resulting ID token to `/api/auth/one-tap/callback` — none of
+that needs to be hand-rolled.
+
+`components/Auth/GoogleOneTap.tsx` is a tiny client component mounted in the
+root layout that triggers the prompt once per page load, but only after the
+current session has resolved and only if the visitor isn't already signed
+in:
+
+```tsx
+useEffect(() => {
+  if (isPending) return;   // wait until session is known
+  if (session) return;     // already signed in
+  authClient.oneTap({ callbackURL: '/dashboard' });
+}, [isPending, session]);
+```
+
+Because `NEXT_PUBLIC_GOOGLE_CLIENT_ID` is prefixed with `NEXT_PUBLIC_`,
+[vinext](https://www.npmjs.com/package/vinext) inlines it into the client
+bundle at build time (the same convention Next.js uses), so the plugin has
+the client ID available immediately in the browser.
+
+## Regular "Sign in with Google" button
+
+The `/login` page also offers a plain button that calls
+`authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' })`
+— a normal OAuth redirect, unrelated to One Tap. Both flows land the user in
+the same `sessions` table.
+
+## Required setup
+
+Google One Tap validates the page **origin**, separate from OAuth redirect
+URIs — see [Environment Variables](/docs/environment-variables) for the
+exact Google Cloud Console settings you need (Authorized JavaScript origins
+in addition to the OAuth callback URLs).

@@ -1,0 +1,56 @@
+---
+title: Development
+description: Install dependencies, run the dev server, and work with the database.
+---
+
+## Quick start
+
+```bash
+# Install dependencies
+bun install
+
+# Copy environment config
+cp .env.example .env
+# Fill in GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, etc.
+# See /docs/environment-variables for what each one does.
+
+# Database migrations
+bun run db:generate
+bun run db:push
+
+# Development
+bun run dev          # Vite dev server (Next.js App Router on Cloudflare) → http://localhost:9000
+```
+
+## Production build & deploy
+
+```bash
+bun run build
+bun run deploy
+```
+
+The app is built with [vinext](https://www.npmjs.com/package/vinext), which
+runs the Next.js App Router on top of Vite and deploys to Cloudflare Workers
+via `@cloudflare/vite-plugin`. There is no separate Next.js build step —
+`vite.config.ts` is the single source of truth for the build pipeline.
+
+## Database
+
+The app uses [Drizzle ORM](https://orm.drizzle.team) against a
+[Turso](https://turso.tech) (libSQL) database in development and Cloudflare
+D1 in production.
+
+```bash
+bun run db:generate   # generate a new migration from schema changes
+bun run db:push       # push the schema straight to the database
+bun run db:studio     # open Drizzle Studio
+```
+
+Schema lives in `lib/db/schema.ts`, migrations in `lib/db/migrations/`.
+
+## Docs site
+
+This documentation is built with [Fumadocs](https://fumadocs.dev) and lives
+at `/docs`, sourced from Markdown/MDX files in `content/docs/`. To add a
+page, drop an `.mdx` file into `content/docs/` (or `content/docs/pages/` for
+a page walkthrough) and list it in the nearest `meta.json`.

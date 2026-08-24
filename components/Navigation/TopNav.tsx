@@ -26,6 +26,12 @@ export function TopNav() {
                 Dashboard
               </Link>
               <Link
+                href="/docs"
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                Docs
+              </Link>
+              <Link
                 href="/api-docs"
                 className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
               >
