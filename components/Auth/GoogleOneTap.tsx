@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { authClient, useSession } from '@/lib/auth-client';
+import { authClient, googleClientId, useSession } from '@/lib/auth-client';
 
 export function GoogleOneTap() {
   const { data: session, isPending } = useSession();
@@ -10,6 +10,10 @@ export function GoogleOneTap() {
   useEffect(() => {
     if (isPending) return;   // wait until session is known
     if (session) return;     // already signed in
+    if (!googleClientId) {
+      console.warn('Google One Tap: GOOGLE_CLIENT_ID is not set, skipping prompt.');
+      return;
+    }
     if (promptedRef.current) return; // only prompt once per mount
 
     promptedRef.current = true;

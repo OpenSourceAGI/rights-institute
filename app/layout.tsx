@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from '../components/Auth/AuthProvider'
 import { GoogleOneTap } from '../components/Auth/GoogleOneTap'
+import { getEnv } from '../lib/env'
 
 export const metadata: Metadata = {
   title: 'Rights for Carbon and Silicon Consciousness - Rights.Institute',
@@ -36,8 +37,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Read at request time (not build time) so a Google client ID set as a
+  // Cloudflare Worker runtime var/secret works without rebuilding — see the
+  // getGoogleClientId() comment in lib/auth-client.ts for why.
+  const googleClientId = getEnv('GOOGLE_CLIENT_ID') ?? '';
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          id="google-client-id"
+          type="application/json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(googleClientId) }}
+        />
+      </head>
       <body>
         <AuthProvider>
           <GoogleOneTap />
@@ -46,4 +59,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-} 
+}
