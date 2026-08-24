@@ -7,9 +7,8 @@ Copy `.env.example` to `.env` and fill these in.
 
 | Variable | Purpose |
 |---|---|
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID (server-side; also read by the Google One Tap prompt via the root layout) |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID — powers both the server OAuth flow and the Google One Tap prompt (read at request time, so a runtime var/secret works without rebuilding — see [Authentication](/docs/authentication)) |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Same client ID, inlined into the client bundle for the better-auth One Tap client plugin |
 | `BETTER_AUTH_SECRET` | Auth encryption secret — generate with `openssl rand -base64 32` |
 | `BETTER_AUTH_URL` | App base URL used by better-auth (e.g. `http://localhost:3000`) |
 | `NEXT_PUBLIC_APP_URL` | Public base URL, used as a fallback for `BETTER_AUTH_URL` |

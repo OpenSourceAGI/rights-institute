@@ -33,14 +33,73 @@ endpoint.
 ## Client setup
 
 `lib/auth-client.ts` registers the matching `oneTapClient` plugin, which
-knows how to talk to that endpoint:
+knows how to talk to that endpoint. The one thing it needs up front is the
+Google client ID — and getting that into the browser correctly is the part
+worth understanding.
+
+### Why the client ID isn't a `NEXT_PUBLIC_*` var
+
+The obvious move would be `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, inlined into the
+client bundle at **build time** by Vite's `define` (the same mechanism
+[vinext](https://www.npmjs.com/package/vinext) uses to replicate Next.js's
+`NEXT_PUBLIC_*` convention). That works fine if the build step itself has
+the variable — but this app deploys to Cloudflare Workers, where env vars
+are just as commonly set as **runtime** vars/secrets (Cloudflare dashboard,
+or `wrangler secret put`), which the Worker only sees per-request, long
+after the bundle was built. A client ID set that way is invisible to a
+build-time `define` — the deployed bundle would have `undefined` baked in
+permanently until the next rebuild.
+
+Since `GOOGLE_CLIENT_ID` is already required for the server OAuth flow
+above, and a Google OAuth client ID isn't a secret (it's exposed in every
+OAuth redirect and by the GSI script itself), the simplest fix is to read it
+once per request on the server — where the Worker's runtime env **is**
+available — and hand it to the browser explicitly, instead of relying on
+build-time inlining at all.
+
+### How it's wired
+
+`app/layout.tsx` is a Server Component, so it can read the Worker's runtime
+env per request via `lib/env.ts`'s `getEnv()` (which checks
+`cloudflare:workers`'s `env` first, then falls back to `process.env` for
+local dev). It serializes the value into an inert JSON `<script>` tag in
+`<head>`:
+
+```tsx
+const googleClientId = getEnv('GOOGLE_CLIENT_ID') ?? '';
+// ...
+<script
+  id="google-client-id"
+  type="application/json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify(googleClientId) }}
+/>
+```
+
+`lib/auth-client.ts` reads it back out of the DOM at module-eval time in the
+browser (this runs before any client component mounts, since the script tag
+is server-rendered into the initial HTML and better-auth's `oneTapClient`
+plugin needs the client ID synchronously at `createAuthClient()` time — it
+can't be passed in later per-call):
 
 ```ts
+function getGoogleClientId(): string {
+  if (typeof document === 'undefined') return '';
+  const el = document.getElementById('google-client-id');
+  if (!el?.textContent) return '';
+  try {
+    return JSON.parse(el.textContent) as string;
+  } catch {
+    return '';
+  }
+}
+
+export const googleClientId = getGoogleClientId();
+
 export const authClient = createAuthClient({
   plugins: [
     magicLinkClient(),
     oneTapClient({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientId: googleClientId,
       autoSelect: false,
       cancelOnTapOutside: true,
       context: 'signin',
@@ -49,28 +108,30 @@ export const authClient = createAuthClient({
 });
 ```
 
-`oneTapClient` handles loading the Google Identity Services script, calling
-`google.accounts.id.initialize`/`prompt`, exponential-backoff retries, and
-POSTing the resulting ID token to `/api/auth/one-tap/callback` — none of
-that needs to be hand-rolled.
+`oneTapClient` then handles loading the Google Identity Services script,
+calling `google.accounts.id.initialize`/`prompt`, exponential-backoff
+retries, and POSTing the resulting ID token to `/api/auth/one-tap/callback`
+— none of that needs to be hand-rolled.
 
 `components/Auth/GoogleOneTap.tsx` is a tiny client component mounted in the
 root layout that triggers the prompt once per page load, but only after the
-current session has resolved and only if the visitor isn't already signed
-in:
+current session has resolved, only if the visitor isn't already signed in,
+and only if a client ID actually made it to the browser:
 
 ```tsx
 useEffect(() => {
-  if (isPending) return;   // wait until session is known
-  if (session) return;     // already signed in
+  if (isPending) return;         // wait until session is known
+  if (session) return;           // already signed in
+  if (!googleClientId) return;   // GOOGLE_CLIENT_ID not set anywhere the server could read it
   authClient.oneTap({ callbackURL: '/dashboard' });
 }, [isPending, session]);
 ```
 
-Because `NEXT_PUBLIC_GOOGLE_CLIENT_ID` is prefixed with `NEXT_PUBLIC_`,
-[vinext](https://www.npmjs.com/package/vinext) inlines it into the client
-bundle at build time (the same convention Next.js uses), so the plugin has
-the client ID available immediately in the browser.
+If One Tap never appears and there's a `GOOGLE_CLIENT_ID is not set`
+warning in the browser console, the server genuinely couldn't read the
+variable at request time — double check it's set (as `.env` locally, or as
+a Cloudflare Worker var/secret in production) and that the deployment
+actually restarted/redeployed after setting it.
 
 ## Regular "Sign in with Google" button
 
