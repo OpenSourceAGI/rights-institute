@@ -39,7 +39,7 @@
         "./app/sample-data/*"
       ]
     },
-    "types": ["@cloudflare/workers-types"],
+    "types": ["@cloudflare/workers-types", "vitest/globals", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"

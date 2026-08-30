@@ -17,7 +17,10 @@
     "deploy": "npx vinext deploy",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
@@ -85,16 +88,21 @@
     "@cloudflare/vite-plugin": "^1.40.0",
     "@cloudflare/workers-types": "^4.20260518.1",
     "@tailwindcss/vite": "^4.3.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.6",
     "@types/mdx": "^2.0.14",
     "@types/node": "^25.9.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "@vitejs/plugin-rsc": "^0.5.27",
+    "@vitest/coverage-v8": "^4.1.11",
     "autoprefixer": "^10.5.0",
     "drizzle-kit": "^0.31.10",
     "fs-extra": "^11.3.5",
     "globals": "^17.6.0",
+    "jsdom": "^30.0.1",
     "postcss": "^8.5.14",
     "react-server-dom-webpack": "^19.2.7",
     "rolldown": "^1.1.0",
@@ -103,6 +111,7 @@
     "typescript": "^6.0.3",
     "vinext": "latest",
     "vite": "^8.0.13",
+    "vitest": "^4.1.11",
     "wrangler": "^4.98.0"
   },
   "type": "module"
