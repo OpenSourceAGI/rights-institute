@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowRight, ChevronDown, Menu, Scale, X } from 'lucide-react';
 import { AuthButton } from '@rights/auth/AuthButton';
 import {
@@ -34,7 +34,63 @@ export const TOP_NAV_HEIGHT_CLASS = 'h-16';
  */
 export const TOP_NAV_Z_CLASS = 'z-[100]';
 
-function CategoryMenu({
+const REPO_URL = 'https://github.com/opensourceagi/rights-institute';
+
+/** A trigger and a plain link have to read as the same control, so they share one class. */
+const NAV_ITEM_CLASS =
+  'inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:outline-none';
+
+/**
+ * One catalogue entry as a menu row: the document's own gradient carries the
+ * icon, so the panel is scannable by colour before it is read.
+ */
+function DocumentRow({
+  doc,
+  onSelect,
+  /** Radix's link only works inside a NavigationMenu root — the mobile drawer has none. */
+  inMenu = false,
+}: {
+  doc: SiteDocument;
+  onSelect?: () => void;
+  inMenu?: boolean;
+}) {
+  const Icon = doc.icon;
+
+  const row = (
+    <Link
+      href={doc.href}
+      onClick={onSelect}
+      className="group/row flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.06] focus-visible:bg-white/[0.06] focus-visible:outline-none"
+    >
+      <span
+        className={cn(
+          'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br',
+          doc.gradient,
+        )}
+      >
+        <Icon className="h-5 w-5 text-white" />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-sm font-semibold text-gray-100 group-hover/row:text-white">
+          {navLabel(doc)}
+        </span>
+        {/* No `block`: line-clamp sets its own display, and the later rule wins. */}
+        <span className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-gray-400">
+          {doc.description}
+        </span>
+      </span>
+    </Link>
+  );
+
+  return inMenu ? <NavigationMenuLink asChild>{row}</NavigationMenuLink> : row;
+}
+
+/**
+ * The panel behind one category trigger: the documents on the left, and — when
+ * the category has anything you can author — a "Create" rail on the right, so
+ * reading and making are offered side by side rather than buried in a page.
+ */
+function CategoryPanel({
   category,
   onSelect,
 }: {
@@ -130,6 +186,7 @@ export function TopNav() {
   const [openCategory, setOpenCategory] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileCategory, setOpenMobileCategory] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
 
   const closeAll = useCallback(() => {
     setOpenCategory('');
@@ -142,13 +199,32 @@ export function TopNav() {
     closeAll();
   }, [pathname, closeAll]);
 
+  // Radix closes its own dropdown on Escape and on an outside click, but the
+  // mobile panel is ours, and Escape has to reach both wherever focus happens
+  // to be — hence the listeners on the document rather than on the bar.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeAll();
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) closeAll();
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [closeAll]);
+
   return (
     <nav
       ref={navRef}
       aria-label="Main"
       className={`fixed inset-x-0 top-0 ${TOP_NAV_Z_CLASS} border-b border-gray-800 bg-gray-900/80 backdrop-blur-md`}
     >
-      <nav aria-label="Main" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={cn('flex items-center justify-between gap-4', TOP_NAV_HEIGHT_CLASS)}>
           <div className="flex min-w-0 items-center gap-6">
             <Link href="/" className="flex shrink-0 items-center gap-2.5">
@@ -158,7 +234,11 @@ export function TopNav() {
               <span className="text-lg font-bold tracking-tight text-white">Rights Institute</span>
             </Link>
 
+            {/* Radix's root is a <nav> of its own and labels itself "Main" by
+                default, which would leave the page with two identically named
+                navigation landmarks. The bar is the landmark; this is a menu. */}
             <NavigationMenu
+              aria-label="Document categories"
               viewport={false}
               value={openCategory}
               onValueChange={setOpenCategory}
@@ -217,7 +297,7 @@ export function TopNav() {
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
       {mobileOpen && (
         <div
@@ -285,7 +365,7 @@ export function TopNav() {
           </div>
         </div>
       )}
-    </header>
+    </nav>
   );
 }
 
