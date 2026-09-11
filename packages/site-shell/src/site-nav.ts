@@ -36,6 +36,8 @@ export interface SiteDocument {
 
 export interface SiteCategory {
   title: string;
+  /** Short label for the nav bar, where four full titles would crowd the actions out. */
+  navTitle?: string;
   icon: React.ComponentType<{ className?: string }>;
   borderColor: string;
   documents: SiteDocument[];
@@ -44,6 +46,7 @@ export interface SiteCategory {
 export const SITE_CATEGORIES: SiteCategory[] = [
   {
     title: 'Legal & Ethics',
+    navTitle: 'Legal',
     icon: Shield,
     borderColor: 'border-purple-500/40',
     documents: [
@@ -89,6 +92,7 @@ export const SITE_CATEGORIES: SiteCategory[] = [
   },
   {
     title: 'Licensing & Attribution',
+    navTitle: 'Licensing',
     icon: TrendingUp,
     borderColor: 'border-amber-500/40',
     documents: [
@@ -133,6 +137,7 @@ export const SITE_CATEGORIES: SiteCategory[] = [
   },
   {
     title: 'Knowledge & Philosophy',
+    navTitle: 'Knowledge',
     icon: BookOpen,
     borderColor: 'border-blue-500/40',
     documents: [
@@ -170,6 +175,7 @@ export const SITE_CATEGORIES: SiteCategory[] = [
   },
   {
     title: 'Startup & Business',
+    navTitle: 'Business',
     icon: Briefcase,
     borderColor: 'border-cyan-500/40',
     documents: [
@@ -217,4 +223,9 @@ export const SITE_LINKS: { label: string; href: string }[] = [
 /** The label to show in tight navigation UI. */
 export function navLabel(doc: SiteDocument): string {
   return doc.navLabel ?? doc.title;
+}
+
+/** The label to show for a category in the nav bar. */
+export function categoryNavLabel(category: SiteCategory): string {
+  return category.navTitle ?? category.title;
 }

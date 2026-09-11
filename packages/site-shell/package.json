@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@rights/auth": "workspace:*",
+    "@rights/ui": "workspace:*",
     "fumadocs-ui": "^16.15.8",
     "lucide-react": "^1.43.0"
   },

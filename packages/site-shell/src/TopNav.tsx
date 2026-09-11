@@ -2,10 +2,26 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { ArrowRight, ChevronDown, Menu, Scale, X } from 'lucide-react';
 import { AuthButton } from '@rights/auth/AuthButton';
-import { SITE_CATEGORIES, SITE_LINKS, navLabel, type SiteCategory } from './site-nav';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@rights/ui/navigation-menu';
+import { cn } from '@rights/ui/utils';
+import {
+  SITE_CATEGORIES,
+  SITE_LINKS,
+  categoryNavLabel,
+  navLabel,
+  type SiteCategory,
+  type SiteDocument,
+} from './site-nav';
 
 /** Height of the fixed bar, mirrored by the layout's top padding. */
 export const TOP_NAV_HEIGHT_CLASS = 'h-16';
@@ -20,95 +36,105 @@ export const TOP_NAV_Z_CLASS = 'z-[100]';
 
 function CategoryMenu({
   category,
-  isOpen,
-  onOpen,
-  onClose,
+  onSelect,
 }: {
   category: SiteCategory;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  onSelect?: () => void;
 }) {
-  const menuId = useId();
+  const creatable = category.documents.filter((doc) => doc.createHref);
   const CategoryIcon = category.icon;
 
   return (
     <div
-      className="relative"
-      onMouseEnter={onOpen}
-      onMouseLeave={onClose}
-      onFocus={onOpen}
-      onBlur={(event) => {
-        // Only close once focus has actually left the whole menu, or
-        // tabbing from the trigger into the first item would shut it.
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) onClose();
-      }}
-    >
-      <button
-        type="button"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        aria-controls={menuId}
-        onClick={() => (isOpen ? onClose() : onOpen())}
-        className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:outline-none"
-      >
-        <CategoryIcon className="h-4 w-4 shrink-0" />
-        {category.title}
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          aria-hidden="true"
-        />
-      </button>
-
-      {isOpen && (
-        <div
-          id={menuId}
-          role="menu"
-          aria-label={category.title}
-          className="absolute left-0 top-full z-50 w-80 pt-2"
-        >
-          <div className="overflow-hidden rounded-xl border border-gray-700 bg-gray-900/95 p-2 shadow-2xl backdrop-blur-md">
-            {category.documents.map((doc) => {
-              const DocIcon = doc.icon;
-              return (
-                <Link
-                  key={doc.href}
-                  href={doc.href}
-                  role="menuitem"
-                  onClick={onClose}
-                  className="flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-gray-800 focus-visible:bg-gray-800 focus-visible:outline-none"
-                >
-                  <DocIcon className="mt-0.5 h-4 w-4 shrink-0 text-gray-400" aria-hidden="true" />
-                  <span className="min-w-0">
-                    <span className="block text-sm font-medium text-gray-100">{navLabel(doc)}</span>
-                    <span className="mt-0.5 block line-clamp-2 text-xs text-gray-400">
-                      {doc.description}
-                    </span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+      className={cn(
+        'w-[min(92vw,44rem)] overflow-hidden rounded-2xl border border-white/10 bg-gray-950/95 shadow-2xl shadow-black/40 backdrop-blur-xl',
+        creatable.length > 0 && 'w-[min(92vw,56rem)]',
       )}
+    >
+      <div className={cn('grid', creatable.length > 0 && 'md:grid-cols-[1fr_15rem]')}>
+        <div className="p-3">
+          <div
+            className={cn(
+              'mb-1 flex items-center gap-2 border-b px-2.5 pb-2.5',
+              category.borderColor,
+            )}
+          >
+            <CategoryIcon className="h-4 w-4 shrink-0 text-gray-400" aria-hidden="true" />
+            <span className="text-xs font-semibold tracking-wide text-gray-300 uppercase">
+              {category.title}
+            </span>
+          </div>
+          <ul className={cn('grid gap-1', category.documents.length > 2 && 'md:grid-cols-2')}>
+            {category.documents.map((doc) => (
+              <li key={doc.href}>
+                <DocumentRow doc={doc} inMenu onSelect={onSelect} />
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {creatable.length > 0 && (
+          <div className="border-t border-white/10 bg-white/[0.03] p-3 md:border-t-0 md:border-l">
+            <div className="mb-1 px-2.5 pb-2.5 text-xs font-semibold tracking-wide text-gray-300 uppercase">
+              Create
+            </div>
+            <ul className="grid gap-1">
+              {creatable.map((doc) => (
+                <li key={doc.createHref}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={doc.createHref as string}
+                      onClick={onSelect}
+                      className="group/create flex items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-sm text-gray-300 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:bg-white/[0.06] focus-visible:outline-none"
+                    >
+                      <span className="min-w-0 truncate">{navLabel(doc)}</span>
+                      <ArrowRight className="h-3.5 w-3.5 shrink-0 text-gray-500 transition-transform group-hover/create:translate-x-0.5 group-hover/create:text-gray-300" />
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
+function GitHubLink({ className }: { className?: string }) {
+  return (
+    <a
+      href={REPO_URL}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={cn(
+        'inline-flex h-9 items-center gap-2 rounded-full border border-white/15 px-3.5 text-sm font-medium text-gray-300 transition-colors hover:border-white/25 hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:outline-none',
+        className,
+      )}
+    >
+      <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+      </svg>
+      GitHub
+    </a>
+  );
+}
+
 /**
- * Site-wide top navigation: the brand, a dropdown per document category, the
+ * Site-wide top navigation: the brand, a mega menu per document category, the
  * standalone links, and the sign-in state. Rendered from the root layout so it
  * is present on every page.
  */
 export function TopNav() {
   const pathname = usePathname();
-  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [openCategory, setOpenCategory] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navRef = useRef<HTMLElement | null>(null);
+  const [openMobileCategory, setOpenMobileCategory] = useState<string | null>(null);
 
   const closeAll = useCallback(() => {
-    setOpenCategory(null);
+    setOpenCategory('');
     setMobileOpen(false);
+    setOpenMobileCategory(null);
   }, []);
 
   // A route change should never leave a menu hanging open over the new page.
@@ -116,60 +142,66 @@ export function TopNav() {
     closeAll();
   }, [pathname, closeAll]);
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeAll();
-    };
-    const onPointerDown = (event: PointerEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) closeAll();
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('pointerdown', onPointerDown);
-    };
-  }, [closeAll]);
-
   return (
     <nav
       ref={navRef}
       aria-label="Main"
       className={`fixed inset-x-0 top-0 ${TOP_NAV_Z_CLASS} border-b border-gray-800 bg-gray-900/80 backdrop-blur-md`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className={`flex ${TOP_NAV_HEIGHT_CLASS} items-center justify-between gap-4`}>
+      <nav aria-label="Main" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className={cn('flex items-center justify-between gap-4', TOP_NAV_HEIGHT_CLASS)}>
           <div className="flex min-w-0 items-center gap-6">
-            <Link href="/" className="shrink-0 text-xl font-bold text-white">
-              Rights Institute
+            <Link href="/" className="flex shrink-0 items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-violet-500">
+                <Scale className="h-4 w-4 text-white" />
+              </span>
+              <span className="text-lg font-bold tracking-tight text-white">Rights Institute</span>
             </Link>
 
-            <div className="hidden items-center gap-1 lg:flex">
-              {SITE_CATEGORIES.map((category) => (
-                <CategoryMenu
-                  key={category.title}
-                  category={category}
-                  isOpen={openCategory === category.title}
-                  onOpen={() => setOpenCategory(category.title)}
-                  onClose={() =>
-                    setOpenCategory((current) => (current === category.title ? null : current))
-                  }
-                />
-              ))}
-              {SITE_LINKS.filter((link) => link.href !== '/').map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="rounded-md px-2 py-1.5 text-sm font-medium text-gray-300 transition-colors hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            <NavigationMenu
+              viewport={false}
+              value={openCategory}
+              onValueChange={setOpenCategory}
+              className="hidden lg:flex"
+              delayDuration={100}
+            >
+              <NavigationMenuList>
+                {SITE_CATEGORIES.map((category) => (
+                  <NavigationMenuItem key={category.title} value={category.title}>
+                    <NavigationMenuTrigger className={cn(NAV_ITEM_CLASS, 'bg-transparent')} chevron={false}>
+                      {categoryNavLabel(category)}
+                      <ChevronDown
+                        className="h-3.5 w-3.5 shrink-0 text-gray-500 transition-transform duration-200 group-data-[state=open]:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="left-0 md:absolute md:w-auto">
+                      <CategoryPanel category={category} onSelect={closeAll} />
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ))}
+
+                {SITE_LINKS.filter((link) => link.href !== '/').map((link) => (
+                  <NavigationMenuItem key={link.href}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          NAV_ITEM_CLASS,
+                          pathname === link.href && 'bg-white/10 text-white',
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           <div className="flex shrink-0 items-center gap-2">
+            <GitHubLink className="hidden xl:inline-flex" />
             <div className="hidden sm:block">
               <AuthButton />
             </div>
@@ -179,27 +211,27 @@ export function TopNav() {
               aria-controls="site-nav-mobile"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               onClick={() => setMobileOpen((open) => !open)}
-              className="rounded-md p-2 text-gray-300 transition-colors hover:bg-gray-800 hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:outline-none lg:hidden"
+              className="rounded-md p-2 text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:outline-none lg:hidden"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
-      </div>
+      </nav>
 
       {mobileOpen && (
         <div
           id="site-nav-mobile"
-          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-gray-800 bg-gray-900/95 backdrop-blur-md lg:hidden"
+          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-white/10 bg-gray-950/95 backdrop-blur-xl lg:hidden"
         >
-          <div className="mx-auto max-w-7xl space-y-6 px-4 py-5 sm:px-6">
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
+          <div className="mx-auto max-w-7xl space-y-2 px-4 py-4 sm:px-6">
+            <div className="flex flex-wrap gap-x-4 gap-y-2 pb-2">
               {SITE_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={closeAll}
-                  className="text-sm font-medium text-gray-300 hover:text-white"
+                  className="rounded-full px-3 py-1.5 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -208,37 +240,52 @@ export function TopNav() {
 
             {SITE_CATEGORIES.map((category) => {
               const CategoryIcon = category.icon;
+              const expanded = openMobileCategory === category.title;
               return (
-                <div key={category.title}>
-                  <div
-                    className={`mb-2 flex items-center gap-2 border-b pb-2 ${category.borderColor}`}
+                <div key={category.title} className="rounded-xl border border-white/10">
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() =>
+                      setOpenMobileCategory((current) =>
+                        current === category.title ? null : category.title,
+                      )
+                    }
+                    className="flex w-full items-center gap-2 px-3 py-3 text-left"
                   >
                     <CategoryIcon className="h-4 w-4 shrink-0 text-gray-400" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-gray-200">{category.title}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    {category.documents.map((doc) => (
-                      <Link
-                        key={doc.href}
-                        href={doc.href}
-                        onClick={closeAll}
-                        className="rounded-md px-2 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white"
-                      >
-                        {navLabel(doc)}
-                      </Link>
-                    ))}
-                  </div>
+                    <span className="flex-1 text-sm font-semibold text-gray-200">
+                      {category.title}
+                    </span>
+                    <ChevronDown
+                      className={cn(
+                        'h-4 w-4 shrink-0 text-gray-500 transition-transform',
+                        expanded && 'rotate-180',
+                      )}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  {expanded && (
+                    <div className="grid gap-1 px-2 pb-2">
+                      {category.documents.map((doc) => (
+                        <DocumentRow key={doc.href} doc={doc} onSelect={closeAll} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
 
-            <div className="sm:hidden">
-              <AuthButton />
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <GitHubLink />
+              <div className="sm:hidden">
+                <AuthButton />
+              </div>
             </div>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
 
