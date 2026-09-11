@@ -17,6 +17,7 @@
     "./*": "./src/*"
   },
   "dependencies": {
+    "legal-terms-privacy-policy": "^0.1.0",
     "lucide-react": "^1.43.0"
   },
   "peerDependencies": {
