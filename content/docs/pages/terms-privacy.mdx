@@ -5,4 +5,17 @@ description: Legal documents.
 
 > Route: `/terms-privacy`
 
-Standard terms of service and privacy policy.
+Terms of service and privacy policy, in two presentations of the same document:
+
+- **Summary** — plain-language cards, one per topic. The default.
+- **Full text** — the long-form legal document, the same text QwkSearch, Debate
+  AI and AI Broker publish. Linkable as `/terms-privacy?view=full`.
+
+A switch at the top of the page moves between them and keeps the choice in the
+URL. The summary restates; the full text binds.
+
+Both come from the shared
+[`legal-terms-privacy-policy`](https://github.com/OpenSourceAGI/dev-tools-starter-agent/tree/master/packages/legal-terms-privacy-policy)
+package, so the clauses stay identical across every site that renders them.
+This site's names, dates and contact address are set in
+`packages/terms-privacy/src/TermsPrivacyPolicy.tsx`.

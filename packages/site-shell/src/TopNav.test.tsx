@@ -27,7 +27,7 @@ vi.mock('@rights/auth/AuthButton', () => ({
 }));
 
 const { TopNav, TOP_NAV_Z_CLASS } = await import('./TopNav');
-const { SITE_CATEGORIES, navLabel } = await import('./site-nav');
+const { SITE_CATEGORIES, SITE_LINKS, categoryNavLabel, navLabel } = await import('./site-nav');
 
 beforeEach(() => {
   document.body.innerHTML = '';
