@@ -194,6 +194,9 @@ importers:
       input-otp:
         specifier: ^1.5.0
         version: 1.5.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      legal-terms-privacy-policy:
+        specifier: ^0.1.0
+        version: 0.1.0(lucide-react@1.43.0(react@19.2.8))(react@19.2.8)
       lucide-react:
         specifier: ^1.43.0
         version: 1.43.0(react@19.2.8)
@@ -526,6 +529,9 @@ importers:
 
   packages/terms-privacy:
     dependencies:
+      legal-terms-privacy-policy:
+        specifier: ^0.1.0
+        version: 0.1.0(lucide-react@1.43.0(react@19.2.8))(react@19.2.8)
       lucide-react:
         specifier: ^1.43.0
         version: 1.43.0(react@19.2.8)
@@ -4877,6 +4883,18 @@ packages:
   kysely@0.29.5:
     resolution: {integrity: sha512-ooa+eSbBNPTo3MycPEuW5jdrxQdQwdtB3LC3h43FiXQbIry5tR0C5lDG7eealK0E4D7XjrnOP5DIUg/LyjRMYQ==}
     engines: {node: '>=22.0.0'}
+
+  legal-terms-privacy-policy@0.1.0:
+    resolution: {integrity: sha512-Sb2Y1PbC1bIcR/xfB8EzAPGqNY54/0AP8QIfAcknf7UXnO3vEG47mTK1V68wpc7WK1clOEkfn37DUSBULr3/tg==}
+    hasBin: true
+    peerDependencies:
+      lucide-react: '>=0.4.0'
+      react: '>=18'
+    peerDependenciesMeta:
+      lucide-react:
+        optional: true
+      react:
+        optional: true
 
   libsql@0.5.29:
     resolution: {integrity: sha512-8lMP8iMgiBzzoNbAPQ59qdVcj6UaE/Vnm+fiwX4doX4Narook0a4GPKWBEv+CR8a1OwbfkgL18uBfBjWdF0Fzg==}
@@ -10423,6 +10441,11 @@ snapshots:
   kleur@4.1.5: {}
 
   kysely@0.29.5: {}
+
+  legal-terms-privacy-policy@0.1.0(lucide-react@1.43.0(react@19.2.8))(react@19.2.8):
+    optionalDependencies:
+      lucide-react: 1.43.0(react@19.2.8)
+      react: 19.2.8
 
   libsql@0.5.29:
     dependencies:
