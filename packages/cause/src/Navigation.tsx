@@ -95,7 +95,7 @@ const Navigation: React.FC = () => {
   return (
     <>
       {/* Full navigation bar - only visible when not scrolled */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <nav className={`fixed top-16 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100 bg-slate-900/20 backdrop-blur-sm'
       }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -131,7 +131,7 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Floating hamburger menu - only visible when scrolled */}
-      <div className={`fixed top-4 right-4 z-50 transition-all duration-300 ${
+      <div className={`fixed top-20 right-4 z-40 transition-all duration-300 ${
         scrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}>
         <GlowWrapper glowColor="#8b5cf6" size="sm">
@@ -146,10 +146,10 @@ const Navigation: React.FC = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className={`fixed z-40 transition-all duration-300 ${
+        <div className={`fixed z-30 transition-all duration-300 ${
           scrolled 
-            ? 'top-20 right-4 w-80 bg-slate-900/90 backdrop-blur-md border border-slate-700/30 rounded-lg shadow-xl' 
-            : 'top-16 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-slate-700/30 shadow-lg'
+            ? 'top-36 right-4 w-80 bg-slate-900/90 backdrop-blur-md border border-slate-700/30 rounded-lg shadow-xl' 
+            : 'top-32 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-slate-700/30 shadow-lg'
         }`}>
           <div className="px-4 py-4 space-y-2">
             {navItems.map((item) => {

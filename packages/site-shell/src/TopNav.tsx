@@ -10,6 +10,14 @@ import { SITE_CATEGORIES, SITE_LINKS, navLabel, type SiteCategory } from './site
 /** Height of the fixed bar, mirrored by the layout's top padding. */
 export const TOP_NAV_HEIGHT_CLASS = 'h-16';
 
+/**
+ * The bar — and so every dropdown inside it — sits above page chrome. Several
+ * pages ship their own sticky header, and at a matching z-index the page wins
+ * simply by coming later in the document, which is how an open menu ended up
+ * painted over. Page headers dock at `top-16` below `z-40`; keep them there.
+ */
+export const TOP_NAV_Z_CLASS = 'z-[100]';
+
 function CategoryMenu({
   category,
   isOpen,
@@ -128,7 +136,7 @@ export function TopNav() {
     <nav
       ref={navRef}
       aria-label="Main"
-      className="fixed inset-x-0 top-0 z-50 border-b border-gray-800 bg-gray-900/80 backdrop-blur-md"
+      className={`fixed inset-x-0 top-0 ${TOP_NAV_Z_CLASS} border-b border-gray-800 bg-gray-900/80 backdrop-blur-md`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={`flex ${TOP_NAV_HEIGHT_CLASS} items-center justify-between gap-4`}>
