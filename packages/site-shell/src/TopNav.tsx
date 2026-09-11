@@ -26,63 +26,15 @@ import {
 /** Height of the fixed bar, mirrored by the layout's top padding. */
 export const TOP_NAV_HEIGHT_CLASS = 'h-16';
 
-const REPO_URL = 'https://github.com/opensourceagi/rights-institute';
-
-/** A trigger and a plain link have to read as the same control, so they share one class. */
-const NAV_ITEM_CLASS =
-  'inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-blue-400/70 focus-visible:outline-none';
-
 /**
- * One catalogue entry as a menu row: the document's own gradient carries the
- * icon, so the panel is scannable by colour before it is read.
+ * The bar — and so every dropdown inside it — sits above page chrome. Several
+ * pages ship their own sticky header, and at a matching z-index the page wins
+ * simply by coming later in the document, which is how an open menu ended up
+ * painted over. Page headers dock at `top-16` below `z-40`; keep them there.
  */
-function DocumentRow({
-  doc,
-  onSelect,
-  /** Radix's link only works inside a NavigationMenu root — the mobile drawer has none. */
-  inMenu = false,
-}: {
-  doc: SiteDocument;
-  onSelect?: () => void;
-  inMenu?: boolean;
-}) {
-  const Icon = doc.icon;
+export const TOP_NAV_Z_CLASS = 'z-[100]';
 
-  const row = (
-    <Link
-      href={doc.href}
-      onClick={onSelect}
-      className="group/row flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-white/[0.06] focus-visible:bg-white/[0.06] focus-visible:outline-none"
-    >
-      <span
-        className={cn(
-          'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br',
-          doc.gradient,
-        )}
-      >
-        <Icon className="h-5 w-5 text-white" />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-sm font-semibold text-gray-100 group-hover/row:text-white">
-          {navLabel(doc)}
-        </span>
-        {/* No `block`: line-clamp sets its own display, and the later rule wins. */}
-        <span className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-gray-400">
-          {doc.description}
-        </span>
-      </span>
-    </Link>
-  );
-
-  return inMenu ? <NavigationMenuLink asChild>{row}</NavigationMenuLink> : row;
-}
-
-/**
- * The panel behind one category trigger: the documents on the left, and — when
- * the category has anything you can author — a "Create" rail on the right, so
- * reading and making are offered side by side rather than buried in a page.
- */
-function CategoryPanel({
+function CategoryMenu({
   category,
   onSelect,
 }: {
@@ -191,10 +143,10 @@ export function TopNav() {
   }, [pathname, closeAll]);
 
   return (
-    <header
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-gray-950/80 backdrop-blur-xl',
-      )}
+    <nav
+      ref={navRef}
+      aria-label="Main"
+      className={`fixed inset-x-0 top-0 ${TOP_NAV_Z_CLASS} border-b border-gray-800 bg-gray-900/80 backdrop-blur-md`}
     >
       <nav aria-label="Main" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className={cn('flex items-center justify-between gap-4', TOP_NAV_HEIGHT_CLASS)}>

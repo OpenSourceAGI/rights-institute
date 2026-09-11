@@ -2,17 +2,21 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { env as cfEnv } from 'cloudflare:workers';
 import {
   AuthConfigError,
-  REQUIRED_AUTH_ENV,
+  RECOMMENDED_AUTH_ENV,
   authBaseURL,
+  authWarnings,
   googleClientId,
   googleCredentials,
+  hasDatabase,
   isAuthConfigured,
   missingAuthEnv,
   trustedOrigins,
 } from '@rights/auth/auth-config';
 
 const TOUCHED = [
-  ...REQUIRED_AUTH_ENV,
+  ...RECOMMENDED_AUTH_ENV,
+  'TURSO_DATABASE_URL',
+  'DB',
   'GOOGLE_CLIENT_ID',
   'NEXT_PUBLIC_GOOGLE_CLIENT_ID',
   'GOOGLE_CLIENT_SECRET',
@@ -38,23 +42,37 @@ afterEach(() => {
 });
 
 describe('missingAuthEnv', () => {
-  it('lists every required var when nothing is configured', () => {
-    expect(missingAuthEnv()).toEqual([...REQUIRED_AUTH_ENV]);
+  it('names the database when there is none, since that is the only hard requirement', () => {
+    expect(missingAuthEnv()).toEqual(['DB (D1 binding) or TURSO_DATABASE_URL']);
     expect(isAuthConfigured()).toBe(false);
   });
 
+  it('is satisfied by the D1 binding alone — no connection string needed', () => {
+    (cfEnv as Record<string, unknown>).DB = { prepare: () => ({}) };
+
+    expect(hasDatabase()).toBe(true);
+    expect(missingAuthEnv()).toEqual([]);
+    expect(isAuthConfigured()).toBe(true);
+  });
+
   it('reads the Cloudflare runtime env, not just process.env', () => {
-    cfEnv.BETTER_AUTH_SECRET = 'secret';
     cfEnv.TURSO_DATABASE_URL = 'libsql://db.turso.io';
 
     expect(missingAuthEnv()).toEqual([]);
     expect(isAuthConfigured()).toBe(true);
   });
 
-  it('reports only the vars that are actually absent', () => {
-    process.env.BETTER_AUTH_SECRET = 'secret';
+  it('does not block on a missing BETTER_AUTH_SECRET', () => {
+    // The regression this pins: gating every /api/auth/* request on the
+    // secret answered `POST /api/auth/sign-in/social` with 503 for every
+    // visitor. better-auth has its own fallback, so this is a warning.
+    cfEnv.TURSO_DATABASE_URL = 'libsql://db.turso.io';
 
-    expect(missingAuthEnv()).toEqual(['TURSO_DATABASE_URL']);
+    expect(missingAuthEnv()).toEqual([]);
+    expect(authWarnings()).toEqual(['BETTER_AUTH_SECRET']);
+
+    cfEnv.BETTER_AUTH_SECRET = 'secret';
+    expect(authWarnings()).toEqual([]);
   });
 });
 
@@ -148,5 +166,15 @@ describe('trustedOrigins', () => {
     cfEnv.NEXT_PUBLIC_APP_URL = 'not a url';
     expect(() => trustedOrigins()).not.toThrow();
     expect(trustedOrigins()).toContain('https://rights.institute');
+  });
+
+  it("adds the request's own origin, so a host unknown at build time isn't 403'd", () => {
+    const request = new Request('https://rights-institute.workers.dev/api/auth/sign-in/social', {
+      method: 'POST',
+    });
+
+    expect(trustedOrigins(request)).toContain('https://rights-institute.workers.dev');
+    // The static list still applies.
+    expect(trustedOrigins(request)).toContain('https://rights.institute');
   });
 });

@@ -94,10 +94,17 @@ export async function ensureGoogleClientId(): Promise<string> {
   return resolved;
 }
 
+/**
+ * Always same-origin. The app ships its own /api/auth routes on every
+ * deployment (rights.institute, www., *.workers.dev previews, localhost), so
+ * pinning a single baseURL makes requests from any other host cross-origin and
+ * fail the CORS preflight. `undefined` during SSR lets better-auth fall back to
+ * a relative path.
+ */
+const baseURL = typeof window !== 'undefined' ? window.location.origin : undefined;
+
 export const authClient = createAuthClient({
-  // Left to better-auth in the browser, which uses window.location.origin —
-  // correct whether the app is served from rights.institute, www., or a
-  // preview URL.
+  ...(baseURL ? { baseURL } : {}),
   plugins: [
     magicLinkClient(),
     oneTapClient({

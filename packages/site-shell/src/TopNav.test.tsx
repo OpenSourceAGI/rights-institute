@@ -26,8 +26,8 @@ vi.mock('@rights/auth/AuthButton', () => ({
   AuthButton: () => <button type="button">Sign In</button>,
 }));
 
-const { TopNav } = await import('./TopNav');
-const { SITE_CATEGORIES, SITE_LINKS, categoryNavLabel, navLabel } = await import('./site-nav');
+const { TopNav, TOP_NAV_Z_CLASS } = await import('./TopNav');
+const { SITE_CATEGORIES, navLabel } = await import('./site-nav');
 
 beforeEach(() => {
   document.body.innerHTML = '';
@@ -97,30 +97,17 @@ describe('TopNav', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('opens the mobile drawer and expands a category inside it', () => {
+  it('stacks the bar above the sticky headers pages render for themselves', () => {
     render(<TopNav />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
-
-    const category = SITE_CATEGORIES[0];
-    const trigger = screen.getAllByRole('button', {
-      name: new RegExp(categoryNavLabel(category)),
-    });
-    // The drawer's accordion trigger is the one rendered after the bar's.
-    const drawerTrigger = trigger[trigger.length - 1];
-
-    fireEvent.click(drawerTrigger);
-    expect(drawerTrigger).toHaveAttribute('aria-expanded', 'true');
-
-    for (const doc of category.documents) {
-      const hrefs = screen
-        .getAllByRole('link', { name: new RegExp(navLabel(doc)) })
-        .map((link) => link.getAttribute('href'));
-      expect(hrefs).toContain(doc.href);
-    }
+    // Page headers sit at z-40 and come later in the document, so an equal
+    // level would let them paint over an open dropdown. See TOP_NAV_Z_CLASS.
+    const level = Number(/^z-\[(\d+)\]$/.exec(TOP_NAV_Z_CLASS)?.[1]);
+    expect(level).toBeGreaterThan(50);
+    expect(screen.getByRole('navigation', { name: 'Main' })).toHaveClass(TOP_NAV_Z_CLASS);
   });
 
-  it('carries the sign-in state, a link home, and the standalone links', () => {
+  it('carries the sign-in state and a link home', () => {
     render(<TopNav />);
 
     expect(screen.getAllByRole('button', { name: 'Sign In' }).length).toBeGreaterThan(0);

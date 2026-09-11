@@ -11,10 +11,11 @@ vi.mock('@rights/auth', () => ({
 
 const { GET, POST } = await import('../app/api/auth/[...all]/route');
 
-const CONFIG_KEYS = ['BETTER_AUTH_SECRET', 'TURSO_DATABASE_URL'];
+const CONFIG_KEYS = ['BETTER_AUTH_SECRET', 'TURSO_DATABASE_URL', 'DB'];
+const MISSING_DATABASE = ['DB (D1 binding) or TURSO_DATABASE_URL'];
 
 function configure() {
-  for (const key of CONFIG_KEYS) cfEnv[key] = 'set';
+  cfEnv.TURSO_DATABASE_URL = 'libsql://db.turso.io';
 }
 
 function unconfigure() {
@@ -40,7 +41,7 @@ const getSession = () =>
 const signIn = () =>
   new Request('https://rights.institute/api/auth/sign-in/magic-link', { method: 'POST' });
 
-describe('auth route with missing configuration', () => {
+describe('auth route with no database', () => {
   it('answers a session read with a signed-out 200 instead of a 500', async () => {
     const response = await GET(getSession());
 
@@ -49,22 +50,39 @@ describe('auth route with missing configuration', () => {
     expect(handler).not.toHaveBeenCalled();
   });
 
-  it('logs which vars are missing', async () => {
+  it('logs what is missing', async () => {
     await GET(getSession());
 
     expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining('BETTER_AUTH_SECRET')
+      expect.stringContaining('TURSO_DATABASE_URL')
     );
   });
 
-  it('answers a sign-in attempt with 503 and the missing var names', async () => {
+  it('answers a sign-in attempt with 503 naming what is missing', async () => {
     const response = await POST(signIn());
 
     expect(response.status).toBe(503);
     expect(await response.json()).toMatchObject({
       error: 'auth_unavailable',
-      missing: CONFIG_KEYS,
+      missing: MISSING_DATABASE,
     });
+  });
+});
+
+describe('auth route with a database but nothing else', () => {
+  it('still delegates to better-auth rather than 503-ing the sign-in', async () => {
+    // The regression this pins: a deployment with a database but no
+    // BETTER_AUTH_SECRET answered every POST /api/auth/sign-in/social with
+    // 503, so nobody could sign in at all.
+    configure();
+    handler.mockResolvedValue(new Response('{"url":"https://accounts.google.com/..."}', { status: 200 }));
+
+    const response = await POST(
+      new Request('https://rights.institute/api/auth/sign-in/social', { method: 'POST' })
+    );
+
+    expect(handler).toHaveBeenCalledOnce();
+    expect(response.status).toBe(200);
   });
 });
 

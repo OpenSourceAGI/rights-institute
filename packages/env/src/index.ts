@@ -1,1 +1,1 @@
-export { getEnv } from './env';
+export { getEnv, getBinding } from './env';
