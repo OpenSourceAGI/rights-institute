@@ -27,7 +27,7 @@ vi.mock('@rights/auth/AuthButton', () => ({
 }));
 
 const { TopNav } = await import('./TopNav');
-const { SITE_CATEGORIES, navLabel } = await import('./site-nav');
+const { SITE_CATEGORIES, SITE_LINKS, categoryNavLabel, navLabel } = await import('./site-nav');
 
 beforeEach(() => {
   document.body.innerHTML = '';
@@ -38,7 +38,7 @@ describe('TopNav', () => {
     render(<TopNav />);
 
     for (const category of SITE_CATEGORIES) {
-      expect(screen.getByRole('button', { name: new RegExp(category.title) })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: new RegExp(categoryNavLabel(category)) })).toBeInTheDocument();
     }
   });
 
@@ -46,7 +46,7 @@ describe('TopNav', () => {
     render(<TopNav />);
 
     for (const category of SITE_CATEGORIES) {
-      expect(screen.getByRole('button', { name: new RegExp(category.title) })).toHaveAttribute(
+      expect(screen.getByRole('button', { name: new RegExp(categoryNavLabel(category)) })).toHaveAttribute(
         'aria-expanded',
         'false',
       );
@@ -57,20 +57,38 @@ describe('TopNav', () => {
     render(<TopNav />);
     const category = SITE_CATEGORIES[0];
 
-    fireEvent.click(screen.getByRole('button', { name: new RegExp(category.title) }));
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(categoryNavLabel(category)) }));
 
     for (const doc of category.documents) {
-      expect(screen.getByRole('menuitem', { name: new RegExp(navLabel(doc)) })).toHaveAttribute(
-        'href',
-        doc.href,
-      );
+      // A document with a create shortcut is linked twice under the same
+      // label — the reading link and the authoring one — so match on hrefs.
+      const hrefs = screen
+        .getAllByRole('link', { name: new RegExp(navLabel(doc)) })
+        .map((link) => link.getAttribute('href'));
+      expect(hrefs).toContain(doc.href);
+    }
+  });
+
+  it('offers a create shortcut beside any document that can be authored', () => {
+    render(<TopNav />);
+    const category = SITE_CATEGORIES.find((entry) =>
+      entry.documents.some((doc) => doc.createHref),
+    )!;
+
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(categoryNavLabel(category)) }));
+
+    for (const doc of category.documents.filter((entry) => entry.createHref)) {
+      const hrefs = screen
+        .getAllByRole('link', { name: new RegExp(navLabel(doc)) })
+        .map((link) => link.getAttribute('href'));
+      expect(hrefs).toContain(doc.createHref);
     }
   });
 
   it('closes an open menu on Escape', () => {
     render(<TopNav />);
     const category = SITE_CATEGORIES[0];
-    const trigger = screen.getByRole('button', { name: new RegExp(category.title) });
+    const trigger = screen.getByRole('button', { name: new RegExp(categoryNavLabel(category)) });
 
     fireEvent.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
@@ -79,10 +97,37 @@ describe('TopNav', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('carries the sign-in state and a link home', () => {
+  it('opens the mobile drawer and expands a category inside it', () => {
+    render(<TopNav />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+
+    const category = SITE_CATEGORIES[0];
+    const trigger = screen.getAllByRole('button', {
+      name: new RegExp(categoryNavLabel(category)),
+    });
+    // The drawer's accordion trigger is the one rendered after the bar's.
+    const drawerTrigger = trigger[trigger.length - 1];
+
+    fireEvent.click(drawerTrigger);
+    expect(drawerTrigger).toHaveAttribute('aria-expanded', 'true');
+
+    for (const doc of category.documents) {
+      const hrefs = screen
+        .getAllByRole('link', { name: new RegExp(navLabel(doc)) })
+        .map((link) => link.getAttribute('href'));
+      expect(hrefs).toContain(doc.href);
+    }
+  });
+
+  it('carries the sign-in state, a link home, and the standalone links', () => {
     render(<TopNav />);
 
     expect(screen.getAllByRole('button', { name: 'Sign In' }).length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Rights Institute' })).toHaveAttribute('href', '/');
+
+    for (const link of SITE_LINKS.filter((entry) => entry.href !== '/')) {
+      expect(screen.getByRole('link', { name: link.label })).toHaveAttribute('href', link.href);
+    }
   });
 });
