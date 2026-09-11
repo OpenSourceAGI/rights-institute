@@ -4,6 +4,15 @@ Commit counts are commits authored that month on the default branch, merge commi
 
 # MVP Phase (2026)
 
+## September 2026
+
+- Fixed sign-in returning **503** from every `/api/auth/*` endpoint: the route gated all of auth on `BETTER_AUTH_SECRET` **and** `TURSO_DATABASE_URL`, so a deployment missing either answered `POST /api/auth/sign-in/social` and `POST /api/auth/one-tap/callback` with `auth_unavailable` for every visitor. Only an unreachable database is a hard failure now; a missing secret falls back to better-auth's own and is reported as a warning.
+- Moved the database onto the **Cloudflare D1** `DB` binding (with libSQL/Turso kept as the fallback off Workers), matching the QwkSearch app. A binding ships with the deployment, so the database can no longer go missing between deploys the way a dashboard variable can.
+- Set `keep_vars: true` in `wrangler.jsonc`. Without it every `wrangler deploy` deletes plaintext Variables entered in the Cloudflare dashboard, because the config declares no `vars` of its own.
+- Made better-auth's `trustedOrigins` a function of the request, adding the origin each request was addressed to — a static list can't name `*.workers.dev` or preview hosts, whose sign-in POSTs were rejected with a 403 by the CSRF origin check.
+- Pointed the browser auth client at `window.location.origin`, so auth requests are same-origin on every host the app is served from.
+- Added the `documents` migration that the schema had outgrown, and reported `warnings` separately from `missing` in `GET /api/health`.
+
 ## June 2026 — 19 commits
 
 - Migrated Cloudflare deployment from **@opennextjs/cloudflare** to **Vinext**.

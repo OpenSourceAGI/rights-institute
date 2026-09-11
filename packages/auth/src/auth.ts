@@ -8,6 +8,8 @@ import { getEnv } from '@rights/env';
 import {
   AuthConfigError,
   authBaseURL,
+  authSecret,
+  authWarnings,
   googleCredentials,
   missingAuthEnv,
   trustedOrigins,
@@ -18,18 +20,29 @@ const APP_NAME = 'Rights Institute';
 /**
  * Build the better-auth instance from the *runtime* env.
  *
- * This used to run at module scope off `process.env`, which had two
- * problems: values only present in the Cloudflare Worker's per-request
- * runtime env were invisible, and anything that failed during construction
- * took down every route importing this module — `/api/auth/get-session`
- * included — as an opaque 500. It is now built on first use, from getEnv(),
- * only when the required vars are present; optional integrations are
+ * Built on first use, not at module scope: values that only exist in the
+ * Cloudflare Worker's per-request runtime env are invisible at module-eval
+ * time, and anything that fails during construction would otherwise take down
+ * every route importing this module.
+ *
+ * Only a missing database stops construction. Optional integrations are
  * registered only when their credentials exist, so a half-configured
- * deployment loses just that integration.
+ * deployment loses just that integration rather than the whole sign-in flow.
  */
 function createAuth() {
   const missing = missingAuthEnv();
   if (missing.length > 0) throw new AuthConfigError(missing);
+
+  for (const name of authWarnings()) {
+    if (name === 'BETTER_AUTH_SECRET') {
+      console.error(
+        '[auth] BETTER_AUTH_SECRET is not set — better-auth is falling back to its ' +
+          'built-in development secret, which is public. Sign-in works, but set a real ' +
+          'one (`openssl rand -base64 32`, then `wrangler secret put BETTER_AUTH_SECRET`). ' +
+          'Changing it later invalidates existing sessions.'
+      );
+    }
+  }
 
   const google = googleCredentials();
   if (!google) {
@@ -38,14 +51,18 @@ function createAuth() {
     );
   }
 
+  const secret = authSecret();
+
   // Undefined on purpose in production: better-auth then derives the origin
   // per request. See the authBaseURL() comment for why guessing is worse.
   const baseURL = authBaseURL();
 
   return betterAuth({
     ...(baseURL ? { baseURL } : {}),
-    secret: getEnv('BETTER_AUTH_SECRET'),
-    trustedOrigins: trustedOrigins(),
+    ...(secret ? { secret } : {}),
+    // Resolved per request so the origin the app is actually being served
+    // from is always trusted — see trustedOrigins().
+    trustedOrigins: (request: Request) => trustedOrigins(request),
     database: drizzleAdapter(db, {
       provider: 'sqlite',
       schema,
@@ -89,7 +106,7 @@ function createAuth() {
 
 let _auth: ReturnType<typeof createAuth> | null = null;
 
-/** The better-auth instance, created on first use. Throws AuthConfigError when required vars are missing. */
+/** The better-auth instance, created on first use. Throws AuthConfigError when no database is reachable. */
 export function getAuth() {
   if (!_auth) _auth = createAuth();
   return _auth;
@@ -110,6 +127,8 @@ export const auth = new Proxy({} as ReturnType<typeof createAuth>, {
 export {
   AuthConfigError,
   missingAuthEnv,
+  authWarnings,
   isAuthConfigured,
+  hasDatabase,
   googleClientId,
 } from './auth-config';

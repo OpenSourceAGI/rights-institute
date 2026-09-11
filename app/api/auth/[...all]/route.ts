@@ -6,12 +6,14 @@ import { missingAuthEnv } from '@rights/auth/auth-config';
  * better-auth catch-all.
  *
  * The auth instance is imported lazily and every failure is contained here.
- * Missing configuration — or a database the deployment can't reach — used to
- * surface as `GET /api/auth/get-session 500`, which fails the client session
- * hook on every page load. A session read now degrades to "signed out"
- * (better-auth's own no-session response: 200 with a `null` body) with the
- * real reason logged server-side, while endpoints that genuinely cannot work
- * without configuration answer 503 naming the missing vars.
+ * A session read degrades to "signed out" (better-auth's own no-session
+ * response: 200 with a `null` body) with the real reason logged server-side,
+ * so a configuration problem never fails the client session hook on every
+ * page load.
+ *
+ * Only a genuinely unreachable database answers 503. Gating on more than that
+ * is what made every visitor's `POST /api/auth/sign-in/social` a 503 on a
+ * deployment that was merely missing an optional var.
  */
 
 /** Endpoints the app polls just to learn "am I signed in?". */
