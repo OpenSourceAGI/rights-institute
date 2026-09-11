@@ -11,6 +11,8 @@ export {
   getAuth,
   AuthConfigError,
   missingAuthEnv,
+  authWarnings,
   isAuthConfigured,
+  hasDatabase,
   googleClientId,
 } from './auth';

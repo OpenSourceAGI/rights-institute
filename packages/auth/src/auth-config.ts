@@ -5,13 +5,13 @@
  * route handlers can ask "is auth configured?" without importing — and
  * therefore without risking a crash in — the auth instance itself.
  *
- * Everything here goes through getEnv(), which prefers the Cloudflare Worker
- * runtime env over build-time process.env: on Workers these values are
- * commonly set as runtime vars/secrets (`wrangler secret put NAME`, or the
- * Worker's dashboard settings), so reading them at request time means a
+ * Everything here goes through getEnv()/getBinding(), which prefer the
+ * Cloudflare Worker runtime env over build-time process.env: on Workers these
+ * values are commonly set as runtime vars/secrets (`wrangler secret put NAME`,
+ * or the Worker's dashboard settings), so reading them at request time means a
  * rotated secret takes effect without a rebuild.
  */
-import { getEnv } from '@rights/env';
+import { getBinding, getEnv } from '@rights/env';
 
 export const PROD_URL = 'https://rights.institute';
 
@@ -23,12 +23,19 @@ export const KNOWN_ORIGINS = [
   'http://localhost:9000',
 ] as const;
 
+/** The Worker binding the D1 database is attached to — see wrangler.jsonc. */
+export const D1_BINDING = 'DB';
+
 /**
- * Vars auth cannot start without. Everything else degrades gracefully: no
- * Google credentials only disables Google sign-in and the One Tap prompt, no
- * Resend key only disables magic-link delivery.
+ * Configuration auth *should* have but survives without.
+ *
+ * BETTER_AUTH_SECRET is in this list rather than the required one on purpose:
+ * better-auth falls back to its own development secret when none is set, so a
+ * deployment missing it can still sign users in. It is reported by
+ * /api/health and logged loudly at startup, because running on the fallback
+ * means cookie signatures are not secret to this deployment — set it.
  */
-export const REQUIRED_AUTH_ENV = ['BETTER_AUTH_SECRET', 'TURSO_DATABASE_URL'] as const;
+export const RECOMMENDED_AUTH_ENV = ['BETTER_AUTH_SECRET'] as const;
 
 export class AuthConfigError extends Error {
   readonly missing: string[];
@@ -36,23 +43,54 @@ export class AuthConfigError extends Error {
   constructor(missing: string[]) {
     super(
       `Auth is not configured — missing ${missing.join(', ')}. ` +
-        'Set them in .env for local dev, or on Cloudflare with ' +
-        '`wrangler secret put <NAME>` (or the Worker’s dashboard settings); ' +
-        'they are read per request, so no rebuild is needed. ' +
-        'See content/docs/environment-variables.mdx.'
+        'The database normally arrives as the `DB` D1 binding declared in ' +
+        'wrangler.jsonc; outside Workers set TURSO_DATABASE_URL in .env. ' +
+        'Other values can be set with `wrangler secret put <NAME>` (or the ' +
+        'Worker’s dashboard settings); they are read per request, so no ' +
+        'rebuild is needed. See content/docs/environment-variables.mdx.'
     );
     this.name = 'AuthConfigError';
     this.missing = missing;
   }
 }
 
-/** Names of the required auth vars that are absent from the runtime env. */
+/** True when a database is reachable — the D1 binding, or a libSQL URL. */
+export function hasDatabase(): boolean {
+  return Boolean(getBinding(D1_BINDING)) || Boolean(getEnv('TURSO_DATABASE_URL'));
+}
+
+/**
+ * What auth genuinely cannot start without.
+ *
+ * Only the database qualifies. Everything else degrades: no Google
+ * credentials disables Google sign-in and the One Tap prompt, no Resend key
+ * disables magic-link delivery, no BETTER_AUTH_SECRET falls back to
+ * better-auth's own secret. Gating the whole flow on more than this is what
+ * turned a half-configured deployment into `POST /api/auth/sign-in/social
+ * 503` for every visitor.
+ */
 export function missingAuthEnv(): string[] {
-  return REQUIRED_AUTH_ENV.filter((key) => !getEnv(key));
+  return hasDatabase() ? [] : [`${D1_BINDING} (D1 binding) or TURSO_DATABASE_URL`];
+}
+
+/** Recommended-but-absent configuration. Names only; never values. */
+export function authWarnings(): string[] {
+  return RECOMMENDED_AUTH_ENV.filter((key) => !getEnv(key));
 }
 
 export function isAuthConfigured(): boolean {
   return missingAuthEnv().length === 0;
+}
+
+/**
+ * The secret better-auth signs cookies and OAuth state with.
+ *
+ * `undefined` is passed through rather than substituted: better-auth then
+ * applies its own fallback and logs about it, which keeps a deployment
+ * signing users in instead of failing closed.
+ */
+export function authSecret(): string | undefined {
+  return getEnv('BETTER_AUTH_SECRET') || getEnv('AUTH_SECRET') || undefined;
 }
 
 /**
@@ -100,13 +138,28 @@ export function authBaseURL(): string | undefined {
   return undefined;
 }
 
+/** The origin a request was actually addressed to, or undefined if unparseable. */
+function originOfRequest(request?: Request): string | undefined {
+  if (!request?.url) return undefined;
+  try {
+    return new URL(request.url).origin;
+  } catch {
+    return undefined;
+  }
+}
+
 /**
  * Origins better-auth accepts sign-in requests and post-login redirects from.
  *
- * The configured base URL is included so a preview deployment (or a custom
- * domain set via BETTER_AUTH_URL) isn't rejected by the CSRF origin check.
+ * The request's own origin is included when one is given. A static list can
+ * only ever name hosts known at build time, so any other one — a *.workers.dev
+ * deploy, a preview URL, a dev server on a port other than 3000 — had its
+ * `POST /api/auth/sign-in/social` rejected with a 403 by better-auth's origin
+ * check. Echoing the request's own origin does not weaken CSRF protection: a
+ * cross-site request carries the attacker's `Origin` header, never this host's,
+ * so it still fails.
  */
-export function trustedOrigins(): string[] {
+export function trustedOrigins(request?: Request): string[] {
   const origins = new Set<string>(KNOWN_ORIGINS);
 
   for (const value of [getEnv('BETTER_AUTH_URL'), getEnv('NEXT_PUBLIC_APP_URL')]) {
@@ -118,6 +171,9 @@ export function trustedOrigins(): string[] {
       // origins above still apply.
     }
   }
+
+  const self = originOfRequest(request);
+  if (self) origins.add(self);
 
   return [...origins];
 }

@@ -1,7 +1,12 @@
 export const dynamic = 'force-dynamic';
 
 import { getEnv } from '@rights/env';
-import { googleCredentials, missingAuthEnv } from '@rights/auth/auth-config';
+import {
+  authWarnings,
+  googleCredentials,
+  hasDatabase,
+  missingAuthEnv,
+} from '@rights/auth/auth-config';
 
 /**
  * Deployment diagnostics: which configuration the running instance can
@@ -11,19 +16,23 @@ import { googleCredentials, missingAuthEnv } from '@rights/auth/auth-config';
  */
 export async function GET(): Promise<Response> {
   const missing = missingAuthEnv();
+  const warnings = authWarnings();
 
   const body = {
-    status: missing.length === 0 ? 'ok' : 'degraded',
+    status: missing.length === 0 ? (warnings.length === 0 ? 'ok' : 'degraded') : 'error',
     config: {
       auth: missing.length === 0,
-      database: Boolean(getEnv('TURSO_DATABASE_URL')),
+      // The D1 binding or a libSQL URL — whichever this runtime has.
+      database: hasDatabase(),
       // Via googleCredentials() so this agrees with what auth actually does,
       // including the NEXT_PUBLIC_ fallback for the client ID.
       google: googleCredentials() !== null,
       magicLinkEmail: Boolean(getEnv('AUTH_RESEND_KEY')),
     },
-    // Names of required-but-absent vars. Names only; never the values.
+    // Names of required-but-absent configuration. Names only; never values.
     missing,
+    // Set-these-too: auth still serves requests without them.
+    warnings,
   };
 
   return new Response(JSON.stringify(body), {

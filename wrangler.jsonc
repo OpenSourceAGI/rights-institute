@@ -4,9 +4,44 @@
   "main": "worker/index.ts",
   "compatibility_date": "2026-01-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // Without keep_vars, every `wrangler deploy` deletes plaintext Variables
+  // entered in the CF dashboard (GOOGLE_CLIENT_ID, BETTER_AUTH_SECRET, …)
+  // because this config defines no `vars`. Secrets survive either way. A
+  // deploy silently emptying the auth vars is what left /api/auth/* answering
+  // 503 on a Worker that had been configured by hand in the dashboard.
+  "keep_vars": true,
   "assets": {
     "directory": "dist/client",
     "binding": "ASSETS"
+  },
+  // The database arrives as a binding rather than a connection string, so it
+  // is part of the deployment itself and cannot go missing the way a var can.
+  // Migrations live with the drizzle schema — `wrangler d1 migrations apply
+  // DB --remote` applies them.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rights-db",
+      "database_id": "340c812f-9ff1-4e59-ae75-52fa989d2bf4",
+      "migrations_dir": "packages/db/drizzle"
+    }
+  ],
+  "env": {
+    "production": {
+      "keep_vars": true,
+      "assets": {
+        "directory": "dist/client",
+        "binding": "ASSETS"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "rights-db",
+          "database_id": "340c812f-9ff1-4e59-ae75-52fa989d2bf4",
+          "migrations_dir": "packages/db/drizzle"
+        }
+      ]
+    }
   },
   "observability": {
     "enabled": true

@@ -13,8 +13,8 @@ Copy `.env.example` to `.env` and fill these in.
 | `BETTER_AUTH_URL` | App base URL used by better-auth (e.g. `http://localhost:3000`). Optional in production — left unset, better-auth derives the origin from each request, which is what you want for a Worker serving several hostnames |
 | `NEXT_PUBLIC_APP_URL` | Public base URL, used as a fallback for `BETTER_AUTH_URL` |
 | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Optional build-time copy of `GOOGLE_CLIENT_ID`. Only needed for deployments that prefer inlining it; `GOOGLE_CLIENT_ID` alone is enough on Cloudflare |
-| `TURSO_DATABASE_URL` | Turso (libSQL) database URL for local/dev database access |
-| `TURSO_AUTH_TOKEN` | Turso auth token |
+| `TURSO_DATABASE_URL` | libSQL/Turso database URL — used **only** outside Cloudflare (local dev, tests). The deployed Worker gets its database from the `DB` D1 binding instead |
+| `TURSO_AUTH_TOKEN` | libSQL/Turso auth token, paired with the above |
 | `AUTH_RESEND_KEY` | [Resend](https://resend.com/api-keys) API key used to send magic-link sign-in emails |
 
 ## Google OAuth credentials
@@ -32,6 +32,25 @@ For Google One Tap, also add your local and production origins (e.g.
 JavaScript origins** — One Tap validates the origin the prompt is served
 from, separately from the OAuth redirect URIs.
 
+## The database is a binding, not a variable
+
+On Cloudflare the app reads the `DB` D1 binding declared in
+`wrangler.jsonc`. A binding is part of the deployed Worker's own
+configuration, so — unlike a connection string kept in a dashboard variable —
+it cannot go missing between deploys, and no `TURSO_*` value is needed in
+production at all.
+
+Apply the migrations (they live beside the drizzle schema, in
+`packages/db/drizzle`) before the first sign-in, or every auth request fails
+on a missing `user` table:
+
+```bash
+wrangler d1 migrations apply DB --remote
+```
+
+`TURSO_DATABASE_URL` is still the fallback for anything that is not a Worker,
+which is how local dev and the tests reach a database.
+
 ## Setting these on Cloudflare
 
 The deployed Worker does not read your local `.env`. Set each value as a
@@ -39,16 +58,20 @@ Worker secret (or as a var in the Cloudflare dashboard) and redeploy:
 
 ```bash
 wrangler secret put BETTER_AUTH_SECRET
-wrangler secret put TURSO_DATABASE_URL
-wrangler secret put TURSO_AUTH_TOKEN
 wrangler secret put GOOGLE_CLIENT_ID
 wrangler secret put GOOGLE_CLIENT_SECRET
 wrangler secret put AUTH_RESEND_KEY
 ```
 
-Everything is read per request through `lib/env.ts`'s `getEnv()` — the
+Everything is read per request through `@rights/env`'s `getEnv()` — the
 Cloudflare runtime `env` first, then `process.env` — so a rotated secret
 takes effect without a rebuild.
+
+`wrangler.jsonc` sets `keep_vars: true`. Without it, every `wrangler deploy`
+deletes plaintext **Variables** typed into the Cloudflare dashboard, because
+this config declares no `vars` of its own — so a deploy would quietly empty
+`GOOGLE_CLIENT_ID` and leave `/api/auth/*` answering 503. Secrets survive
+either way; the flag protects dashboard-entered variables.
 
 ## Checking what the deployment actually sees
 
@@ -62,14 +85,21 @@ curl -s https://rights.institute/api/health
 ```json
 {
   "status": "degraded",
-  "config": { "auth": false, "database": false, "google": false, "magicLinkEmail": false },
-  "missing": ["BETTER_AUTH_SECRET", "TURSO_DATABASE_URL"]
+  "config": { "auth": true, "database": true, "google": true, "magicLinkEmail": false },
+  "missing": [],
+  "warnings": ["BETTER_AUTH_SECRET"]
 }
 ```
 
-A `degraded` status is the first thing to check when `/api/auth/get-session`
-misbehaves — see [Authentication](/docs/authentication) for what each missing
-var disables.
+- `missing` lists what auth genuinely cannot run without — only the database
+  qualifies, and `status` is then `error`. Everything in `missing` answers
+  `/api/auth/*` with a 503.
+- `warnings` lists configuration that *should* be set but that auth serves
+  requests without; `status` is `degraded`. Sign-in still works.
+
+This is the first thing to check when `/api/auth/get-session` misbehaves —
+see [Authentication](/docs/authentication) for what each absent value
+disables.
 
 If the browser console warns
 `[auth] Google One Tap skipped — no Google client ID`, ask the running
@@ -83,8 +113,9 @@ curl -s https://rights.institute/api/client-config
 An empty value means `GOOGLE_CLIENT_ID` isn't set as a Worker var/secret.
 
 <Callout type="warn">
-  `TURSO_DATABASE_URL` is required, including in local dev. The app uses the
-  libSQL **web** client (the only one that runs on Cloudflare Workers), which
+  Off Cloudflare — local dev included — `TURSO_DATABASE_URL` is required,
+  because there is no `DB` binding to fall back to. The app uses the libSQL
+  **web** client (the only one that runs on Cloudflare Workers), which
   supports `libsql:`/`https:`/`wss:` URLs only — there is no local `file:`
   database fallback.
 </Callout>
