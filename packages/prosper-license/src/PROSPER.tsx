@@ -248,7 +248,7 @@ export default function PROSPERLicense({ sampleSlug = 'codecraft-studio' }: PROS
           }
         `}</style>
         {/* Header */}
-        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50 shadow-sm">
+        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-16 z-40 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-3">
@@ -289,7 +289,7 @@ export default function PROSPERLicense({ sampleSlug = 'codecraft-studio' }: PROS
 
         <div className="flex">
           {/* Fixed Icon Sidebar - Always Visible */}
-          <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-16 bg-white/80 backdrop-blur-md border-r border-gray-200/50 flex flex-col items-center py-6 space-y-4 z-40 shadow-sm">
+          <aside className="fixed left-0 top-32 h-[calc(100vh-8rem)] w-16 bg-white/80 backdrop-blur-md border-r border-gray-200/50 flex flex-col items-center py-6 space-y-4 z-30 shadow-sm">
             {sections.map((section) => {
               const Icon = section.icon;
               return (
@@ -313,8 +313,8 @@ export default function PROSPERLicense({ sampleSlug = 'codecraft-studio' }: PROS
 
           {/* Mobile Sidebar */}
           {sidebarOpen && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)}>
-              <div className="fixed left-0 top-0 h-full w-80 bg-white/95 backdrop-blur-md shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="lg:hidden fixed inset-0 top-16 z-40 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)}>
+              <div className="fixed left-0 top-16 h-[calc(100%-4rem)] w-80 overflow-y-auto bg-white/95 backdrop-blur-md shadow-xl" onClick={(e) => e.stopPropagation()}>
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-semibold text-gray-900">Contents</h2>

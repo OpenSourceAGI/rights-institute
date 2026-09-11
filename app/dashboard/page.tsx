@@ -339,7 +339,7 @@ function DashboardContent() {
         <SearchParamsHandler user={user} onCreateFromTemplate={handleCreateFromTemplate} />
       </Suspense>
       {/* Header */}
-      <header className="border-b border-gray-700/50 bg-gray-900/50 backdrop-blur-xl sticky top-0 z-10 shadow-xl">
+      <header className="border-b border-gray-700/50 bg-gray-900/50 backdrop-blur-xl sticky top-16 z-40 shadow-xl">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">

@@ -26,7 +26,7 @@ vi.mock('@rights/auth/AuthButton', () => ({
   AuthButton: () => <button type="button">Sign In</button>,
 }));
 
-const { TopNav } = await import('./TopNav');
+const { TopNav, TOP_NAV_Z_CLASS } = await import('./TopNav');
 const { SITE_CATEGORIES, navLabel } = await import('./site-nav');
 
 beforeEach(() => {
@@ -77,6 +77,16 @@ describe('TopNav', () => {
 
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('stacks the bar above the sticky headers pages render for themselves', () => {
+    render(<TopNav />);
+
+    // Page headers sit at z-40 and come later in the document, so an equal
+    // level would let them paint over an open dropdown. See TOP_NAV_Z_CLASS.
+    const level = Number(/^z-\[(\d+)\]$/.exec(TOP_NAV_Z_CLASS)?.[1]);
+    expect(level).toBeGreaterThan(50);
+    expect(screen.getByRole('navigation', { name: 'Main' })).toHaveClass(TOP_NAV_Z_CLASS);
   });
 
   it('carries the sign-in state and a link home', () => {
