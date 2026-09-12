@@ -26,23 +26,6 @@
       "migrations_dir": "packages/db/drizzle"
     }
   ],
-  "env": {
-    "production": {
-      "keep_vars": true,
-      "assets": {
-        "directory": "dist/client",
-        "binding": "ASSETS"
-      },
-      "d1_databases": [
-        {
-          "binding": "DB",
-          "database_name": "rights-db",
-          "database_id": "340c812f-9ff1-4e59-ae75-52fa989d2bf4",
-          "migrations_dir": "packages/db/drizzle"
-        }
-      ]
-    }
-  },
   "observability": {
     "enabled": true
   }
