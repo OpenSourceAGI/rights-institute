@@ -1,5 +1,6 @@
 <p align="center">
-    <img width="100px" src="https://i.imgur.com/yULu4VG.png /><br />
+    <img  src="https://i.imgur.com/yULu4VG.png" />
+    <br />
   <a href="https://doi.org/10.5281/zenodo.20676952"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.20676952.svg" alt="DOI"></a>
  <a href="https://deepwiki.com/opensourceagi/rights-institute"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
     <a href="https://rights.institute/docs"><img src="https://img.shields.io/badge/Docs-blue?logo=ReadTheDocs&logoColor=white" alt="Documentation" /></a>
