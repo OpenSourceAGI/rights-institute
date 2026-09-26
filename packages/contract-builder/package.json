@@ -1,0 +1,46 @@
+{
+  "name": "@rights/contract-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Contract generator: contractor, employment, NDA and co-founder agreements with live preview and signature capture.",
+  "keywords": [
+    "contracts",
+    "legal",
+    "agreements",
+    "signature",
+    "react"
+  ],
+  "homepage": "https://github.com/opensourceagi/rights-institute/tree/master/packages/contract-builder#readme",
+  "bugs": {
+    "url": "https://github.com/opensourceagi/rights-institute/issues"
+  },
+  "license": "rights.institute/prosper",
+  "author": "vtempest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceagi/rights-institute",
+    "directory": "packages/contract-builder"
+  },
+  "exports": {
+    "./*": "./src/*"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "dependencies": {
+    "lucide-react": "^1.43.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "vitest": "^5.0.0"
+  }
+}

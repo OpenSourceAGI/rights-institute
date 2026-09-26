@@ -1,5 +1,5 @@
 import React from 'react';
-import TimelineMain from '@/components/innovation-timeline/TimelineMain';
+import TimelineMain from '@rights/innovation-timeline/TimelineMain';
 
 /**
  * CREDIT Page Component

@@ -27,7 +27,7 @@
  * 
  * @example
  * ```tsx
- * import CREDIT from '@/components/credit/CREDIT';
+ * import CREDIT from '@rights/credit/CREDIT';
  * 
  * function App() {
  *   return (

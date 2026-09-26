@@ -19,6 +19,39 @@
     "jsx": "react-jsx",
     "ignoreDeprecations": "6.0",
     "paths": {
+      "@rights/contract-builder/*": [
+        "../../packages/contract-builder/src/*"
+      ],
+      "@rights/credit": [
+        "../../packages/credit/src/index.ts"
+      ],
+      "@rights/credit/*": [
+        "../../packages/credit/src/*"
+      ],
+      "@rights/innovation-timeline": [
+        "../../packages/innovation-timeline/src/index.ts"
+      ],
+      "@rights/innovation-timeline/*": [
+        "../../packages/innovation-timeline/src/*"
+      ],
+      "@rights/investor-rank": [
+        "../../packages/investor-rank/src/index.ts"
+      ],
+      "@rights/investor-rank/*": [
+        "../../packages/investor-rank/src/*"
+      ],
+      "@rights/prosper-license/*": [
+        "../../packages/prosper-license/src/*"
+      ],
+      "@rights/site-shell/*": [
+        "../../packages/site-shell/src/*"
+      ],
+      "@rights/startup-tools": [
+        "../../packages/startup-tools/src/index.ts"
+      ],
+      "@rights/startup-tools/*": [
+        "../../packages/startup-tools/src/*"
+      ],
       "@/lib/*": [
         "./lib/*"
       ],
@@ -47,6 +80,8 @@
     "components/**/*.tsx",
     "components/**/*.jsx",
     "lib/**/*.ts",
+    "../../packages/*/src/**/*.ts",
+    "../../packages/*/src/**/*.tsx",
     "next-env.d.ts",
     "out/types/**/*.ts",
     ".next/types/**/*.ts",

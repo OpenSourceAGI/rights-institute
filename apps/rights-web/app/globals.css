@@ -4,6 +4,8 @@
 @import 'fumadocs-ui/css/preset.css';
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
+/* Workspace packages live outside this app, so Tailwind won't find them on its own. */
+@source '../../../packages';
 
 body { font-family: 'Inter', sans-serif; }
 

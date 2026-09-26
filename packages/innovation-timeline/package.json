@@ -1,0 +1,46 @@
+{
+  "name": "@rights/innovation-timeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive, searchable timeline of innovation milestones.",
+  "keywords": [
+    "timeline",
+    "innovation",
+    "history",
+    "react"
+  ],
+  "homepage": "https://github.com/opensourceagi/rights-institute/tree/master/packages/innovation-timeline#readme",
+  "bugs": {
+    "url": "https://github.com/opensourceagi/rights-institute/issues"
+  },
+  "license": "rights.institute/prosper",
+  "author": "vtempest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceagi/rights-institute",
+    "directory": "packages/innovation-timeline"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "dependencies": {
+    "lucide-react": "^1.43.0",
+    "react-icons": "^5.7.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7"
+  }
+}

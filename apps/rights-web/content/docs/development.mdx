@@ -51,15 +51,15 @@ Schema lives in `lib/db/schema.ts`, migrations in `lib/db/drizzle/`.
 ## Repository layout
 
 The repo is a [Turborepo](https://turborepo.com) on a pnpm workspace. The site
-is the `apps/rights-web` app; `packages/` holds only `prosper-coin` (the
-Solidity contracts). Inside `apps/rights-web`:
+is the `apps/rights-web` app. `packages/` holds the feature packages it consumes
+(`site-shell`, `credit`, `contract-builder`, `investor-rank`,
+`innovation-timeline`, `prosper-license`, `startup-tools`), each with its own
+README, plus `prosper-coin` (the Solidity contracts). Inside `apps/rights-web`:
 
 ```
 app/                 App Router routes and API handlers
 components/          UI and feature modules
-  ui/  animations/  text-effects/  site-shell/
-  cause/  credit/  contract-builder/  investor-rank/
-  innovation-timeline/  prosper-license/  startup-tools/  terms-privacy/
+  ui/  animations/  text-effects/  cause/  terms-privacy/
 lib/                 Server-side and app-level code
   auth/  db/  env/   source.ts (the Fumadocs source loader)
 content/docs/        Markdown/MDX for this docs site
@@ -68,7 +68,8 @@ content/docs/        Markdown/MDX for this docs site
 Import them through the `@/` aliases: `@/lib/<name>` or
 `@/components/<name>` for a module's barrel (`import { auth } from '@/lib/auth'`),
 or a file path within it (`import { Button } from '@/components/ui/button'`).
-The aliases are declared in `tsconfig.json` and mirrored in `vite.config.ts`
+Workspace packages are imported as `@rights/<name>/<file>`
+(`import Footer from '@rights/site-shell/Footer'`). The aliases are declared in `tsconfig.json` and mirrored in `vite.config.ts`
 and `vitest.config.ts`.
 
 Run tasks from the repo root — `pnpm dev`, `pnpm build`, `pnpm test` — and
