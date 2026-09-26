@@ -109,7 +109,7 @@ See [`docs/development`](./apps/rights-web/content/docs/development.mdx) for the
 ## Repository Layout
 
 A [Turborepo](https://turborepo.com) on a pnpm workspace. The site is one app;
-its features live inside it as modules.
+its feature pages are workspace packages under `packages/`.
 
 ```
 apps/rights-web/          The Next.js (vinext) site, deployed to Cloudflare Workers
@@ -118,26 +118,27 @@ apps/rights-web/          The Next.js (vinext) site, deployed to Cloudflare Work
     ui/                   shadcn/ui primitives + cn()
     animations/           Canvas/WebGL backgrounds
     text-effects/         Animated text and card treatments
-    site-shell/           Top nav, hero, footer, docs MDX components
     cause/                The CAUSE document
-    credit/               CREDIT
-    contract-builder/     Contract generators
-    investor-rank/        Investor ranking
-    innovation-timeline/  Innovation timeline
-    prosper-license/      PROSPER license
-    startup-tools/        Startup tools directory
     terms-privacy/        Terms and privacy policy
   lib/                    Server-side and app-level code
     auth/                 better-auth server, client, and sign-in components
     db/                   Drizzle schema, libSQL client, migrations
     env/                  Worker-runtime-first env lookup
   content/docs/           Markdown/MDX for the docs site
-packages/
-  prosper-coin/           PROSPER token contracts (Solidity)
+packages/                 Workspace packages, each with its own README
+  site-shell/             @rights/site-shell: top nav, hero, footer, docs MDX components
+  credit/                 @rights/credit: CREDIT
+  contract-builder/       @rights/contract-builder: contract generators
+  investor-rank/          @rights/investor-rank: investor ranking
+  innovation-timeline/    @rights/innovation-timeline: innovation timeline
+  prosper-license/        @rights/prosper-license: PROSPER license
+  startup-tools/          @rights/startup-tools: startup tools directory
+  prosper-coin/           @rights/prosper-coin: PROSPER token contracts (Solidity)
 ```
 
-Modules are imported as `@/components/<name>/<file>` or `@/lib/<name>` — the
-aliases live in `apps/rights-web/tsconfig.json`. Run `pnpm dev`, `pnpm build`,
+App modules are imported as `@/components/<name>/<file>` or `@/lib/<name>`, and
+packages as `@rights/<name>/<file>`. The aliases live in
+`apps/rights-web/tsconfig.json`; see [`packages/README.md`](./packages/README.md). Run `pnpm dev`, `pnpm build`,
 and `pnpm test` from the repo root; Turborepo runs them in each app.
 
 ---

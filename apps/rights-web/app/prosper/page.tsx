@@ -47,9 +47,9 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import { codecraftStudioData } from '@/components/prosper-license/sample-data/codecraft-studio';
-import type { IndividualAuthor, Organization, LicenseConfig } from '@/components/prosper-license/prosper-license-types';
-import { licenseTypes, type LicenseType, type SampleLicense } from '@/components/prosper-license/license-types';
+import { codecraftStudioData } from '@rights/prosper-license/sample-data/codecraft-studio';
+import type { IndividualAuthor, Organization, LicenseConfig } from '@rights/prosper-license/prosper-license-types';
+import { licenseTypes, type LicenseType, type SampleLicense } from '@rights/prosper-license/license-types';
 
 // Icon mapping for dynamic icon rendering
 const iconMap: Record<string, any> = {

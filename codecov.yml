@@ -25,8 +25,8 @@ coverage:
         threshold: 5%
         informational: true
 
-# One flag per feature module of apps/rights-web, so the Codecov UI can show
-# which one a change actually moved the needle in. Kept in sync with
+# One flag per feature module, so the Codecov UI can show which one a change
+# actually moved the needle in. Kept in sync with `packages/*`,
 # `apps/rights-web/components/*` and `apps/rights-web/lib/*`.
 flag_management:
   default_rules:
@@ -44,10 +44,10 @@ flags:
       - apps/rights-web/components/cause
   contract-builder:
     paths:
-      - apps/rights-web/components/contract-builder
+      - packages/contract-builder
   credit:
     paths:
-      - apps/rights-web/components/credit
+      - packages/credit
   db:
     paths:
       - apps/rights-web/lib/db
@@ -56,22 +56,22 @@ flags:
       - apps/rights-web/lib/env
   innovation-timeline:
     paths:
-      - apps/rights-web/components/innovation-timeline
+      - packages/innovation-timeline
   investor-rank:
     paths:
-      - apps/rights-web/components/investor-rank
+      - packages/investor-rank
   prosper-coin:
     paths:
       - packages/prosper-coin
   prosper-license:
     paths:
-      - apps/rights-web/components/prosper-license
+      - packages/prosper-license
   site-shell:
     paths:
-      - apps/rights-web/components/site-shell
+      - packages/site-shell
   startup-tools:
     paths:
-      - apps/rights-web/components/startup-tools
+      - packages/startup-tools
   terms-privacy:
     paths:
       - apps/rights-web/components/terms-privacy
@@ -110,10 +110,10 @@ component_management:
         - apps/rights-web/components/cause
     - component_id: contract-builder
       paths:
-        - apps/rights-web/components/contract-builder
+        - packages/contract-builder
     - component_id: credit
       paths:
-        - apps/rights-web/components/credit
+        - packages/credit
     - component_id: db
       paths:
         - apps/rights-web/lib/db
@@ -122,22 +122,22 @@ component_management:
         - apps/rights-web/lib/env
     - component_id: innovation-timeline
       paths:
-        - apps/rights-web/components/innovation-timeline
+        - packages/innovation-timeline
     - component_id: investor-rank
       paths:
-        - apps/rights-web/components/investor-rank
+        - packages/investor-rank
     - component_id: prosper-coin
       paths:
         - packages/prosper-coin
     - component_id: prosper-license
       paths:
-        - apps/rights-web/components/prosper-license
+        - packages/prosper-license
     - component_id: site-shell
       paths:
-        - apps/rights-web/components/site-shell
+        - packages/site-shell
     - component_id: startup-tools
       paths:
-        - apps/rights-web/components/startup-tools
+        - packages/startup-tools
     - component_id: terms-privacy
       paths:
         - apps/rights-web/components/terms-privacy
@@ -171,4 +171,5 @@ ignore:
   - "apps/rights-web/app/not-found.tsx"
   - "apps/rights-web/components/*/index.ts"
   - "apps/rights-web/lib/*/index.ts"
+  - "packages/*/src/index.ts"
   - "apps/rights-web/test/**"

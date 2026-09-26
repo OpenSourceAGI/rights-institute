@@ -18,7 +18,7 @@
 
 import React, { useEffect, useState } from 'react';
 import RightsSection from '@/components/cause/Rights';
-import Footer from '@/components/site-shell/Footer';
+import Footer from '@rights/site-shell/Footer';
 import GameOfLife from '@/components/animations/GameOfLife';
 import Navigation from '@/components/cause/Navigation';
 

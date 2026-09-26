@@ -7,7 +7,7 @@ import Understandings from './Understandings';
 import Implementation from './Problems';
 import Preparation from './Preparation';
 import Conclusion from './Conclusion';
-import Footer from '@/components/site-shell/Footer';
+import Footer from '@rights/site-shell/Footer';
 import GameOfLife from '@/components/animations/GameOfLife';
 
 function CAUSEMainPage() {

@@ -1,0 +1,49 @@
+{
+  "name": "@rights/site-shell",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Site chrome shared across routes: top navigation, hero banner, footer, document navigation, and the docs MDX components.",
+  "keywords": [
+    "navigation",
+    "layout",
+    "fumadocs",
+    "mdx",
+    "react"
+  ],
+  "homepage": "https://github.com/opensourceagi/rights-institute/tree/master/packages/site-shell#readme",
+  "bugs": {
+    "url": "https://github.com/opensourceagi/rights-institute/issues"
+  },
+  "license": "rights.institute/prosper",
+  "author": "vtempest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceagi/rights-institute",
+    "directory": "packages/site-shell"
+  },
+  "exports": {
+    "./*": "./src/*"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "dependencies": {
+    "fumadocs-ui": "^16.15.8",
+    "lucide-react": "^1.43.0"
+  },
+  "peerDependencies": {
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/mdx": "^2.0.14",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "vitest": "^5.0.0"
+  }
+}

@@ -4,6 +4,7 @@ import { cloudflare } from '@cloudflare/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import { fumadocsMdx } from 'fumadocs-mdx/vite';
 import { resolve } from 'path';
+import { workspaceAliases } from './workspace-packages.ts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,6 +41,7 @@ export default defineConfig({
     alias: [
       // Specific aliases must precede the bare '@' alias — Vite matches them
       // in order, so '@' first would swallow '@/lib/*' etc.
+      ...workspaceAliases(__dirname),
       { find: /^@\/lib\/(.*)$/, replacement: `${resolve(__dirname, './lib')}/$1` },
       { find: /^@\/components\/(.*)$/, replacement: `${resolve(__dirname, './components')}/$1` },
       { find: /^@\/(.*)$/, replacement: `${resolve(__dirname, './app')}/$1` },

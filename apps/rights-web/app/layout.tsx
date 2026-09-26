@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from '@/lib/auth/AuthProvider'
 import { GoogleOneTap } from '@/lib/auth/GoogleOneTap'
-import { TopNav } from '@/components/site-shell/TopNav'
+import { TopNav } from '@rights/site-shell/TopNav'
 import { googleClientId } from '@/lib/auth/auth-config'
 
 export const metadata: Metadata = {

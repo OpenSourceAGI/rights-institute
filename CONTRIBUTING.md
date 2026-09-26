@@ -2,7 +2,7 @@
 
 Thanks for your interest in contributing! We welcome bug reports, documentation improvements, feature ideas, and pull requests.
 
-Rights Institute is a Next.js (App Router) site running on Cloudflare Workers, backed by Cloudflare D1 via Drizzle ORM, with better-auth for sign-in and Fumadocs for documentation. It's a Turborepo on a pnpm workspace: the site is `apps/rights-web`, where `app/` is routing, `components/<feature>` holds UI and feature modules, and `lib/` holds `auth`, `db`, and `env`.
+Rights Institute is a Next.js (App Router) site running on Cloudflare Workers, backed by Cloudflare D1 via Drizzle ORM, with better-auth for sign-in and Fumadocs for documentation. It's a Turborepo on a pnpm workspace: the site is `apps/rights-web`, where `app/` is routing, `components/` holds UI primitives and site modules, and `lib/` holds `auth`, `db`, and `env`. Feature pages are workspace packages under `packages/` (`@rights/<name>`), each with its own README.
 
 ## Before You Start
 
@@ -80,7 +80,7 @@ pnpm run preview             # production build, served locally
 ## Making Changes
 
 - Keep changes focused; avoid unrelated refactors in the same pull request.
-- Match the existing code style, naming conventions, and project architecture: routing stays in `app/`, feature logic lives in its own module under `components/` or `lib/`.
+- Match the existing code style, naming conventions, and project architecture: routing stays in `app/`, feature logic lives in its own module under `components/` or `lib/`, or in its own package under `packages/`.
 - Use Tailwind and the existing shadcn/ui primitives rather than introducing a second styling approach.
 - Add or update tests for behavior changes and bug fixes.
 - Update documentation under `content/docs/` when behavior, routes, or configuration change — the docs site is built from those MDX files.
