@@ -2,7 +2,7 @@
 #
 # Coverage is produced by `pnpm run test:coverage` (Vitest, v8 provider) and
 # uploaded by `.github/workflows/ci.yml`. The `include`/`exclude` set that
-# decides which files are measured lives in `vitest.config.ts`; this file only
+# decides which files are measured lives in `apps/rights-web/vitest.config.ts`; this file only
 # decides how Codecov reports on them.
 
 codecov:
@@ -25,9 +25,9 @@ coverage:
         threshold: 5%
         informational: true
 
-# One flag per workspace package, so the Codecov UI can show which package a
-# change actually moved the needle in. Kept in sync with `packages/*` and with
-# WORKSPACE_PACKAGES in `workspace-aliases.ts`.
+# One flag per feature module of apps/rights-web, so the Codecov UI can show
+# which one a change actually moved the needle in. Kept in sync with
+# `apps/rights-web/components/*` and `apps/rights-web/lib/*`.
 flag_management:
   default_rules:
     carryforward: true
@@ -35,58 +35,58 @@ flag_management:
 flags:
   animations:
     paths:
-      - packages/animations/src
+      - apps/rights-web/components/animations
   auth:
     paths:
-      - packages/auth/src
+      - apps/rights-web/lib/auth
   cause:
     paths:
-      - packages/cause/src
+      - apps/rights-web/components/cause
   contract-builder:
     paths:
-      - packages/contract-builder/src
+      - apps/rights-web/components/contract-builder
   credit:
     paths:
-      - packages/credit/src
+      - apps/rights-web/components/credit
   db:
     paths:
-      - packages/db/src
+      - apps/rights-web/lib/db
   env:
     paths:
-      - packages/env/src
+      - apps/rights-web/lib/env
   innovation-timeline:
     paths:
-      - packages/innovation-timeline/src
+      - apps/rights-web/components/innovation-timeline
   investor-rank:
     paths:
-      - packages/investor-rank/src
+      - apps/rights-web/components/investor-rank
   prosper-coin:
     paths:
-      - packages/prosper-coin/src
+      - packages/prosper-coin
   prosper-license:
     paths:
-      - packages/prosper-license/src
+      - apps/rights-web/components/prosper-license
   site-shell:
     paths:
-      - packages/site-shell/src
+      - apps/rights-web/components/site-shell
   startup-tools:
     paths:
-      - packages/startup-tools/src
+      - apps/rights-web/components/startup-tools
   terms-privacy:
     paths:
-      - packages/terms-privacy/src
+      - apps/rights-web/components/terms-privacy
   text-effects:
     paths:
-      - packages/text-effects/src
+      - apps/rights-web/components/text-effects
   ui:
     paths:
-      - packages/ui/src
+      - apps/rights-web/components/ui
   app:
     paths:
-      - app
+      - apps/rights-web/app
   lib:
     paths:
-      - lib
+      - apps/rights-web/lib
 
 # Components mirror the flags above so the "components" section of the PR
 # comment (below) has something to render, and so each package gets its own
@@ -101,73 +101,74 @@ component_management:
   individual_components:
     - component_id: animations
       paths:
-        - packages/animations/src
+        - apps/rights-web/components/animations
     - component_id: auth
       paths:
-        - packages/auth/src
+        - apps/rights-web/lib/auth
     - component_id: cause
       paths:
-        - packages/cause/src
+        - apps/rights-web/components/cause
     - component_id: contract-builder
       paths:
-        - packages/contract-builder/src
+        - apps/rights-web/components/contract-builder
     - component_id: credit
       paths:
-        - packages/credit/src
+        - apps/rights-web/components/credit
     - component_id: db
       paths:
-        - packages/db/src
+        - apps/rights-web/lib/db
     - component_id: env
       paths:
-        - packages/env/src
+        - apps/rights-web/lib/env
     - component_id: innovation-timeline
       paths:
-        - packages/innovation-timeline/src
+        - apps/rights-web/components/innovation-timeline
     - component_id: investor-rank
       paths:
-        - packages/investor-rank/src
+        - apps/rights-web/components/investor-rank
     - component_id: prosper-coin
       paths:
-        - packages/prosper-coin/src
+        - packages/prosper-coin
     - component_id: prosper-license
       paths:
-        - packages/prosper-license/src
+        - apps/rights-web/components/prosper-license
     - component_id: site-shell
       paths:
-        - packages/site-shell/src
+        - apps/rights-web/components/site-shell
     - component_id: startup-tools
       paths:
-        - packages/startup-tools/src
+        - apps/rights-web/components/startup-tools
     - component_id: terms-privacy
       paths:
-        - packages/terms-privacy/src
+        - apps/rights-web/components/terms-privacy
     - component_id: text-effects
       paths:
-        - packages/text-effects/src
+        - apps/rights-web/components/text-effects
     - component_id: ui
       paths:
-        - packages/ui/src
+        - apps/rights-web/components/ui
     - component_id: app
       paths:
-        - app
+        - apps/rights-web/app
     - component_id: lib
       paths:
-        - lib
+        - apps/rights-web/lib
 
 comment:
   layout: "header, diff, flags, components, files, footer"
   behavior: default
   require_changes: false
 
-# Mirrors vitest.config.ts's coverage.exclude, so the two do not disagree about
+# Mirrors apps/rights-web/vitest.config.ts's coverage.exclude, so the two do not disagree about
 # what counts. Route shells and the re-export barrels carry no logic to cover.
 ignore:
   - "**/*.test.{ts,tsx}"
   - "**/*.d.ts"
   - "**/node_modules/**"
-  - "app/**/page.tsx"
-  - "app/**/layout.tsx"
-  - "app/error.tsx"
-  - "app/not-found.tsx"
-  - "packages/*/src/index.ts"
-  - "test/**"
+  - "apps/rights-web/app/**/page.tsx"
+  - "apps/rights-web/app/**/layout.tsx"
+  - "apps/rights-web/app/error.tsx"
+  - "apps/rights-web/app/not-found.tsx"
+  - "apps/rights-web/components/*/index.ts"
+  - "apps/rights-web/lib/*/index.ts"
+  - "apps/rights-web/test/**"

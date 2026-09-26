@@ -1,0 +1,33 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalEnv": ["NODE_ENV"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!.env*", "../../packages/*/src/**"],
+      "outputs": ["dist/**", ".source/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "cache": false,
+      "persistent": true
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "test": {
+      "inputs": ["$TURBO_DEFAULT$", "../../packages/*/src/**"]
+    },
+    "test:coverage": {
+      "inputs": ["$TURBO_DEFAULT$", "../../packages/*/src/**"],
+      "outputs": ["coverage/**"]
+    },
+    "typecheck": {
+      "inputs": ["$TURBO_DEFAULT$", "../../packages/*/src/**"]
+    }
+  }
+}
