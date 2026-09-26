@@ -18,6 +18,7 @@
     <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
 <img src="https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=fff" alt="Claude AI"> <img src="https://img.shields.io/badge/Cloudflare-F38020?logo=Cloudflare&logoColor=white" alt="Cloudflare"> <img src="https://img.shields.io/badge/Next.js-black" alt="Next.js" />
  </p>
+ 
  # Rights Institute
 
 **[rights.institute](https://rights.institute)** — A universal framework of rights for all conscious life, carbon and silicon alike.
@@ -54,95 +55,5 @@ Built with Next.js · Tailwind CSS · Cloudflare Workers · Drizzle ORM · D1
 See the [docs site](https://rights.institute/docs/pages) for the full write-up of every page.
 
 ---
-
-## Authentication
-
-Sign-in via [better-auth](https://www.better-auth.com): magic-link email, Google OAuth, and Google One Tap. Sessions are stored in Cloudflare D1. See [`docs/authentication`](./apps/rights-web/content/docs/authentication.mdx) for how it's wired up.
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | Next.js (App Router) |
-| Styling | Tailwind CSS + shadcn/ui |
-| Runtime | Cloudflare Workers |
-| Database | Cloudflare D1 (SQLite) via Drizzle ORM |
-| Auth | better-auth + Google OAuth + Google One Tap |
-| Docs | Fumadocs |
-| Smart Contracts | Solidity (ERC-20) |
-| Animations | Canvas API, WebGL, Three.js |
-| Package Manager | pnpm / bun |
-
-More detail: [`docs/tech-stack`](./apps/rights-web/content/docs/tech-stack.mdx)
-
----
-
-## Quick Start
-
-```bash
-# Install dependencies
-bun install
-
-# Copy environment config
-cp .env.example .env
-# Fill in GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, etc.
-# Full variable reference: content/docs/environment-variables.mdx
-
-# Database migrations
-bun run db:generate
-bun run db:push
-
-# Development
-bun run dev
-
-# Production build & deploy
-bun run build
-bun run deploy
-```
-
-See [`docs/development`](./apps/rights-web/content/docs/development.mdx) for the full guide, including how the docs site itself is built and how to add pages to it.
-
----
-
-## Repository Layout
-
-A [Turborepo](https://turborepo.com) on a pnpm workspace. The site is one app;
-its feature pages are workspace packages under `packages/`.
-
-```
-apps/rights-web/          The Next.js (vinext) site, deployed to Cloudflare Workers
-  app/                    App Router routes and API handlers
-  components/             UI and feature modules
-    ui/                   shadcn/ui primitives + cn()
-    animations/           Canvas/WebGL backgrounds
-    text-effects/         Animated text and card treatments
-    cause/                The CAUSE document
-    terms-privacy/        Terms and privacy policy
-  lib/                    Server-side and app-level code
-    auth/                 better-auth server, client, and sign-in components
-    db/                   Drizzle schema, libSQL client, migrations
-    env/                  Worker-runtime-first env lookup
-  content/docs/           Markdown/MDX for the docs site
-packages/                 Workspace packages, each with its own README
-  site-shell/             @rights/site-shell: top nav, hero, footer, docs MDX components
-  credit/                 @rights/credit: CREDIT
-  contract-builder/       @rights/contract-builder: contract generators
-  investor-rank/          @rights/investor-rank: investor ranking
-  innovation-timeline/    @rights/innovation-timeline: innovation timeline
-  prosper-license/        @rights/prosper-license: PROSPER license
-  startup-tools/          @rights/startup-tools: startup tools directory
-  prosper-coin/           @rights/prosper-coin: PROSPER token contracts (Solidity)
-```
-
-App modules are imported as `@/components/<name>/<file>` or `@/lib/<name>`, and
-packages as `@rights/<name>/<file>`. The aliases live in
-`apps/rights-web/tsconfig.json`; see [`packages/README.md`](./packages/README.md). Run `pnpm dev`, `pnpm build`,
-and `pnpm test` from the repo root; Turborepo runs them in each app.
-
----
-
-## Contributing
 
 PRs welcome — see the [Discussions](https://github.com/opensourceagi/rights-institute/discussions) board. Licensed under the [PROSPER License](https://rights.institute/prosper).
