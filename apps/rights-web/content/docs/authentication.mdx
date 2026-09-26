@@ -1,0 +1,218 @@
+---
+title: Authentication
+description: How sign-in, Google OAuth, and Google One Tap are wired up with better-auth.
+---
+
+Authentication is handled by [better-auth](https://www.better-auth.com),
+backed by Drizzle ORM. The database is the `DB` Cloudflare D1 binding when
+running as a Worker, and libSQL/Turso otherwise. There are three ways to
+sign in:
+
+1. **Magic link** — a one-time sign-in link emailed via [Resend](https://resend.com).
+2. **Google OAuth** — the standard "Sign in with Google" redirect flow.
+3. **Google One Tap** — the Google-branded prompt that appears automatically
+   for signed-out visitors, without a click.
+
+## Server setup
+
+`lib/auth/auth.ts` configures `betterAuth()` with the Drizzle adapter, the Google
+social provider, and three plugins:
+
+```ts
+plugins: [
+  oneTap({ clientId }), // exposes POST /api/auth/one-tap/callback
+  openAPI(),
+  magicLink({ /* ... */ }),
+]
+```
+
+The `oneTap()` plugin adds a dedicated endpoint that verifies the Google ID
+token server-side (via Google's JWKS) and creates a session — it is separate
+from, and not interchangeable with, the regular `signIn.social` OAuth
+endpoint.
+
+## Client setup
+
+`lib/auth/auth-client.ts` registers the matching `oneTapClient` plugin, which
+knows how to talk to that endpoint. The one thing it needs up front is the
+Google client ID — and getting that into the browser correctly is the part
+worth understanding.
+
+### Getting the client ID into the browser
+
+`oneTapClient` needs the Google client ID before it can call
+`google.accounts.id.initialize`. Getting it there is the part worth
+understanding, because the obvious answers both fail on Cloudflare.
+
+`NEXT_PUBLIC_GOOGLE_CLIENT_ID` is inlined at **build time**. That works only
+if the build has the value — but this app deploys to Cloudflare Workers,
+where env vars are just as commonly runtime vars/secrets (dashboard, or
+`wrangler secret put`) that the Worker only sees per request, long after the
+bundle was built. (vinext also does not currently inline `NEXT_PUBLIC_*`
+into the client bundle at all.)
+
+Reading it once per request in the root layout and serializing it into a
+`<script type="application/json">` tag doesn't work on its own either, which
+is what made One Tap silently never appear: the layout is *prerendered* on
+statically-generated routes, so the tag is baked at build time — with an
+empty string — and the value never changes at runtime.
+
+So three sources are tried, cheapest first:
+
+1. **`<script id="google-client-id">`** in the root layout. Free when the
+   layout was rendered per request.
+2. **`NEXT_PUBLIC_GOOGLE_CLIENT_ID`**, for deployments that do have the
+   value at build time.
+3. **`GET /api/client-config`**, an explicitly dynamic route that reads the
+   Worker's runtime env. Always correct, costs one request, and is only
+   reached when the two free sources came up empty.
+
+A Google OAuth client ID is public — it appears in every OAuth redirect and
+in the GSI script — so serving it from an endpoint discloses nothing. The
+client *secret* never leaves the server.
+
+```ts
+export const authClient = createAuthClient({
+  plugins: [
+    magicLinkClient(),
+    oneTapClient({
+      // A getter, not a value: better-auth reads `options.clientId` when the
+      // prompt is requested, so a client ID that arrives from source 3 a
+      // moment later still reaches Google. Reading it eagerly at
+      // `createAuthClient()` time was the other half of the bug.
+      get clientId() {
+        return cachedClientId || googleClientId();
+      },
+      autoSelect: false,
+      cancelOnTapOutside: true,
+      context: 'signin',
+      // Google Identity Services defaults the prompt to FedCM, which
+      // declines to render in a lot of ordinary situations and hides the
+      // reason from `onPromptNotification`. The classic prompt is what
+      // actually displays.
+      promptOptions: { fedCM: false },
+      additionalOptions: { use_fedcm_for_prompt: false },
+    }),
+  ],
+});
+```
+
+`oneTapClient` then handles loading the Google Identity Services script,
+calling `google.accounts.id.initialize`/`prompt`, exponential-backoff
+retries, and POSTing the resulting ID token to `/api/auth/one-tap/callback`
+— none of that needs to be hand-rolled.
+
+`lib/auth/GoogleOneTap.tsx` is a tiny client component mounted in
+the root layout that triggers the prompt once per page load, but only after
+the current session has resolved, only if the visitor isn't already signed
+in, and only once a client ID has actually been resolved:
+
+```tsx
+useEffect(() => {
+  if (isPending) return;   // wait until the session is known
+  if (session) return;     // already signed in
+  (async () => {
+    const clientId = await ensureGoogleClientId();
+    if (!clientId) return; // Google isn't configured on this deployment
+    await authClient.oneTap({ callbackURL: '/dashboard' });
+  })();
+}, [isPending, session]);
+```
+
+If One Tap never appears and the console carries
+`[auth] Google One Tap skipped — no Google client ID`, no source had it.
+Check what the running deployment can see:
+
+```bash
+curl -s https://rights.institute/api/client-config
+# {"googleClientId":"…apps.googleusercontent.com"}
+```
+
+An empty value there means `GOOGLE_CLIENT_ID` genuinely isn't set as a
+Cloudflare Worker var/secret (or in `.env` locally).
+
+### The base URL, and why Google OAuth was rejecting sign-ins
+
+better-auth builds the Google `redirect_uri` as
+`${baseURL}/api/auth/callback/google`, so the base URL has to match what is
+registered in the Google Cloud Console. `authBaseURL()` in
+`lib/auth/auth-config.ts` resolves it:
+
+```ts
+const explicit = getEnv('BETTER_AUTH_URL') || getEnv('NEXT_PUBLIC_APP_URL');
+if (explicit) return explicit;
+
+const nodeEnv = getEnv('NODE_ENV');
+if (nodeEnv === 'development' || nodeEnv === 'test') return 'http://localhost:3000';
+
+return undefined; // better-auth derives the origin from the request
+```
+
+Returning `undefined` is deliberate and is the normal case in production:
+better-auth then takes the origin from the incoming request, which is the
+only correct answer for a Worker that answers on `rights.institute`,
+`www.rights.institute` and `*.workers.dev` preview URLs alike.
+
+This replaced a `NODE_ENV === 'production' ? PROD_URL : 'http://localhost:3000'`
+fallback that broke Google sign-in outright. `getEnv('NODE_ENV')` reads
+`process.env` through a computed key, which no bundler can inline, and
+Workers don't set `NODE_ENV` in the runtime env — so the check read
+`undefined` in production, pinned the base URL to `http://localhost:3000`,
+and every Google sign-in asked Google for a localhost `redirect_uri`, which
+it rejects as `redirect_uri_mismatch`.
+
+`trustedOrigins` is a **function of the request**, not a fixed list. It
+covers the apex, `www`, localhost and whatever `BETTER_AUTH_URL` /
+`NEXT_PUBLIC_APP_URL` names — and then adds the origin the request was
+actually addressed to. A static list can only name hosts known at build
+time, so any other one (a `*.workers.dev` deploy, a preview URL, a dev
+server on a port other than 3000) had its `POST /api/auth/sign-in/social`
+turned away with a 403 by better-auth's CSRF origin check. Echoing the
+request's own origin doesn't weaken that check: a cross-site request carries
+the attacker's `Origin` header, never this host's, so it still fails.
+
+## Regular "Sign in with Google" button
+
+The `/login` page also offers a plain button that calls
+`authClient.signIn.social({ provider: 'google', callbackURL: '/dashboard' })`
+— a normal OAuth redirect, unrelated to One Tap. Both flows land the user in
+the same `session` table.
+
+## Required setup
+
+Google One Tap validates the page **origin**, separate from OAuth redirect
+URIs — see [Environment Variables](/docs/environment-variables) for the
+exact Google Cloud Console settings you need (Authorized JavaScript origins
+in addition to the OAuth callback URLs).
+
+## When configuration is missing
+
+Auth is built lazily, from the runtime env, on the first request that needs
+it — not at module import — and each piece degrades on its own:
+
+| Missing | Effect |
+|---|---|
+| A database — the `DB` D1 binding, or `TURSO_DATABASE_URL` off Workers | The only hard requirement. Session reads answer `200 null` (signed out) and every other `/api/auth/*` endpoint answers `503 {"error":"auth_unavailable","missing":[…]}` |
+| `BETTER_AUTH_SECRET` | Sign-in still works — better-auth falls back to its own built-in secret, which is public — but cookie signatures are then not secret to this deployment. Logged as an error and reported in `/api/health`'s `warnings`. Setting it later invalidates existing sessions |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in and One Tap are skipped; magic-link sign-in still works |
+| `AUTH_RESEND_KEY` | Magic-link emails aren't sent (the link is logged instead) |
+
+Only the first row answers 503. Gating the whole flow on the other rows is
+what made `POST /api/auth/sign-in/social` and
+`POST /api/auth/one-tap/callback` return 503 to every visitor on a
+deployment that was merely missing an optional value.
+
+The signed-out fallback is deliberate. `GET /api/auth/get-session` runs on
+every page load, so answering it with a 500 breaks the session hook and
+takes the whole page down with it; answering "signed out" keeps the site
+usable while the real reason is logged server-side (`wrangler tail`) as
+`[auth] … auth is not configured, missing: …`.
+
+To check what the *running* deployment can see without reading logs:
+
+```bash
+curl -s https://rights.institute/api/health
+# {"status":"degraded","config":{"auth":true,…},"missing":[],"warnings":["BETTER_AUTH_SECRET"]}
+```
+
+It reports presence only, never values.

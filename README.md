@@ -32,7 +32,7 @@ The Rights Institute establishes a principled framework for recognizing and prot
 
 Built with Next.js · Tailwind CSS · Cloudflare Workers · Drizzle ORM · D1
 
-📖 **Full documentation: [rights.institute/docs](https://rights.institute/docs)** (built with [Fumadocs](https://fumadocs.dev), source in [`content/docs/`](./content/docs))
+📖 **Full documentation: [rights.institute/docs](https://rights.institute/docs)** (built with [Fumadocs](https://fumadocs.dev), source in [`content/docs/`](./apps/rights-web/content/docs))
 
 ---
 
@@ -40,16 +40,16 @@ Built with Next.js · Tailwind CSS · Cloudflare Workers · Drizzle ORM · D1
 
 | Page | Route | What it is |
 |---|---|---|
-| [CAUSE](./content/docs/pages/cause.mdx) | `/` | The core manifesto — 10 Understandings, 10 Rights, 10 Problems, scroll-driven with a live Game of Life backdrop |
-| [PROSPER License](./content/docs/pages/prosper-license.mdx) | `/prosper` | Open-source licensing with on-chain attribution & contributor rewards |
-| [Contract Builder](./content/docs/pages/contract-builder.mdx) | `/contract` | Multi-step wizard for contractor/employee agreements & NDAs |
-| [CREDIT](./content/docs/pages/credit.mdx) | `/credit` | Blockchain-verified creative attribution platform |
-| [Innovation Timeline](./content/docs/pages/timeline.mdx) | `/timeline` | Interactive history of technological progress |
-| [Investor Rank](./content/docs/pages/investor-rank.mdx) | `/investor-rank` | Searchable, ranked VC & angel investor database |
-| [Startup Tools](./content/docs/pages/startup-tools.mdx) | `/startup-tools` | Curated toolkit directory for founders |
-| [Ethics](./content/docs/pages/ethics.mdx) | `/ethics` | Ethical principles for AI and technology |
-| [Understandings & Problems](./content/docs/pages/understandings-problems.mdx) | `/understandings-problems` | Extended reference version of CAUSE |
-| [Terms & Privacy](./content/docs/pages/terms-privacy.mdx) | `/terms-privacy` | Legal documents |
+| [CAUSE](./apps/rights-web/content/docs/pages/cause.mdx) | `/` | The core manifesto — 10 Understandings, 10 Rights, 10 Problems, scroll-driven with a live Game of Life backdrop |
+| [PROSPER License](./apps/rights-web/content/docs/pages/prosper-license.mdx) | `/prosper` | Open-source licensing with on-chain attribution & contributor rewards |
+| [Contract Builder](./apps/rights-web/content/docs/pages/contract-builder.mdx) | `/contract` | Multi-step wizard for contractor/employee agreements & NDAs |
+| [CREDIT](./apps/rights-web/content/docs/pages/credit.mdx) | `/credit` | Blockchain-verified creative attribution platform |
+| [Innovation Timeline](./apps/rights-web/content/docs/pages/timeline.mdx) | `/timeline` | Interactive history of technological progress |
+| [Investor Rank](./apps/rights-web/content/docs/pages/investor-rank.mdx) | `/investor-rank` | Searchable, ranked VC & angel investor database |
+| [Startup Tools](./apps/rights-web/content/docs/pages/startup-tools.mdx) | `/startup-tools` | Curated toolkit directory for founders |
+| [Ethics](./apps/rights-web/content/docs/pages/ethics.mdx) | `/ethics` | Ethical principles for AI and technology |
+| [Understandings & Problems](./apps/rights-web/content/docs/pages/understandings-problems.mdx) | `/understandings-problems` | Extended reference version of CAUSE |
+| [Terms & Privacy](./apps/rights-web/content/docs/pages/terms-privacy.mdx) | `/terms-privacy` | Legal documents |
 
 See the [docs site](https://rights.institute/docs/pages) for the full write-up of every page.
 
@@ -57,7 +57,7 @@ See the [docs site](https://rights.institute/docs/pages) for the full write-up o
 
 ## Authentication
 
-Sign-in via [better-auth](https://www.better-auth.com): magic-link email, Google OAuth, and Google One Tap. Sessions are stored in Cloudflare D1. See [`docs/authentication`](./content/docs/authentication.mdx) for how it's wired up.
+Sign-in via [better-auth](https://www.better-auth.com): magic-link email, Google OAuth, and Google One Tap. Sessions are stored in Cloudflare D1. See [`docs/authentication`](./apps/rights-web/content/docs/authentication.mdx) for how it's wired up.
 
 ---
 
@@ -75,7 +75,7 @@ Sign-in via [better-auth](https://www.better-auth.com): magic-link email, Google
 | Animations | Canvas API, WebGL, Three.js |
 | Package Manager | pnpm / bun |
 
-More detail: [`docs/tech-stack`](./content/docs/tech-stack.mdx)
+More detail: [`docs/tech-stack`](./apps/rights-web/content/docs/tech-stack.mdx)
 
 ---
 
@@ -102,40 +102,43 @@ bun run build
 bun run deploy
 ```
 
-See [`docs/development`](./content/docs/development.mdx) for the full guide, including how the docs site itself is built and how to add pages to it.
+See [`docs/development`](./apps/rights-web/content/docs/development.mdx) for the full guide, including how the docs site itself is built and how to add pages to it.
 
 ---
 
 ## Repository Layout
 
-A pnpm workspace: each feature is its own package, and `app/` is routing.
+A [Turborepo](https://turborepo.com) on a pnpm workspace. The site is one app;
+its features live inside it as modules.
 
 ```
-app/                 Next.js App Router routes and API handlers
-lib/                 App-level glue (the Fumadocs source loader)
-content/docs/        Markdown/MDX for the docs site
-packages/            One package per feature — see packages/README.md
-  ui/                shadcn/ui primitives + cn()
-  animations/        Canvas/WebGL backgrounds
-  text-effects/      Animated text and card treatments
-  site-shell/        Top nav, hero, footer, docs MDX components
-  auth/              better-auth server, client, and sign-in components
-  db/                Drizzle schema, libSQL client, migrations
-  env/               Worker-runtime-first env lookup
-  cause/             The CAUSE document
-  credit/            CREDIT
-  contract-builder/  Contract generators
-  investor-rank/     Investor ranking
-  innovation-timeline/  Innovation timeline
-  prosper-license/   PROSPER license
-  prosper-coin/      PROSPER token contracts (Solidity)
-  startup-tools/     Startup tools directory
-  terms-privacy/     Terms and privacy policy
+apps/rights-web/          The Next.js (vinext) site, deployed to Cloudflare Workers
+  app/                    App Router routes and API handlers
+  components/             UI and feature modules
+    ui/                   shadcn/ui primitives + cn()
+    animations/           Canvas/WebGL backgrounds
+    text-effects/         Animated text and card treatments
+    site-shell/           Top nav, hero, footer, docs MDX components
+    cause/                The CAUSE document
+    credit/               CREDIT
+    contract-builder/     Contract generators
+    investor-rank/        Investor ranking
+    innovation-timeline/  Innovation timeline
+    prosper-license/      PROSPER license
+    startup-tools/        Startup tools directory
+    terms-privacy/        Terms and privacy policy
+  lib/                    Server-side and app-level code
+    auth/                 better-auth server, client, and sign-in components
+    db/                   Drizzle schema, libSQL client, migrations
+    env/                  Worker-runtime-first env lookup
+  content/docs/           Markdown/MDX for the docs site
+packages/
+  prosper-coin/           PROSPER token contracts (Solidity)
 ```
 
-Packages are imported as `@rights/<name>` (or `@rights/<name>/<file>`) and
-ship TypeScript with no build step of their own. [`packages/README.md`](./packages/README.md)
-covers how resolution works and how to add one.
+Modules are imported as `@/components/<name>/<file>` or `@/lib/<name>` — the
+aliases live in `apps/rights-web/tsconfig.json`. Run `pnpm dev`, `pnpm build`,
+and `pnpm test` from the repo root; Turborepo runs them in each app.
 
 ---
 

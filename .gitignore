@@ -22,10 +22,10 @@ coverage
 .vscode
 # Editor directories and files
 .vscode/*
-.out/*
-.next/*
-.vinext/*
-.wrangler/*
+.out/
+.next/
+.vinext/
+.wrangler/
 !.vscode/extensions.json
 # Fumadocs generated content cache
 .source
@@ -38,3 +38,5 @@ coverage
 *.sw?
 .env
 wrangler.toml
+# Turborepo
+.turbo
