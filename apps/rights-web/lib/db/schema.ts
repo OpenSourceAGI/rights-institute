@@ -198,3 +198,89 @@ export const documents = sqliteTable('documents', {
     .notNull()
     .default(sql`(unixepoch())`),
 });
+
+/**
+ * Agreements a job seeker drafts and an employer finishes over an invite link.
+ *
+ * Neither party needs an account: `inviteToken` is the employer's capability
+ * and `seekerToken` the seeker's, both unguessable and only ever sent to the
+ * party they belong to. `paragraphs` is the agreement body as editable
+ * { id, heading, body } blocks, frozen once the employer signs.
+ */
+export const agreements = sqliteTable('agreements', {
+  id: text('id').primaryKey(),
+  inviteToken: text('inviteToken').notNull().unique(),
+  seekerToken: text('seekerToken').notNull().unique(),
+  ownerUserId: text('ownerUserId').references(() => user.id),
+  type: text('type').notNull().default('employment'),
+  title: text('title').notNull(),
+  status: text('status', {
+    enum: ['sent', 'opened', 'employer_signed', 'completed', 'declined'],
+  })
+    .notNull()
+    .default('sent'),
+  paragraphs: text('paragraphs', { mode: 'json' })
+    .$type<{ id: string; heading: string; body: string }[]>()
+    .notNull(),
+  seekerName: text('seekerName').notNull(),
+  seekerEmail: text('seekerEmail').notNull(),
+  employerName: text('employerName'),
+  employerEmail: text('employerEmail'),
+  employerSignerName: text('employerSignerName'),
+  employerSignerTitle: text('employerSignerTitle'),
+  employerSignature: text('employerSignature'),
+  employerSignedAt: integer('employerSignedAt', { mode: 'timestamp' }),
+  seekerSignature: text('seekerSignature'),
+  seekerSignedAt: integer('seekerSignedAt', { mode: 'timestamp' }),
+  // SHA-256 of the canonical agreement text the employer signed; the seeker
+  // must sign the same hash.
+  contentHash: text('contentHash'),
+  // SHA-256 over the content hash, both parties and both signatures.
+  documentHash: text('documentHash'),
+  certificateId: text('certificateId').unique(),
+  openCount: integer('openCount').notNull().default(0),
+  firstOpenedAt: integer('firstOpenedAt', { mode: 'timestamp' }),
+  lastOpenedAt: integer('lastOpenedAt', { mode: 'timestamp' }),
+  createdAt: integer('createdAt', { mode: 'timestamp' })
+    .notNull()
+    .default(sql`(unixepoch())`),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+/** Audit trail for an agreement: sends, link opens, edits, signatures. */
+export const agreementEvents = sqliteTable('agreementEvents', {
+  id: text('id').primaryKey(),
+  agreementId: text('agreementId')
+    .notNull()
+    .references(() => agreements.id),
+  type: text('type').notNull(),
+  actor: text('actor', { enum: ['seeker', 'employer', 'system'] }).notNull(),
+  detail: text('detail'),
+  ipAddress: text('ipAddress'),
+  userAgent: text('userAgent'),
+  createdAt: integer('createdAt', { mode: 'timestamp' })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+/**
+ * The Prosper ledger: an append-only hash chain of signed-agreement
+ * certificates. Each block's hash commits to the previous block's, so the
+ * newest block hash fingerprints every certificate ever issued. When an EVM
+ * registry is configured the block hash is also anchored on-chain
+ * (`anchorTxHash`).
+ */
+export const prosperLedger = sqliteTable('prosperLedger', {
+  height: integer('height').primaryKey(),
+  blockHash: text('blockHash').notNull().unique(),
+  prevHash: text('prevHash').notNull(),
+  kind: text('kind').notNull().default('agreement'),
+  refId: text('refId').notNull(),
+  certificateId: text('certificateId').notNull().unique(),
+  documentHash: text('documentHash').notNull(),
+  timestamp: integer('timestamp').notNull(),
+  anchorTxHash: text('anchorTxHash'),
+  anchorChainId: integer('anchorChainId'),
+});

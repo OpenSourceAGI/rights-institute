@@ -9,6 +9,7 @@
  * - Independent Contractor Agreement Builder
  * - Employee Agreement Editor
  * - Co-Founders Agreement Builder
+ * - Invite-an-employer flow: pre-fill, share a tracked link, both parties sign
  * - Responsive design
  * 
  * @author vtempest
@@ -22,6 +23,7 @@ import React, { useState } from 'react';
 import ContractBuilder from '@rights/contract-builder/ContractBuilder';
 import EmploymentAgreementEditor from '@rights/contract-builder/EmployeeAgreement';
 import CoFoundersForm from '@rights/contract-builder/CoFoundersForm';
+import JobSeekerInvite from '@rights/contract-builder/invite/JobSeekerInvite';
 
 /**
  * Contractor Form Page Component
@@ -32,7 +34,7 @@ import CoFoundersForm from '@rights/contract-builder/CoFoundersForm';
  * @returns {JSX.Element} The main contractor form page
  */
 export default function ContractorFormPage() {
-  const [activeTab, setActiveTab] = useState<'contractor' | 'employee' | 'co-founder'>('contractor');
+  const [activeTab, setActiveTab] = useState<'contractor' | 'employee' | 'co-founder' | 'invite'>('contractor');
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-4">
@@ -41,7 +43,7 @@ export default function ContractorFormPage() {
 
         {/* Unified Tab Navigation */}
         <div className="flex justify-center mb-8">
-          <div className="flex space-x-1 rounded-lg bg-slate-800 p-1">
+          <div className="flex flex-wrap justify-center gap-1 rounded-lg bg-slate-800 p-1">
             <button
               onClick={() => setActiveTab('contractor')}
               className={`px-6 py-3 text-sm font-medium rounded-md transition-colors ${
@@ -72,10 +74,23 @@ export default function ContractorFormPage() {
             >
               Co-Founders Agreement
             </button>
+            <button
+              onClick={() => setActiveTab('invite')}
+              className={`px-6 py-3 text-sm font-medium rounded-md transition-colors ${
+                activeTab === 'invite'
+                  ? 'bg-slate-600 text-white shadow-sm'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-700'
+              }`}
+            >
+              Invite Employer to Sign
+            </button>
           </div>
         </div>
 
         {/* Content */}
+        {activeTab === 'invite' ? (
+          <JobSeekerInvite />
+        ) : (
         <div className="bg-white rounded-lg shadow-lg">
           {activeTab === 'contractor' ? (
             <ContractBuilder />
@@ -122,6 +137,7 @@ export default function ContractorFormPage() {
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );

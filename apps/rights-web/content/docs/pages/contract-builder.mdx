@@ -25,3 +25,55 @@ Supports independent contractor agreements, employee agreements, and NDAs.
 - Employee Agreement
 - Non-Disclosure Agreement (NDA)
 - Co-Founders Agreement
+
+## Invite your employer to sign
+
+The **Invite Employer to Sign** tab lets a job seeker start the agreement and
+hand it to their employer:
+
+1. **Pre-fill.** The seeker enters their details and the job terms; these are
+   woven into editable paragraphs they can adjust before sending.
+2. **Share.** They get an invite link to copy, send from their own mail app,
+   or have emailed to the employer — plus a private **tracker** link
+   (`/contract/track/:id?k=…`), also emailed to them.
+3. **Track.** Each time the invite link is opened it is recorded; the tracker
+   shows whether it was clicked, how often, and a full activity log, and can
+   send up to three reminder emails.
+4. **Employer edits & signs** (`/contract/invite/:token`). The employer can
+   rewrite, add, remove or reorder any paragraph, then signs. The text is
+   frozen and its SHA-256 content hash recorded.
+5. **Seeker countersigns** the exact text the employer signed (the content
+   hash must match).
+6. **Certificate.** The executed agreement is hashed, given a certificate ID
+   (`PRSP-XXXX-XXXX-XXXX-XXXX`) and appended to the **Prosper ledger**. Both
+   parties are emailed the certificate with the signed agreement attached.
+   `/contract/certificate/:id` re-verifies it publicly without revealing the
+   agreement text.
+
+### The Prosper ledger
+
+`prosperLedger` is an append-only hash chain: each block's hash covers its
+height, the previous block's hash, the certificate ID, the document hash and
+a timestamp, so the newest block hash fingerprints every agreement ever
+recorded, and changing any past entry breaks every later link.
+`GET /api/prosper-ledger` lists recent blocks and re-verifies the whole chain.
+
+When `PROSPER_RPC_URL`, `PROSPER_REGISTRY_ADDRESS` and `PROSPER_ANCHOR_KEY`
+are set, each new block is also anchored on-chain through the
+`AgreementRegistry` contract in `packages/prosper-coin`, and the transaction
+hash appears on the certificate.
+
+### API
+
+| Method | Route | Who |
+|---|---|---|
+| `POST` | `/api/agreements` | Seeker creates the invite |
+| `GET` | `/api/agreements/:id?k=` | Seeker's tracker |
+| `POST` | `/api/agreements/:id/remind` | Seeker re-emails the invite |
+| `POST` | `/api/agreements/:id/sign` | Seeker countersigns |
+| `GET` / `POST` | `/api/agreement-invites/:token` | Employer opens / edits & signs |
+| `GET` | `/api/certificates/:certificateId` | Public verification |
+| `GET` | `/api/prosper-ledger` | Public ledger |
+
+Apply migration `0003_agreements` before use:
+`wrangler d1 migrations apply DB --remote`.
