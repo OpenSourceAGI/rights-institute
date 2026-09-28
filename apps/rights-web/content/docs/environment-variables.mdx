@@ -16,6 +16,14 @@ Copy `.env.example` to `.env` and fill these in.
 | `TURSO_DATABASE_URL` | libSQL/Turso database URL — used **only** outside Cloudflare (local dev, tests). The deployed Worker gets its database from the `DB` D1 binding instead |
 | `TURSO_AUTH_TOKEN` | libSQL/Turso auth token, paired with the above |
 | `AUTH_RESEND_KEY` | [Resend](https://resend.com/api-keys) API key used to send magic-link sign-in emails |
+| `RESEND_API_KEY` | Optional separate Resend key for agreement invites and certificates; falls back to `AUTH_RESEND_KEY` |
+| `AGREEMENTS_EMAIL_FROM` | Sender for agreement emails (default `Rights Institute <noreply@rights.institute>`) |
+| `SITE_URL` | Optional public origin used in emailed links (default: the request's own origin) |
+| `PROSPER_RPC_URL` | JSON-RPC endpoint for anchoring Prosper ledger blocks on-chain (optional — see [Contract Builder](/docs/pages/contract-builder)) |
+| `PROSPER_REGISTRY_ADDRESS` | Deployed `AgreementRegistry` contract (`packages/prosper-coin/contracts`) |
+| `PROSPER_ANCHOR_KEY` | Private key of an account allowed to call `anchor()` — set as a secret |
+| `PROSPER_CHAIN_ID` | Optional chain id; read from the RPC when unset |
+| `PROSPER_EXPLORER_URL` | Optional block explorer base URL for linking anchor transactions |
 
 ## Google OAuth credentials
 
