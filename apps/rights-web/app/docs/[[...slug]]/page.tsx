@@ -1,13 +1,19 @@
 import { source } from '@/lib/source';
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { getMDXComponents } from '@rights/site-shell/mdx-components';
 import type { Metadata } from 'next';
+import { isLegacyTypedocPath } from '@/lib/legacy-docs';
+
+function missingPage(slug: string[] | undefined): never {
+  if (isLegacyTypedocPath(slug)) permanentRedirect('/docs');
+  notFound();
+}
 
 export default async function Page({ params }: { params: Promise<{ slug?: string[] }> }) {
   const { slug } = await params;
   const page = source.getPage(slug);
-  if (!page) notFound();
+  if (!page) missingPage(slug);
 
   const MDX = page.data.body;
 
@@ -33,7 +39,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const page = source.getPage(slug);
-  if (!page) notFound();
+  if (!page) missingPage(slug);
 
   return {
     title: `${page.data.title} - Rights Institute Docs`,
