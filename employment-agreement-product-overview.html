@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A visual product overview of an at-will employment agreement." />
+  <title>Employment Agreement | Product Overview</title>
+  <style>
+    :root {
+      --background: 222 47% 11%;
+      --foreground: 210 40% 98%;
+      --card: 222 47% 13%;
+      --card-foreground: 210 40% 98%;
+      --popover: 222 47% 13%;
+      --popover-foreground: 210 40% 98%;
+      --primary: 217 91% 60%;
+      --primary-foreground: 222 47% 11%;
+      --secondary: 217 33% 17%;
+      --secondary-foreground: 210 40% 98%;
+      --muted: 217 33% 17%;
+      --muted-foreground: 215 20% 65%;
+      --accent: 263 70% 62%;
+      --accent-foreground: 210 40% 98%;
+      --success: 160 84% 39%;
+      --warning: 38 92% 50%;
+      --destructive: 0 72% 51%;
+      --border: 217 33% 22%;
+      --ring: 217 91% 60%;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: hsl(var(--foreground));
+      background:
+        radial-gradient(circle at 12% 2%, hsla(217, 91%, 60%, .24), transparent 32rem),
+        radial-gradient(circle at 85% 18%, hsla(263, 70%, 62%, .19), transparent 27rem),
+        radial-gradient(circle at 55% 98%, hsla(160, 84%, 39%, .10), transparent 32rem),
+        hsl(var(--background));
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid hsla(217, 33%, 35%, .58);
+    }
+
+    .brand { display: flex; align-items: center; gap: .75rem; font-weight: 700; letter-spacing: -.02em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 34px; height: 34px;
+      border-radius: 10px; color: white; font-weight: 900;
+      background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+      box-shadow: 0 10px 30px hsla(230, 90%, 55%, .35);
+    }
+
+    .status { display: flex; align-items: center; gap: .5rem; color: hsl(var(--muted-foreground)); font-size: .82rem; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: hsl(var(--success)); box-shadow: 0 0 0 4px hsla(160, 84%, 39%, .13); }
+
+    .hero { padding: 5.5rem 0 3rem; text-align: center; }
+    .eyebrow, .badge {
+      display: inline-flex; align-items: center; gap: .4rem; width: fit-content;
+      border: 1px solid hsla(217, 91%, 60%, .35); border-radius: 999px;
+      padding: .33rem .72rem; font-size: .75rem; font-weight: 650;
+      color: hsl(210 40% 98%); background: hsla(217, 91%, 60%, .13);
+    }
+    .hero .eyebrow { margin-bottom: 1.15rem; }
+    .hero h1 {
+      max-width: 850px; margin: 0 auto; font-size: clamp(2.45rem, 7vw, 5rem);
+      line-height: 1.02; letter-spacing: -.065em;
+      background: linear-gradient(115deg, #f8fbff 10%, #a9c7ff 45%, #d9b6ff 85%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero p { max-width: 715px; margin: 1.35rem auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 2vw, 1.16rem); }
+    .hero-actions { display: flex; justify-content: center; gap: .75rem; flex-wrap: wrap; margin-top: 1.75rem; }
+
+    .button {
+      display: inline-flex; align-items: center; gap: .5rem; border-radius: 10px;
+      padding: .7rem 1rem; border: 1px solid transparent; color: inherit; text-decoration: none;
+      font-size: .875rem; font-weight: 650; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: hsl(var(--primary-foreground)); background: hsl(var(--primary)); box-shadow: 0 10px 24px hsla(217, 91%, 60%, .27); }
+    .button-primary:hover { box-shadow: 0 15px 34px hsla(217, 91%, 60%, .38); }
+    .button-outline { border-color: hsl(var(--border)); background: hsla(222, 47%, 16%, .65); }
+    .button-outline:hover { background: hsl(var(--secondary)); }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .85rem; margin: 2.25rem 0 1.25rem; }
+    .stat {
+      padding: 1rem; text-align: left; border: 1px solid hsl(var(--border)); border-radius: 13px;
+      background: linear-gradient(145deg, hsla(222, 47%, 19%, .9), hsla(222, 47%, 12%, .72));
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .045), 0 12px 30px hsla(222, 47%, 4%, .18);
+    }
+    .stat strong { display: block; font-size: 1.25rem; letter-spacing: -.03em; }
+    .stat span { color: hsl(var(--muted-foreground)); font-size: .78rem; }
+
+    .section { padding: 2.3rem 0; }
+    .section-heading { max-width: 740px; margin-bottom: 1.25rem; }
+    .section-heading h2 { margin: 0; font-size: clamp(1.55rem, 3vw, 2.2rem); letter-spacing: -.04em; }
+    .section-heading p { color: hsl(var(--muted-foreground)); margin: .55rem 0 0; }
+
+    .grid { display: grid; gap: 1rem; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .card {
+      position: relative; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: var(--radius);
+      background: linear-gradient(145deg, hsla(222, 47%, 17%, .92), hsla(222, 47%, 12%, .88));
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .045), 0 16px 42px hsla(222, 47%, 4%, .2);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: hsla(217, 91%, 60%, .65); box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .07), 0 21px 48px hsla(222, 47%, 4%, .35); }
+    .card-content { padding: 1.25rem; }
+    .card h3 { margin: .85rem 0 .42rem; font-size: 1.05rem; letter-spacing: -.02em; }
+    .card p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .9rem; }
+
+    .icon {
+      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px;
+      font-size: 1.15rem; border: 1px solid hsla(217, 91%, 60%, .25);
+      background: linear-gradient(135deg, hsla(217, 91%, 60%, .26), hsla(263, 70%, 62%, .18));
+    }
+    .accent-green { background: linear-gradient(135deg, hsla(160, 84%, 39%, .26), hsla(180, 80%, 45%, .13)); border-color: hsla(160, 84%, 39%, .25); }
+    .accent-orange { background: linear-gradient(135deg, hsla(38, 92%, 50%, .27), hsla(15, 90%, 55%, .13)); border-color: hsla(38, 92%, 50%, .25); }
+
+    .agreement-card { padding: 1.4rem; }
+    .agreement-card::after {
+      content: ""; position: absolute; inset: auto -12% -60% auto; width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, hsla(217, 91%, 60%, .18), transparent 68%); pointer-events: none;
+    }
+    .check-list { display: grid; gap: .78rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+    .check-list li { display: flex; gap: .7rem; color: hsl(var(--muted-foreground)); font-size: .92rem; }
+    .check { flex: 0 0 auto; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #062518; font-size: .7rem; font-weight: 900; background: hsl(var(--success)); }
+
+    .field-list { overflow: hidden; }
+    .field-row { display: grid; grid-template-columns: 1.25fr 1.25fr .8fr; gap: 1rem; padding: .95rem 1rem; border-bottom: 1px solid hsl(var(--border)); align-items: center; }
+    .field-row:last-child { border-bottom: 0; }
+    .field-row.header { color: hsl(var(--muted-foreground)); background: hsla(217, 33%, 17%, .48); font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+    code { padding: .2rem .42rem; border-radius: 6px; color: #cce2ff; background: hsla(217, 91%, 60%, .13); font-family: "SFMono-Regular", Consolas, monospace; font-size: .78rem; }
+    .example { color: hsl(var(--muted-foreground)); font-size: .85rem; }
+
+    .note { display: flex; gap: .85rem; align-items: flex-start; margin-top: 1rem; padding: 1rem; border: 1px solid hsla(38, 92%, 50%, .3); border-radius: 12px; background: hsla(38, 92%, 50%, .08); }
+    .note strong { display: block; font-size: .9rem; margin-bottom: .15rem; }
+    .note p { margin: 0; color: hsl(var(--muted-foreground)); font-size: .85rem; }
+
+    .footer { padding: 3.5rem 0 2rem; color: hsl(var(--muted-foreground)); text-align: center; font-size: .8rem; }
+
+    @media (max-width: 820px) {
+      .stats, .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 15px; }
+      .shell { width: min(100% - 1.25rem, 1180px); }
+      .nav { padding: 1rem 0; }
+      .hero { padding: 3.75rem 0 1.8rem; text-align: left; }
+      .hero h1, .hero p { margin-left: 0; }
+      .hero-actions { justify-content: flex-start; }
+      .stats, .grid-3 { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; gap: .35rem; }
+      .field-row.header { display: none; }
+      .field-row { padding: .85rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <nav class="nav" aria-label="Page navigation">
+      <div class="brand"><span class="brand-mark">E</span> Employment Agreement</div>
+      <div class="status"><span class="dot"></span> Ready to customize</div>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow">&#10022; Employment documentation, simplified</div>
+      <h1>A clear foundation for every new hire.</h1>
+      <p>
+        A polished at-will employment agreement template that defines the relationship, protects company assets, and makes onboarding terms easy to understand.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#overview">Explore agreement <span>→</span></a>
+        <a class="button button-outline" href="#fields">View required fields</a>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Agreement snapshot">
+      <div class="stat"><strong>At-will</strong><span>Flexible employment status</span></div>
+      <div class="stat"><strong>8+</strong><span>Core terms covered</span></div>
+      <div class="stat"><strong>1 page</strong><span>High-level agreement scope</span></div>
+      <div class="stat"><strong>Custom</strong><span>Built around company policy</span></div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="section-heading">
+        <h2>What the agreement does</h2>
+        <p>It creates a straightforward, documented employment framework while leaving room for your company policies, compensation plan, and role-specific terms.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card">
+          <div class="card-content">
+            <div class="icon">&#128188;</div>
+            <h3>Defines the role</h3>
+            <p>Identifies the employee, employer, position, business context, expected duties, and designated work location.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-content">
+            <div class="icon accent-green">&#36;</div>
+            <h3>Sets compensation</h3>
+            <p>Documents annual base salary, monthly payment cadence, tax withholding, and policy-based nonmonetary benefits.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-content">
+            <div class="icon accent-orange">&#128737;</div>
+            <h3>Protects company assets</h3>
+            <p>Requires return of documents, devices, files, samples, records, and other company property after employment ends.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2">
+        <article class="card agreement-card">
+          <span class="badge">Employment lifecycle</span>
+          <h2 style="margin: .8rem 0 0; letter-spacing: -.04em;">Core employment terms</h2>
+          <ul class="check-list">
+            <li><span class="check">✓</span><span><strong>Position and duties.</strong> The employee performs duties associated with their title and follows company direction and policies.</span></li>
+            <li><span class="check">✓</span><span><strong>Time commitment.</strong> The employee devotes substantially all business time and attention to company work, subject to permitted leave.</span></li>
+            <li><span class="check">✓</span><span><strong>Compensation and benefits.</strong> Salary, PTO, holidays, sick time, and other standard benefits are addressed.</span></li>
+            <li><span class="check">✓</span><span><strong>Policy alignment.</strong> The agreement controls if it conflicts with general company policies.</span></li>
+          </ul>
+        </article>
+
+        <article class="card agreement-card">
+          <span class="badge" style="background: hsla(263, 70%, 62%, .16); border-color: hsla(263, 70%, 62%, .34);">Separation & protection</span>
+          <h2 style="margin: .8rem 0 0; letter-spacing: -.04em;">At-will, with a clean exit</h2>
+          <ul class="check-list">
+            <li><span class="check">✓</span><span><strong>At-will status.</strong> Either party may end the relationship at any time, with or without cause, subject to applicable law.</span></li>
+            <li><span class="check">✓</span><span><strong>Notice period.</strong> The template supports a selected number of written-notice days for either party.</span></li>
+            <li><span class="check">✓</span><span><strong>Continued pay.</strong> If the company requests work during notice, regular compensation continues through the termination date.</span></li>
+            <li><span class="check">✓</span><span><strong>Property return.</strong> The employee returns all company property and retains no copies or notes.</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="fields">
+      <div class="section-heading">
+        <h2>Details to customize</h2>
+        <p>Complete the placeholders below before the parties review and sign the agreement.</p>
+      </div>
+      <div class="card field-list">
+        <div class="field-row header"><span>Template field</span><span>What it defines</span><span>Example</span></div>
+        <div class="field-row"><span><code>[EMPLOYER NAME]</code></span><span>Full legal company name</span><span class="example">Acme Technologies, Inc.</span></div>
+        <div class="field-row"><span><code>[EMPLOYEE NAME]</code></span><span>Employee's legal name</span><span class="example">Jane Doe</span></div>
+        <div class="field-row"><span><code>[BUSINESS DESCRIPTION]</code></span><span>Company business activity</span><span class="example">AI-powered SaaS development</span></div>
+        <div class="field-row"><span><code>[POSITION]</code></span><span>Employee job title</span><span class="example">Senior Software Engineer</span></div>
+        <div class="field-row"><span><code>[START DATE]</code></span><span>First day of employment</span><span class="example">October 1, 2026</span></div>
+        <div class="field-row"><span><code>[SALARY AMOUNT]</code></span><span>Annual base salary</span><span class="example">$150,000</span></div>
+        <div class="field-row"><span><code>[DAYS]</code></span><span>Notice / property-return period</span><span class="example">30 / 5 days</span></div>
+      </div>
+      <div class="note">
+        <div style="font-size:1.1rem;">&#9888;</div>
+        <div><strong>Drafting note</strong><p>This overview is informational, not legal advice. Have qualified counsel review state-specific requirements and any terms involving confidentiality, inventions, equity, restrictive covenants, or severance.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>Recommended extensions</h2>
+        <p>For startup and technology teams, these documents or clauses are typically handled alongside the core agreement.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card"><div class="card-content"><div class="icon">&#128274;</div><h3>Confidentiality</h3><p>Protects non-public business, customer, product, financial, and technical information.</p></div></article>
+        <article class="card"><div class="card-content"><div class="icon accent-green">&#9881;</div><h3>IP assignment</h3><p>Clarifies ownership of inventions, software, designs, documentation, and work product created in scope.</p></div></article>
+        <article class="card"><div class="card-content"><div class="icon accent-orange">&#9878;</div><h3>Governing law</h3><p>Identifies the jurisdiction, dispute process, and other terms needed for a complete agreement package.</p></div></article>
+      </div>
+    </section>
+
+    <footer class="footer">Employment Agreement Product Overview · Customize carefully and obtain legal review before use.</footer>
+  </main>
+</body>
+</html>
