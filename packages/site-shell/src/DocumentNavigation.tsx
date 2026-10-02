@@ -134,7 +134,7 @@ const DocumentNavigation: React.FC = () => {
   const categories: SiteCategory[] = SITE_CATEGORIES;
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-4">
+    <div className="min-h-screen text-white p-4">
       <div className="max-w-6xl mx-auto">
         {/* Heading Art Background */}
         <HeroBanner />

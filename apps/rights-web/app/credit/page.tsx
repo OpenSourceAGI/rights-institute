@@ -15,6 +15,7 @@
 
 import React from 'react';
 import CREDIT from '@rights/credit/CREDIT';
+import GameOfLifeBackground from '@/components/animations/GameOfLifeBackground';
 
 /**
  * CREDIT Page Component
@@ -25,5 +26,9 @@ import CREDIT from '@rights/credit/CREDIT';
  * @returns {JSX.Element} The CREDIT platform page
  */
 export default function CreditPage() {
-  return <CREDIT />;
+  return (
+    <GameOfLifeBackground className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <CREDIT />
+    </GameOfLifeBackground>
+  );
 } 
