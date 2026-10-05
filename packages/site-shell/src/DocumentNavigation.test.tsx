@@ -44,6 +44,7 @@ describe('DocumentNavigation', () => {
       'Legal & Ethics',
       'Licensing & Attribution',
       'Knowledge & Philosophy',
+      'Comparisons',
     ]) {
       expect(
         screen.getByRole('heading', { name: category }),
