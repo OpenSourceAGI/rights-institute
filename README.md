@@ -10,6 +10,7 @@
     <a href="https://github.com/opensourceagi/rights-institute/discussions"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/opensourceagi/rights-institute" /></a>
 <br />
     <a href="https://github.com/opensourceagi/rights-institute/graphs/contributors" alt="Activity"><img src="https://img.shields.io/github/commit-activity/m/opensourceagi/rights-institute" /></a>
+    <a href="https://github.com/opensourceagi/rights-institute/branches"><img src="https://img.shields.io/github/branches/opensourceagi/rights-institute.svg" alt="Branches" /></a>
     <a href="https://github.com/opensourceagi/rights-institute/commits/master/"><img src="https://img.shields.io/github/last-commit/opensourceagi/rights-institute.svg" alt="GitHub last commit" /></a>
     <a href="https://stats.uptimerobot.com/V3HfCBM9de"><img src="https://img.shields.io/badge/Uptime-Status-brightgreen?logo=uptimerobot&logoColor=white" alt="Uptime Status" /></a>
     <br />
