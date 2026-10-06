@@ -1,5 +1,5 @@
 ---
-title:  Research Intelligence
+title: 🤓 Research Intelligence
 ---
 
 Added **Elicit** and converted the favicon markup to plain HTML inside each Markdown link. Elicit is a hosted, scientific-research-focused platform rather than a general web-answer engine: it searches a large academic/clinical corpus, produces cited reports and interactive tables, supports systematic-review workflows, and now exposes API/MCP capabilities. [elicit](https://elicit.com/)

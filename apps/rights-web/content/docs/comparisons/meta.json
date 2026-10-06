@@ -2,28 +2,6 @@
   "title": "Comparisons",
   "pages": [
     "_tool_rank",
-    "ai-code-editors",
-    "ai-language-intelligence",
-    "ai-marketing",
-    "ai-researcher",
-    "ai-training-data",
-    "ai-visual-intelligence",
-    "ai-voice",
-    "all-dev-tools",
-    "cloud-compute",
-    "cloud-databases",
-    "cloud-storage",
-    "docs-libraries",
-    "domain-registrars",
-    "internet-providers",
-    "investment-brokers",
-    "job-platforms",
-    "nextjs-tools",
-    "payment-processor",
-    "shadcn",
-    "svelte-ui",
-    "text-editors",
-    "verify-id",
-    "verify-sms"
+    "..."
   ]
 }
