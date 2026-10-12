@@ -1,5 +1,5 @@
 ---
-title: 👁️‍🗨️ Best AI Voice — TTS Models & Voice Agent Platforms
+title: 👁️‍🗨️  AI Voice  Intelligence
 ---
 
 
