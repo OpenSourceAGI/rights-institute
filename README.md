@@ -1,5 +1,5 @@
 <p align="center">
-    <img  src="https://i.imgur.com/yULu4VG.png" />
+    <img  src="https://i.imgur.com/AVUs7Tx.png" />
     <br />
   <a href="https://doi.org/10.5281/zenodo.20496940"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.20496940.svg" alt="DOI"></a>
  <a href="https://deepwiki.com/opensourceagi/rights-institute"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
