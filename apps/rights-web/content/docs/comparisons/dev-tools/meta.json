@@ -1,0 +1,13 @@
+{
+  "title": "Dev Tools",
+  "pages": [
+    "all-dev-tools",
+    "ai-code-editors",
+    "text-editors",
+    "docs-libraries",
+    "nextjs-tools",
+    "shadcn",
+    "svelte-ui",
+    "ai-training-data"
+  ]
+}
