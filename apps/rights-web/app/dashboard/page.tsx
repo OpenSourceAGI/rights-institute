@@ -52,6 +52,8 @@ interface Document {
   updatedAt: Date;
 }
 
+// Each template is the HTML of the original agreement page, rendered to
+// static markup and served from public/templates.
 const documentTypes = [
   {
     type: "contract",
@@ -60,23 +62,7 @@ const documentTypes = [
       "Create comprehensive independent contractor agreements with legal terms and payment structures.",
     icon: FileSignature,
     color: "from-cyan-500 to-blue-500",
-    template: `# Independent Contractor Agreement
-
-## Parties
-- Contractor: [Your Name]
-- Client: [Client Name]
-
-## Services
-[Description of services to be provided]
-
-## Compensation
-[Payment terms and schedule]
-
-## Term
-[Start date and duration]
-
-## Additional Terms
-[Add any additional terms here]`,
+    templateUrl: "/templates/contract.html",
   },
   {
     type: "terms",
@@ -84,19 +70,7 @@ const documentTypes = [
     description: "Legal terms and privacy policy for your services or platform.",
     icon: Scale,
     color: "from-emerald-500 to-green-500",
-    template: `# Terms of Service
-
-## 1. Acceptance of Terms
-[Your terms acceptance clause]
-
-## 2. User Rights and Responsibilities
-[User obligations and rights]
-
-## 3. Privacy Policy
-[Privacy practices and data handling]
-
-## 4. Intellectual Property
-[IP rights and licensing]`,
+    templateUrl: "/templates/terms.html",
   },
   {
     type: "ethics",
@@ -105,22 +79,7 @@ const documentTypes = [
       "Framework for ethical AI use and consciousness protection guidelines.",
     icon: Shield,
     color: "from-purple-500 to-violet-500",
-    template: `# AI Ethical Use Policy
-
-## Purpose
-[Define the purpose of your AI ethics policy]
-
-## Core Principles
-1. Transparency
-2. Fairness
-3. Privacy
-4. Accountability
-
-## Implementation Guidelines
-[How these principles will be implemented]
-
-## Review Process
-[How and when this policy will be reviewed]`,
+    templateUrl: "/templates/ethics.html",
   },
   {
     type: "license",
@@ -129,22 +88,31 @@ const documentTypes = [
       "Dual-licensing framework with blockchain-based creator compensation.",
     icon: TrendingUp,
     color: "from-amber-500 to-orange-500",
-    template: `# PROSPER License
-Permissionless Reuse for an Open Society of Public & Enterprise Review
-
-## Grant of License
-[License grant terms]
-
-## Attribution Requirements
-[How to attribute the work]
-
-## Commercial Use
-[Terms for commercial use]
-
-## Revenue Sharing
-[Revenue sharing arrangements if applicable]`,
+    templateUrl: "/templates/prosper.html",
   },
 ];
+
+/** Drops scripts, event handlers and javascript: URLs before HTML is previewed. */
+function sanitizeHtml(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("script, iframe, object, embed, link, meta, base").forEach((el) => el.remove());
+  doc.querySelectorAll("*").forEach((el) => {
+    for (const attr of Array.from(el.attributes)) {
+      const value = attr.value.trim().toLowerCase();
+      if (attr.name.startsWith("on") || value.startsWith("javascript:")) {
+        el.removeAttribute(attr.name);
+      }
+    }
+  });
+  return doc.body.innerHTML;
+}
+
+/** Plain-text excerpt of a document's HTML for the card list. */
+function htmlToText(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("script, style").forEach((el) => el.remove());
+  return (doc.body.textContent || "").replace(/\s+/g, " ").trim();
+}
 
 // Component that uses search params - must be wrapped in Suspense
 function SearchParamsHandler({
@@ -152,7 +120,7 @@ function SearchParamsHandler({
   onCreateFromTemplate
 }: {
   user: any;
-  onCreateFromTemplate: (docType: typeof documentTypes[0]) => void;
+  onCreateFromTemplate: (docType: typeof documentTypes[0]) => void | Promise<void>;
 }) {
   const searchParams = useSearchParams();
 
@@ -214,10 +182,20 @@ function DashboardContent() {
     }
   };
 
-  const handleCreateFromTemplate = (docType: typeof documentTypes[0]) => {
+  const handleCreateFromTemplate = async (docType: typeof documentTypes[0]) => {
+    let html = "";
+    try {
+      const response = await fetch(docType.templateUrl);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      html = await response.text();
+    } catch (error) {
+      console.error("Failed to load template:", error);
+      alert("Failed to load the template. Please try again.");
+      return;
+    }
     setEditingDocument(null);
     setTitle(docType.title);
-    setContent(docType.template);
+    setContent(html);
     setSelectedType(docType.type);
     setIsEditing(true);
   };
@@ -476,7 +454,7 @@ function DashboardContent() {
                       </CardHeader>
                       <CardContent>
                         <p className="text-sm text-gray-400 line-clamp-4 mb-4 font-mono">
-                          {doc.content || "No content"}
+                          {htmlToText(doc.content) || "No content"}
                         </p>
                         <div className="flex gap-2">
                           <Button
@@ -535,15 +513,22 @@ function DashboardContent() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="content" className="text-gray-300">
-                Content (Markdown supported)
+                Content (HTML)
               </Label>
               <Textarea
                 id="content"
-                placeholder="Enter document content in Markdown format..."
+                placeholder="Enter document content as HTML..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={20}
                 className="font-mono bg-gray-800 border-gray-700 text-white placeholder-gray-500"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label className="text-gray-300">Preview</Label>
+              <div
+                className="max-h-[60vh] overflow-y-auto rounded-md border border-gray-700 bg-white p-6 text-gray-900"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
               />
             </div>
           </div>
