@@ -1,16 +1,9 @@
 import PROSPERLicense from '@rights/prosper-license/PROSPER';
 import { Metadata } from 'next';
+import { PROSPER_SAMPLE_SLUGS } from '@/lib/sitemap';
 
 export async function generateStaticParams() {
-  // Return all possible 'slug' values that your app supports
-  const sampleSlugs = [
-    'codecraft-studio',
-    'design-system',
-    'enterprise-platform',
-    'open-source-toolkit'
-  ];
-
-  return sampleSlugs.map((slug) => ({
+  return PROSPER_SAMPLE_SLUGS.map((slug) => ({
     slug: [slug],
   }));
 }

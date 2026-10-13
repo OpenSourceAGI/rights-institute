@@ -93,6 +93,8 @@ describe('DocumentNavigation', () => {
       ['CREDIT Platform', '/credit'],
       ['Employment or Contract Agreement', '/contract'],
       ['Terms of Service & Privacy Policy', '/terms-privacy'],
+      ['Dev Tools', '/docs/comparisons/dev-tools/all-dev-tools'],
+      ['Services', '/docs/comparisons/services/ai-language-intelligence'],
     ] as const) {
       push.mockClear();
       fireEvent.click(
@@ -100,5 +102,13 @@ describe('DocumentNavigation', () => {
       );
       expect(push, title).toHaveBeenCalledWith(href);
     }
+  });
+
+  it('shows only the Dev Tools and Services cards under Comparisons', () => {
+    render(<DocumentNavigation />);
+    expect(screen.getByRole('heading', { name: 'Dev Tools' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Services' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Tool Rank' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Payment Processors' })).toBeNull();
   });
 });
