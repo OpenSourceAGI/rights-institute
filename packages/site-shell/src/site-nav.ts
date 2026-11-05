@@ -91,6 +91,25 @@ export const SITE_CATEGORIES: SiteCategory[] = [
         image: 'https://i.imgur.com/aB4bcM9.png',
         keywords: ['Legal', 'Privacy', 'Terms', 'Compliance', 'Rights', 'Obligations'],
       },
+      {
+        title: 'Collective Consciousness: 10 Understandings & 10 Problems',
+        navLabel: '10 Understandings & 10 Problems',
+        description:
+          'The core philosophical content exploring consciousness, complexity, and the universe from a computational perspective. Contains the 10 fundamental understandings and 10 critical problems facing conscious life.',
+        icon: BookOpen,
+        href: '/understandings-problems',
+        color: '#3b82f6',
+        gradient: 'from-blue-500 to-cyan-500',
+        image: 'https://i.imgur.com/MEcbj82.jpeg',
+        keywords: [
+          'Philosophy',
+          'Consciousness',
+          'Complexity',
+          'Universe',
+          'Problems',
+          'Understanding',
+        ],
+      },
     ],
   },
   {
@@ -144,25 +163,6 @@ export const SITE_CATEGORIES: SiteCategory[] = [
     icon: BookOpen,
     borderColor: 'border-blue-500/40',
     documents: [
-      {
-        title: 'Collective Consciousness: 10 Understandings & 10 Problems',
-        navLabel: '10 Understandings & 10 Problems',
-        description:
-          'The core philosophical content exploring consciousness, complexity, and the universe from a computational perspective. Contains the 10 fundamental understandings and 10 critical problems facing conscious life.',
-        icon: BookOpen,
-        href: '/understandings-problems',
-        color: '#3b82f6',
-        gradient: 'from-blue-500 to-cyan-500',
-        image: 'https://i.imgur.com/BLpvTxq.png',
-        keywords: [
-          'Philosophy',
-          'Consciousness',
-          'Complexity',
-          'Universe',
-          'Problems',
-          'Understanding',
-        ],
-      },
       {
         title: 'Innovation Timeline',
         description:
