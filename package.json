@@ -12,6 +12,7 @@
     "url": "https://github.com/opensourceagi/rights-institute"
   },
   "scripts": {
+    "merge": "bash .github/scripts/merge.sh",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "preview": "turbo run preview",
