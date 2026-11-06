@@ -1,7 +1,7 @@
 ---
 title: 🦾 Coding Agent Harness
-description: Compare coding agent harnesses, explore their standout features, and install each CLI.
 ---
+
 
 | Agent | Best fit | Standout features | Main tradeoff |
 | --- | --- | --- | --- |
