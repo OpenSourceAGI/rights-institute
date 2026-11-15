@@ -11,6 +11,10 @@
     "type": "git",
     "url": "https://github.com/opensourceagi/rights-institute"
   },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "merge": "bash .github/scripts/merge.sh",
     "build": "turbo run build",
