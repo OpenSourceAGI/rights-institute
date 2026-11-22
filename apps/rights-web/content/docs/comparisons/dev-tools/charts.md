@@ -1,6 +1,5 @@
 ---
-title: Charting, Mind Map, and Diagram Libraries
-description: Compare popular JavaScript libraries for charts, mind maps, diagrams, graph visualization, and infinite canvases.
+title: 📊 Charting Libraries
 ---
 
 ## Quick recommendations
