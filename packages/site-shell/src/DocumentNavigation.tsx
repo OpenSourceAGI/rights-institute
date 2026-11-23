@@ -130,7 +130,12 @@ const DocumentButton: React.FC<DocumentButtonProps> = ({
  * ```
  */
 
-const DocumentNavigation: React.FC = () => {
+interface DocumentNavigationProps {
+  /** Rendered below the document categories and above the footer, e.g. the News & Blog section. */
+  children?: React.ReactNode;
+}
+
+const DocumentNavigation: React.FC<DocumentNavigationProps> = ({ children }) => {
   const categories: SiteCategory[] = SITE_CATEGORIES;
 
   return (
@@ -170,6 +175,7 @@ const DocumentNavigation: React.FC = () => {
             );
           })}
         </div>
+        {children}
       </div>
       <Footer />
     </div>

@@ -1,12 +1,6 @@
 {
   "title": "Services",
   "pages": [
-    "ai-language-intelligence",
-    "ai-visual-intelligence",
-    "ai-voice",
-    "ai-researcher",
-    "ai-marketing",
-    "ai-sales-crm",
     "cloud-compute",
     "cloud-storage",
     "cloud-databases",

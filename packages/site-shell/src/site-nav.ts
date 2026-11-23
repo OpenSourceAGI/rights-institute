@@ -17,6 +17,7 @@ import {
   Music,
   Scale,
   Shield,
+  Sparkles,
   TrendingUp,
   Wrench,
 } from 'lucide-react';
@@ -236,13 +237,25 @@ export const SITE_CATEGORIES: SiteCategory[] = [
         title: 'Services',
         navLabel: 'Services',
         description:
-          'Online services compared — AI models, cloud compute, storage and databases, payments, domains, verification, brokers and job platforms.',
+          'Online services compared — cloud compute, storage and databases, payments, domains, internet providers, verification, brokers and job platforms.',
         icon: Cloud,
-        href: '/docs/comparisons/services/ai-language-intelligence',
+        href: '/docs/comparisons/services/cloud-compute',
         color: '#14b8a6',
         gradient: 'from-teal-500 to-emerald-500',
         image: 'https://i.imgur.com/YBBFTnD.png',
-        keywords: ['AI', 'Cloud', 'Payments', 'Pricing'],
+        keywords: ['Cloud', 'Payments', 'Domains', 'Pricing'],
+      },
+      {
+        title: 'AI Intelligence',
+        navLabel: 'AI Intelligence',
+        description:
+          'AI models and agents compared — language, visual and voice models, researchers, agent harnesses, personas, marketing and sales AI.',
+        icon: Sparkles,
+        href: '/docs/comparisons/intelligence/ai-language-intelligence',
+        color: '#14b8a6',
+        gradient: 'from-teal-500 to-emerald-500',
+        image: 'https://i.imgur.com/enQYjtF.png',
+        keywords: ['AI', 'Models', 'Agents', 'Voice'],
       },
     ],
   },
@@ -252,6 +265,7 @@ export const SITE_CATEGORIES: SiteCategory[] = [
 export const SITE_LINKS: { label: string; href: string }[] = [
   { label: 'Home', href: '/' },
   { label: 'Docs', href: '/docs' },
+  { label: 'Blog', href: '/docs/blog' },
   { label: 'Dashboard', href: '/dashboard' },
 ];
 

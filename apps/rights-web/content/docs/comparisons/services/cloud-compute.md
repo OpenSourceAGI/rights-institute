@@ -10,6 +10,7 @@ title: ☁️ Cloud Compute
 | GCP          | $8,000-50,000      | Analytics integration, automatic optimization | Data-heavy applications       |
 | Azure        | $21,500-45,000     | Enterprise integration, hybrid benefits       | Microsoft ecosystems          |
 | Hetzner      | $325-850           | Lowest cost per performance                   | CPU-intensive workloads       |
+| OVHcloud     | $400-1,200         | Included bandwidth, free anti-DDoS, sovereign | EU data residency, bare metal |
 | Cloudflare   | $100-500           | Zero egress, global edge network              | Content delivery, JAMstack    |
 | Vercel       | $200-2,000+        | Developer experience, automatic optimization  | Frontend-focused applications |
 | DigitalOcean | $500-2,000         | Predictable pricing, managed services         | Balanced development teams    |
@@ -51,6 +52,14 @@ Azure's **Savings Plans offer up to 65% compute discounts** with flexible usage 
 **Hetzner delivers exceptional value** with CX52 instances (16 vCPUs, 32GB RAM) costing only €32.40/month. Dedicated CCX instances provide guaranteed CPU performance at premium pricing. The provider includes 20TB monthly bandwidth for EU locations, with additional traffic at €1.00/TB.
 
 For 100,000 user applications, expect **€300-800 monthly** (roughly $325-850), making Hetzner the most cost-effective option. **Limitations include** restricted geographic presence (Germany, Finland, USA, Singapore) and fewer managed services.
+
+### OVHcloud: European sovereign cloud at budget prices
+
+**OVHcloud is Europe's largest homegrown cloud provider**, operating its own data centers across Europe, North America and Asia-Pacific. VPS plans start at roughly $5/month, Public Cloud instances bill hourly or monthly, and the Bare Metal range (Rise, Advance, Scale and High Grade dedicated servers) covers everything from cheap single-socket boxes to large GPU and storage servers.
+
+**Bandwidth is the standout**: VPS and dedicated servers include unmetered traffic, Public Cloud carries no egress fees in most European and North American regions, and anti-DDoS protection is included on every product. Managed Kubernetes has a free control plane, and Object Storage is S3-compatible.
+
+For 100,000 user applications, expect **$400-1,200 monthly** depending on the mix of dedicated and cloud instances. **Data sovereignty** is a key draw: EU-owned infrastructure, GDPR-first contracts, and SecNumCloud-qualified Hosted Private Cloud for regulated workloads. **Limitations include** a smaller managed-services catalogue than the hyperscalers and a less polished console and API experience.
 
 ### Cloudflare: Edge computing specialist
 
@@ -100,6 +109,8 @@ Modern architectures require multi-layer scaling with load balancers, CDN offloa
 
 **Primary recommendation**: Hetzner + Cloudflare combination. Use Hetzner CCX instances for compute workloads (€400-500/month) combined with Cloudflare for CDN, edge functions, and R2 storage. This delivers enterprise-grade performance at startup pricing.
 
+**EU data residency option**: OVHcloud dedicated servers or Public Cloud with included bandwidth and anti-DDoS, for teams that need European hosting and predictable network costs.
+
 **Secondary option**: DigitalOcean managed services provide comprehensive features with predictable pricing, ideal for teams prioritizing simplicity over absolute cost optimization.
 
 ### Performance-critical applications ($3,000-15,000/month)
@@ -120,6 +131,6 @@ Modern architectures require multi-layer scaling with load balancers, CDN offloa
 
 ## Conclusion
 
-**The optimal choice depends critically on application characteristics and team expertise**. Hetzner provides unmatched cost efficiency for European applications, while AWS offers comprehensive enterprise features for global scale. Cloudflare's edge network and zero egress fees benefit content-heavy applications, and Azure excels for Microsoft-centric enterprises.
+**The optimal choice depends critically on application characteristics and team expertise**. Hetzner provides unmatched cost efficiency for European applications, OVHcloud pairs low prices with included bandwidth and data sovereignty, while AWS offers comprehensive enterprise features for global scale. Cloudflare's edge network and zero egress fees benefit content-heavy applications, and Azure excels for Microsoft-centric enterprises.
 
 **Cost optimization requires active management** regardless of provider choice. Reserved instances, aggressive caching strategies, and careful monitoring prevent budget overruns while maintaining performance standards. Most organizations benefit from multi-cloud strategies leveraging each provider's unique strengths rather than single-vendor solutions.

@@ -94,7 +94,8 @@ describe('DocumentNavigation', () => {
       ['Employment or Contract Agreement', '/contract'],
       ['Terms of Service & Privacy Policy', '/terms-privacy'],
       ['Dev Tools', '/docs/comparisons/dev-tools/all-dev-tools'],
-      ['Services', '/docs/comparisons/services/ai-language-intelligence'],
+      ['Services', '/docs/comparisons/services/cloud-compute'],
+      ['AI Intelligence', '/docs/comparisons/intelligence/ai-language-intelligence'],
     ] as const) {
       push.mockClear();
       fireEvent.click(
@@ -104,11 +105,21 @@ describe('DocumentNavigation', () => {
     }
   });
 
-  it('shows only the Dev Tools and Services cards under Comparisons', () => {
+  it('shows one card per comparison category', () => {
     render(<DocumentNavigation />);
     expect(screen.getByRole('heading', { name: 'Dev Tools' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Services' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'AI Intelligence' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Tool Rank' })).toBeNull();
     expect(screen.queryByRole('heading', { name: 'Payment Processors' })).toBeNull();
+  });
+
+  it('renders extra content, such as the news section, above the footer', () => {
+    render(
+      <DocumentNavigation>
+        <section aria-label="News slot">news</section>
+      </DocumentNavigation>,
+    );
+    expect(screen.getByRole('region', { name: 'News slot' })).toBeInTheDocument();
   });
 });
